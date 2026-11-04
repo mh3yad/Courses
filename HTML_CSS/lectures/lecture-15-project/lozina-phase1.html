@@ -1,0 +1,3491 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محمصة لوزينا | المرحلة 1 من 3 - الأساس</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d1117;--card:#1c2333;--text:#e6edf3;--text-muted:#9aa7b8;--text-dim:#6e7a8a;
+--accent-blue:#2f81f7;--accent-teal:#39c5cf;--accent-green:#3fb950;--accent-orange:#d29922;--accent-red:#f85149;--accent-purple:#bc8cff;--code-bg:#0b0f16;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{background:var(--bg);color:var(--text);font-family:'Cairo',Tahoma,sans-serif;font-weight:600;overflow:hidden;direction:rtl;}
+.deck{position:fixed;inset:0;}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;padding:clamp(46px,6vh,72px) clamp(20px,4vw,80px) clamp(90px,11vh,130px);overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;}
+.slide.active{display:flex;}
+h1{font-size:clamp(46px,6.4vw,104px);line-height:1.25;font-weight:900;}
+h2{font-size:clamp(34px,3.8vw,62px);line-height:1.28;font-weight:900;margin-bottom:12px;}
+.slide-tag{color:var(--accent-teal);font-size:clamp(20px,1.8vw,28px);margin-bottom:16px;border:1px solid rgba(57,197,207,.35);padding:6px 24px;border-radius:999px;background:rgba(57,197,207,.08);}
+.subtitle{color:var(--text-muted);font-size:clamp(20px,1.8vw,30px);width:100%;line-height:1.75;max-width:1000px;}
+.mt-24{margin-top:28px;}
+.highlight-blue{color:var(--accent-blue);}.highlight-teal{color:var(--accent-teal);}.highlight-green{color:var(--accent-green);}
+.highlight-orange{color:var(--accent-orange);}.highlight-red{color:var(--accent-red);}.highlight-purple{color:var(--accent-purple);}
+.rainbow-text{background:linear-gradient(90deg,#2f81f7,#39c5cf,#3fb950,#d29922,#f85149,#bc8cff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.rainbow-line{height:5px;width:200px;border-radius:2px;margin:22px auto 0;background:linear-gradient(90deg,#2f81f7,#39c5cf,#3fb950,#d29922,#f85149,#bc8cff);}
+.glow-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.28;pointer-events:none;z-index:0;width:420px;height:420px;}
+.glow-blue{background:var(--accent-blue);}.glow-teal{background:var(--accent-teal);}.glow-purple{background:var(--accent-purple);}
+.slide>*{position:relative;z-index:1;}
+.slide>.glow-blob{position:absolute;}
+.c{direction:ltr;unicode-bidi:isolate;display:inline-block;background:#21262d;border:1px solid #30363d;color:#e5c07b;padding:0 9px;border-radius:7px;font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.82em;font-weight:500;line-height:1.5;}
+.code-window{direction:ltr;text-align:left;background:var(--code-bg);border:1px solid #30363d;border-radius:12px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.5);font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-weight:400;}
+.code-titlebar{display:flex;align-items:center;gap:10px;background:#161b22;padding:12px 18px;border-bottom:1px solid #21262d;}
+.code-dot{width:14px;height:14px;border-radius:50%;}
+.code-dot.red{background:#ff5f57;}.code-dot.yellow{background:#febc2e;}.code-dot.green{background:#28c840;}
+.code-filename{color:var(--text-dim);font-size:19px;margin-left:12px;font-family:'Cairo',sans-serif;font-weight:700;}
+.code-body{padding:18px 22px;font-size:clamp(17px,1.4vw,23px);line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:2;}
+.code-body.code-sm{font-size:clamp(14px,1.05vw,18px);line-height:1.5;}
+.prop{color:#e5c07b;}.kw{color:#c678dd;}.num{color:#d19a66;}.comment{color:#7d8794;font-style:italic;}.sel{color:#e06c75;}.tag{color:#e06c75;}.attr{color:#d19a66;}.str{color:#98c379;}
+.topics-list{display:flex;flex-direction:column;gap:12px;margin-top:20px;width:100%;max-width:1000px;}
+.topic-item{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid #2b3446;border-radius:16px;padding:14px 24px;font-size:clamp(20px,1.8vw,28px);text-align:right;}
+.topic-item small{color:var(--text-dim);font-size:.7em;margin-right:8px;direction:ltr;unicode-bidi:isolate;display:inline-block;}
+.topics-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;width:100%;max-width:1100px;}
+.topic-num{min-width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#0d1117;background:var(--accent-teal);flex-shrink:0;}
+.step-list{display:flex;flex-direction:column;gap:12px;width:100%;max-width:1000px;margin-top:16px;}
+.step-item{display:flex;align-items:flex-start;gap:16px;background:var(--card);border:1px solid #2b3446;border-radius:16px;padding:14px 22px;font-size:clamp(19px,1.6vw,26px);line-height:1.8;text-align:right;}
+.step-item .topic-num{margin-top:4px;}
+.stack{display:flex;flex-direction:column;gap:16px;width:100%;max-width:820px;margin-top:18px;}
+.stack.wide{max-width:1000px;}
+.frame{display:block;width:100%;height:clamp(300px,52vh,500px);border:1px solid #30363d;border-radius:12px;background:#fff;}
+.chips{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;}
+.chips-label{color:var(--text-dim);font-size:18px;}
+.chip{direction:ltr;unicode-bidi:isolate;color:var(--accent-teal);border:1px solid rgba(57,197,207,.35);background:rgba(57,197,207,.08);padding:4px 16px;border-radius:999px;font-size:clamp(15px,1.2vw,19px);font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-weight:500;}
+.thumbs{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;margin-top:24px;max-width:1100px;}
+.thumb{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.thumb-box{direction:ltr;width:297px;height:193px;overflow:hidden;border:1px solid #30363d;border-radius:10px;background:#fff;}
+.thumb-box iframe{display:block;border:0;width:1100px;height:714px;transform:scale(.27);transform-origin:0 0;pointer-events:none;}
+.thumb-label{color:var(--text);font-size:20px;}
+.thumb-label span{color:var(--text-dim);font-size:16px;direction:ltr;unicode-bidi:isolate;display:inline-block;margin-right:6px;}
+.devices{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;align-items:flex-start;}
+.device{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.frame-wrap{direction:ltr;overflow:hidden;border:1px solid #30363d;border-radius:12px;background:#fff;}
+.frame-wrap iframe{display:block;border:0;transform-origin:0 0;}
+.two-col{display:flex;flex-wrap:wrap;gap:24px;width:100%;max-width:1000px;margin-top:20px;align-items:stretch;}
+.col{flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:12px;}
+.col-title{font-size:clamp(22px,2vw,32px);color:var(--accent-teal);text-align:right;}
+.anatomy{gap:10px;}
+.an-part{border-radius:12px;padding:16px 20px;font-size:24px;display:flex;justify-content:space-between;align-items:center;text-align:right;}
+.an-part span{direction:ltr;font-family:Consolas,monospace;font-size:17px;opacity:.75;font-weight:400;}
+.an-nav{background:#7a4b2a;color:#fff;}
+.an-main{background:var(--card);border:1px dashed #3a4660;flex:1;min-height:150px;}
+.an-foot{background:#1f2937;color:#d1d5db;border:1px solid #374151;}
+.exercise-list{display:flex;flex-direction:column;gap:10px;width:100%;text-align:right;}
+.exercise-item{display:flex;align-items:flex-start;gap:12px;background:var(--card);border:1px solid #2b3446;border-radius:14px;padding:12px 18px;font-size:clamp(17px,1.4vw,23px);line-height:1.7;}
+.exercise-dot{min-width:11px;height:11px;border-radius:50%;background:var(--accent-teal);margin-top:11px;flex-shrink:0;}
+.branding{position:fixed;top:16px;right:22px;z-index:50;display:flex;align-items:center;gap:10px;color:var(--text-muted);font-size:18px;}
+.branding-icon{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--accent-blue),var(--accent-teal));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;}
+.progress-bar{position:fixed;top:0;left:0;height:5px;background:linear-gradient(90deg,var(--accent-blue),var(--accent-teal));z-index:60;transition:width .3s;}
+.controls{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:50;background:rgba(13,17,23,.88);border:1px solid #21262d;border-radius:999px;padding:6px 10px;}
+.controls button{font:inherit;font-size:18px;color:var(--text);background:#1c2333;border:1px solid #30363d;border-radius:999px;padding:6px 22px;cursor:pointer;}
+.controls button:hover{border-color:var(--accent-teal);}
+.controls button:focus-visible{outline:2px solid var(--accent-orange);}
+#counter{min-width:70px;text-align:center;color:var(--text-muted);font-size:18px;direction:ltr;}
+.anim-1{animation:fadeInUp .5s .05s both;}.anim-2{animation:fadeInUp .5s .18s both;}.anim-3{animation:fadeInUp .5s .3s both;}
+.anim-4{animation:fadeInUp .5s .45s both;}.anim-5{animation:fadeInUp .5s .6s both;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@media (prefers-reduced-motion:reduce){.anim-1,.anim-2,.anim-3,.anim-4,.anim-5{animation:none;}}
+@media (max-width:800px){.slide{padding:56px 16px 90px;}.topics-grid{grid-template-columns:1fr;}.branding{display:none;}}
+</style>
+</head>
+<body>
+<div class="branding"><img src="https://scontent.fcai19-9.fna.fbcdn.net/v/t39.30808-6/476027888_1040011351498331_2443888775141855312_n.jpg?stp=dst-jpg_tt6&cstp=mx3314x1265&ctp=s960x960&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=hvOXy7D7YR8Q7kNvwET59qE&_nc_oc=Ados5GpCfTMXoMamXBXdpkJYD-4gkk4PyPQFOozdWb8FGIOLVaTh_zXnvqI6Ih1IDn0&_nc_zt=23&_nc_ht=scontent.fcai19-9.fna&_nc_gid=fzWaO2X55shhA14R6jIF7g&_nc_ss=7b2a8&oh=00_AQOGIIq9qq3ur_mdcAYb2arueqUry7n2yt-XifT94BxDKQ&oe=6AD14536" alt="" style="height:36px;border-radius:9px"> محمصة لوزينا · المرحلة 1/3</div>
+<div class="progress-bar" id="progress"></div>
+<div class="deck">
+<div class="slide active"><div class="glow-blob glow-teal" style="top:-120px;left:-120px;"></div><div class="glow-blob glow-purple" style="bottom:-140px;right:-100px;"></div><p class="slide-tag anim-1">مشروع عملي · HTML + CSS</p><h1 class="anim-2">متجر <span class="rainbow-text">محمصة لوزينا</span> بإيدك</h1><div class="rainbow-line anim-3"></div><p class="subtitle anim-4 mt-24">أجود أنواع البن والمكسرات والتسالي، وجديد الأيس كريم والكاندي الأسباني والشوكولاتات 🍫 — بنبني متجرها بـ HTML وCSS بسيط ومن غير JavaScript</p><div class="chips anim-5" style="margin-top:34px"><span class="chip">5 صفحات</span><span class="chip">ملف CSS واحد</span><span class="chip">10 خطوات</span></div></div>
+<div class="slide"><p class="slide-tag anim-1">خطة المشروع</p><h2 class="anim-2">المشروع على <span class="highlight-teal">3 مراحل</span></h2><p class="subtitle anim-3">كل مرحلة في ملف منفصل. خلّص مرحلة وبعدين افتح اللي بعدها، لأن كل مرحلة بتكمّل على اللي قبلها.</p><div class="topics-list anim-4"><div class="topic-item"><span class="topic-num">1</span><span><b>الأساس</b> — نجهّز المشروع ونعمل الـ Navbar والـ Footer اللي هيتكرروا في كل الصفحات <small>lozina-phase1.html</small></span></div><div class="topic-item"><span class="topic-num">2</span><span><b>الصفحات</b> — الصفحة الرئيسية وCategories وProducts وLogin وSignup <small>lozina-phase2.html</small></span></div><div class="topic-item"><span class="topic-num">3</span><span><b>اللمسات الأخيرة</b> — Spinner بالـ animation، والريسبونسف للتابلت والموبايل، وبعدها صور المحمصة الحقيقية <small>lozina-phase3.html</small></span></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الشكل النهائي للمشروع</p><h2 class="anim-2">ده اللي هنطلع بيه <span class="highlight-teal">في الآخر</span></h2><p class="subtitle anim-3">5 صفحات بنفس الـ Navbar والـ Footer، وكلهم بيستخدموا ملف CSS واحد.</p><div class="thumbs anim-4"><div class="thumb"><div class="thumb-box"><iframe tabindex="-1" title="الرئيسية" loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Lozina Toaster - Home&lt;/title&gt;
+  &lt;style&gt;
+/* reset: remove default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body = flex column, so the footer stays at the bottom */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7f6;
+  color: #1f2937;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* centered content wrapper */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* spacing and page headings */
+.section {
+  padding-top: 50px;
+}
+
+.page-title {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.page-sub {
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* main button */
+.btn {
+  display: inline-block;
+  background: #7a4b2a;
+  color: #fff;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #5e3a20;
+}
+
+/* Navbar */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo-img {
+  height: 34px;
+  width: auto;
+  border-radius: 6px;
+  vertical-align: middle;
+  margin-inline-end: 8px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #7a4b2a;
+}
+
+.logo span {
+  color: #f59e0b;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links a:hover,
+.nav-login:hover {
+  color: #7a4b2a;
+}
+
+/* Footer */
+.footer {
+  background: #1f2937;
+  color: #d1d5db;
+  padding-top: 40px;
+  margin-top: 60px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+
+.footer h3,
+.footer h4 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.footer a {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.footer a:hover {
+  color: #f59e0b;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
+  margin-top: 32px;
+  border-top: 1px solid #374151;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #7a4b2a, #c08a50);
+  color: #fff;
+  min-height: 340px;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-text {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 44px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 24px;
+}
+
+.btn-light {
+  background: #fff;
+  color: #7a4b2a;
+}
+
+.btn-light:hover {
+  background: #f59e0b;
+  color: #fff;
+}
+
+/* Features */
+.section-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 28px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.feature {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.feature h3 {
+  color: #7a4b2a;
+  margin-bottom: 8px;
+}
+
+.feature p {
+  color: #6b7280;
+}
+
+/* Categories */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.category {
+  display: block;
+  padding: 36px 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.category:hover {
+  transform: translateY(-6px);
+}
+
+.cat-icon {
+  display: block;
+  font-size: 44px;
+  margin-bottom: 10px;
+}
+
+.category h3 {
+  margin-bottom: 4px;
+}
+
+.category p {
+  color: #4b5563;
+  font-size: 14px;
+}
+
+/* background colors (reused later) */
+.bg-1 { background: #dbeafe; }
+.bg-2 { background: #fce7f3; }
+.bg-3 { background: #dcfce7; }
+.bg-4 { background: #fef3c7; }
+.bg-5 { background: #ede9fe; }
+.bg-6 { background: #ffedd5; }
+
+/* Products */
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.product {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.product-img {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+}
+
+.product-info {
+  padding: 16px;
+}
+
+.product-info h3 {
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.price {
+  color: #7a4b2a;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.product-info .btn {
+  display: block;
+  text-align: center;
+}
+
+/* Login / Signup */
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px 0;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-box h1 {
+  font-size: 28px;
+}
+
+.auth-sub {
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.auth-box label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.auth-box input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: #7a4b2a;
+}
+
+.btn-full {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.auth-switch a {
+  color: #7a4b2a;
+  font-weight: bold;
+}
+
+/* Spinner */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 36px;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #e5e7eb;
+  border-top-color: #7a4b2a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .products,
+  .categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .nav-inner {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 0;
+    gap: 10px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .products,
+  .categories,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;header class=&quot;navbar&quot;&gt;
+    &lt;div class=&quot;container nav-inner&quot;&gt;
+      &lt;a href=&quot;#&quot; class=&quot;logo&quot;&gt;&lt;img src=&quot;https://scontent.fcai19-9.fna.fbcdn.net/v/t39.30808-6/476027888_1040011351498331_2443888775141855312_n.jpg?stp=dst-jpg_tt6&amp;cstp=mx3314x1265&amp;ctp=s960x960&amp;_nc_cat=104&amp;_nc_map=urlgen_bucketless&amp;ccb=1-7&amp;_nc_sid=cc71e4&amp;_nc_ohc=hvOXy7D7YR8Q7kNvwET59qE&amp;_nc_oc=Ados5GpCfTMXoMamXBXdpkJYD-4gkk4PyPQFOozdWb8FGIOLVaTh_zXnvqI6Ih1IDn0&amp;_nc_zt=23&amp;_nc_ht=scontent.fcai19-9.fna&amp;_nc_gid=fzWaO2X55shhA14R6jIF7g&amp;_nc_ss=7b2a8&amp;oh=00_AQOGIIq9qq3ur_mdcAYb2arueqUry7n2yt-XifT94BxDKQ&amp;oe=6AD14536&quot; alt=&quot;&quot; class=&quot;logo-img&quot;&gt;Lozi&lt;span&gt;na&lt;/span&gt;&lt;/a&gt;
+
+      &lt;nav class=&quot;nav-links&quot;&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/nav&gt;
+
+      &lt;div class=&quot;nav-auth&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;nav-login&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;section class=&quot;hero&quot;&gt;
+      &lt;div class=&quot;hero-text&quot;&gt;
+        &lt;h1&gt;Fresh roasted, full of flavor&lt;/h1&gt;
+        &lt;p&gt;Finest coffee, nuts and snacks, plus new ice cream, Spanish candy and chocolate.&lt;/p&gt;
+        &lt;a href=&quot;#&quot; class=&quot;btn btn-light&quot;&gt;Shop now&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;container section&quot;&gt;
+      &lt;h2 class=&quot;section-title&quot;&gt;Why Lozina&lt;/h2&gt;
+
+      &lt;div class=&quot;features&quot;&gt;
+        &lt;div class=&quot;feature&quot;&gt;
+          &lt;h3&gt;Roasted fresh&lt;/h3&gt;
+          &lt;p&gt;Every batch, every day.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;feature&quot;&gt;
+          &lt;h3&gt;Premium quality&lt;/h3&gt;
+          &lt;p&gt;Selected beans, nuts and sweets.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;feature&quot;&gt;
+          &lt;h3&gt;Easy ordering&lt;/h3&gt;
+          &lt;p&gt;Pick, add to cart, enjoy.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+
+  &lt;footer class=&quot;footer&quot;&gt;
+    &lt;div class=&quot;container footer-grid&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Lozina Toaster&lt;/h3&gt;
+        &lt;p&gt;Finest coffee, nuts and snacks. Come taste the difference.&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Pages&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Account&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;p class=&quot;copyright&quot;&gt;&amp;copy; 2026 Lozina Toaster. All rights reserved.&lt;/p&gt;
+  &lt;/footer&gt;
+
+&lt;script&gt;document.addEventListener(&#x27;keydown&#x27;,function(e){var n=e.target&amp;&amp;e.target.tagName;if(n===&#x27;INPUT&#x27;||n===&#x27;TEXTAREA&#x27;)return;parent.postMessage({__k:e.key},&#x27;*&#x27;)});document.addEventListener(&#x27;submit&#x27;,function(e){e.preventDefault()});&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe></div><p class="thumb-label">الرئيسية <span>index.html</span></p></div><div class="thumb"><div class="thumb-box"><iframe tabindex="-1" title="الأقسام" loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Lozina Toaster - Categories&lt;/title&gt;
+  &lt;style&gt;
+/* reset: remove default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body = flex column, so the footer stays at the bottom */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7f6;
+  color: #1f2937;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* centered content wrapper */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* spacing and page headings */
+.section {
+  padding-top: 50px;
+}
+
+.page-title {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.page-sub {
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* main button */
+.btn {
+  display: inline-block;
+  background: #7a4b2a;
+  color: #fff;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #5e3a20;
+}
+
+/* Navbar */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo-img {
+  height: 34px;
+  width: auto;
+  border-radius: 6px;
+  vertical-align: middle;
+  margin-inline-end: 8px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #7a4b2a;
+}
+
+.logo span {
+  color: #f59e0b;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links a:hover,
+.nav-login:hover {
+  color: #7a4b2a;
+}
+
+/* Footer */
+.footer {
+  background: #1f2937;
+  color: #d1d5db;
+  padding-top: 40px;
+  margin-top: 60px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+
+.footer h3,
+.footer h4 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.footer a {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.footer a:hover {
+  color: #f59e0b;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
+  margin-top: 32px;
+  border-top: 1px solid #374151;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #7a4b2a, #c08a50);
+  color: #fff;
+  min-height: 340px;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-text {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 44px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 24px;
+}
+
+.btn-light {
+  background: #fff;
+  color: #7a4b2a;
+}
+
+.btn-light:hover {
+  background: #f59e0b;
+  color: #fff;
+}
+
+/* Features */
+.section-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 28px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.feature {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.feature h3 {
+  color: #7a4b2a;
+  margin-bottom: 8px;
+}
+
+.feature p {
+  color: #6b7280;
+}
+
+/* Categories */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.category {
+  display: block;
+  padding: 36px 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.category:hover {
+  transform: translateY(-6px);
+}
+
+.cat-icon {
+  display: block;
+  font-size: 44px;
+  margin-bottom: 10px;
+}
+
+.category h3 {
+  margin-bottom: 4px;
+}
+
+.category p {
+  color: #4b5563;
+  font-size: 14px;
+}
+
+/* background colors (reused later) */
+.bg-1 { background: #dbeafe; }
+.bg-2 { background: #fce7f3; }
+.bg-3 { background: #dcfce7; }
+.bg-4 { background: #fef3c7; }
+.bg-5 { background: #ede9fe; }
+.bg-6 { background: #ffedd5; }
+
+/* Products */
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.product {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.product-img {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+}
+
+.product-info {
+  padding: 16px;
+}
+
+.product-info h3 {
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.price {
+  color: #7a4b2a;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.product-info .btn {
+  display: block;
+  text-align: center;
+}
+
+/* Login / Signup */
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px 0;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-box h1 {
+  font-size: 28px;
+}
+
+.auth-sub {
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.auth-box label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.auth-box input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: #7a4b2a;
+}
+
+.btn-full {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.auth-switch a {
+  color: #7a4b2a;
+  font-weight: bold;
+}
+
+/* Spinner */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 36px;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #e5e7eb;
+  border-top-color: #7a4b2a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .products,
+  .categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .nav-inner {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 0;
+    gap: 10px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .products,
+  .categories,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;header class=&quot;navbar&quot;&gt;
+    &lt;div class=&quot;container nav-inner&quot;&gt;
+      &lt;a href=&quot;#&quot; class=&quot;logo&quot;&gt;&lt;img src=&quot;https://scontent.fcai19-9.fna.fbcdn.net/v/t39.30808-6/476027888_1040011351498331_2443888775141855312_n.jpg?stp=dst-jpg_tt6&amp;cstp=mx3314x1265&amp;ctp=s960x960&amp;_nc_cat=104&amp;_nc_map=urlgen_bucketless&amp;ccb=1-7&amp;_nc_sid=cc71e4&amp;_nc_ohc=hvOXy7D7YR8Q7kNvwET59qE&amp;_nc_oc=Ados5GpCfTMXoMamXBXdpkJYD-4gkk4PyPQFOozdWb8FGIOLVaTh_zXnvqI6Ih1IDn0&amp;_nc_zt=23&amp;_nc_ht=scontent.fcai19-9.fna&amp;_nc_gid=fzWaO2X55shhA14R6jIF7g&amp;_nc_ss=7b2a8&amp;oh=00_AQOGIIq9qq3ur_mdcAYb2arueqUry7n2yt-XifT94BxDKQ&amp;oe=6AD14536&quot; alt=&quot;&quot; class=&quot;logo-img&quot;&gt;Lozi&lt;span&gt;na&lt;/span&gt;&lt;/a&gt;
+
+      &lt;nav class=&quot;nav-links&quot;&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/nav&gt;
+
+      &lt;div class=&quot;nav-auth&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;nav-login&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main class=&quot;container section&quot;&gt;
+    &lt;h1 class=&quot;page-title&quot;&gt;Categories&lt;/h1&gt;
+    &lt;p class=&quot;page-sub&quot;&gt;Pick a category to start shopping.&lt;/p&gt;
+
+    &lt;div class=&quot;categories&quot;&gt;
+      &lt;a href=&quot;#&quot; class=&quot;category bg-1&quot;&gt;
+        &lt;span class=&quot;cat-icon&quot;&gt;☕&lt;/span&gt;
+        &lt;h3&gt;Coffee&lt;/h3&gt;
+        &lt;p&gt;24 items&lt;/p&gt;
+      &lt;/a&gt;
+
+      &lt;a href=&quot;#&quot; class=&quot;category bg-2&quot;&gt;
+        &lt;span class=&quot;cat-icon&quot;&gt;🥜&lt;/span&gt;
+        &lt;h3&gt;Nuts&lt;/h3&gt;
+        &lt;p&gt;36 items&lt;/p&gt;
+      &lt;/a&gt;
+
+      &lt;a href=&quot;#&quot; class=&quot;category bg-3&quot;&gt;
+        &lt;span class=&quot;cat-icon&quot;&gt;🍬&lt;/span&gt;
+        &lt;h3&gt;Candy&lt;/h3&gt;
+        &lt;p&gt;18 items&lt;/p&gt;
+      &lt;/a&gt;
+
+      &lt;a href=&quot;#&quot; class=&quot;category bg-4&quot;&gt;
+        &lt;span class=&quot;cat-icon&quot;&gt;🍫&lt;/span&gt;
+        &lt;h3&gt;Chocolate&lt;/h3&gt;
+        &lt;p&gt;22 items&lt;/p&gt;
+      &lt;/a&gt;
+
+      &lt;a href=&quot;#&quot; class=&quot;category bg-5&quot;&gt;
+        &lt;span class=&quot;cat-icon&quot;&gt;🍦&lt;/span&gt;
+        &lt;h3&gt;Ice Cream&lt;/h3&gt;
+        &lt;p&gt;40 items&lt;/p&gt;
+      &lt;/a&gt;
+
+      &lt;a href=&quot;#&quot; class=&quot;category bg-6&quot;&gt;
+        &lt;span class=&quot;cat-icon&quot;&gt;🍿&lt;/span&gt;
+        &lt;h3&gt;Snacks&lt;/h3&gt;
+        &lt;p&gt;15 items&lt;/p&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+
+  &lt;footer class=&quot;footer&quot;&gt;
+    &lt;div class=&quot;container footer-grid&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Lozina Toaster&lt;/h3&gt;
+        &lt;p&gt;Finest coffee, nuts and snacks. Come taste the difference.&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Pages&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Account&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;p class=&quot;copyright&quot;&gt;&amp;copy; 2026 Lozina Toaster. All rights reserved.&lt;/p&gt;
+  &lt;/footer&gt;
+
+&lt;script&gt;document.addEventListener(&#x27;keydown&#x27;,function(e){var n=e.target&amp;&amp;e.target.tagName;if(n===&#x27;INPUT&#x27;||n===&#x27;TEXTAREA&#x27;)return;parent.postMessage({__k:e.key},&#x27;*&#x27;)});document.addEventListener(&#x27;submit&#x27;,function(e){e.preventDefault()});&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe></div><p class="thumb-label">الأقسام <span>categories.html</span></p></div><div class="thumb"><div class="thumb-box"><iframe tabindex="-1" title="المنتجات" loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Lozina Toaster - Products&lt;/title&gt;
+  &lt;style&gt;
+/* reset: remove default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body = flex column, so the footer stays at the bottom */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7f6;
+  color: #1f2937;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* centered content wrapper */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* spacing and page headings */
+.section {
+  padding-top: 50px;
+}
+
+.page-title {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.page-sub {
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* main button */
+.btn {
+  display: inline-block;
+  background: #7a4b2a;
+  color: #fff;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #5e3a20;
+}
+
+/* Navbar */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo-img {
+  height: 34px;
+  width: auto;
+  border-radius: 6px;
+  vertical-align: middle;
+  margin-inline-end: 8px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #7a4b2a;
+}
+
+.logo span {
+  color: #f59e0b;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links a:hover,
+.nav-login:hover {
+  color: #7a4b2a;
+}
+
+/* Footer */
+.footer {
+  background: #1f2937;
+  color: #d1d5db;
+  padding-top: 40px;
+  margin-top: 60px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+
+.footer h3,
+.footer h4 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.footer a {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.footer a:hover {
+  color: #f59e0b;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
+  margin-top: 32px;
+  border-top: 1px solid #374151;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #7a4b2a, #c08a50);
+  color: #fff;
+  min-height: 340px;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-text {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 44px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 24px;
+}
+
+.btn-light {
+  background: #fff;
+  color: #7a4b2a;
+}
+
+.btn-light:hover {
+  background: #f59e0b;
+  color: #fff;
+}
+
+/* Features */
+.section-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 28px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.feature {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.feature h3 {
+  color: #7a4b2a;
+  margin-bottom: 8px;
+}
+
+.feature p {
+  color: #6b7280;
+}
+
+/* Categories */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.category {
+  display: block;
+  padding: 36px 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.category:hover {
+  transform: translateY(-6px);
+}
+
+.cat-icon {
+  display: block;
+  font-size: 44px;
+  margin-bottom: 10px;
+}
+
+.category h3 {
+  margin-bottom: 4px;
+}
+
+.category p {
+  color: #4b5563;
+  font-size: 14px;
+}
+
+/* background colors (reused later) */
+.bg-1 { background: #dbeafe; }
+.bg-2 { background: #fce7f3; }
+.bg-3 { background: #dcfce7; }
+.bg-4 { background: #fef3c7; }
+.bg-5 { background: #ede9fe; }
+.bg-6 { background: #ffedd5; }
+
+/* Products */
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.product {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.product-img {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+}
+
+.product-info {
+  padding: 16px;
+}
+
+.product-info h3 {
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.price {
+  color: #7a4b2a;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.product-info .btn {
+  display: block;
+  text-align: center;
+}
+
+/* Login / Signup */
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px 0;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-box h1 {
+  font-size: 28px;
+}
+
+.auth-sub {
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.auth-box label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.auth-box input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: #7a4b2a;
+}
+
+.btn-full {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.auth-switch a {
+  color: #7a4b2a;
+  font-weight: bold;
+}
+
+/* Spinner */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 36px;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #e5e7eb;
+  border-top-color: #7a4b2a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .products,
+  .categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .nav-inner {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 0;
+    gap: 10px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .products,
+  .categories,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;header class=&quot;navbar&quot;&gt;
+    &lt;div class=&quot;container nav-inner&quot;&gt;
+      &lt;a href=&quot;#&quot; class=&quot;logo&quot;&gt;&lt;img src=&quot;https://scontent.fcai19-9.fna.fbcdn.net/v/t39.30808-6/476027888_1040011351498331_2443888775141855312_n.jpg?stp=dst-jpg_tt6&amp;cstp=mx3314x1265&amp;ctp=s960x960&amp;_nc_cat=104&amp;_nc_map=urlgen_bucketless&amp;ccb=1-7&amp;_nc_sid=cc71e4&amp;_nc_ohc=hvOXy7D7YR8Q7kNvwET59qE&amp;_nc_oc=Ados5GpCfTMXoMamXBXdpkJYD-4gkk4PyPQFOozdWb8FGIOLVaTh_zXnvqI6Ih1IDn0&amp;_nc_zt=23&amp;_nc_ht=scontent.fcai19-9.fna&amp;_nc_gid=fzWaO2X55shhA14R6jIF7g&amp;_nc_ss=7b2a8&amp;oh=00_AQOGIIq9qq3ur_mdcAYb2arueqUry7n2yt-XifT94BxDKQ&amp;oe=6AD14536&quot; alt=&quot;&quot; class=&quot;logo-img&quot;&gt;Lozi&lt;span&gt;na&lt;/span&gt;&lt;/a&gt;
+
+      &lt;nav class=&quot;nav-links&quot;&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/nav&gt;
+
+      &lt;div class=&quot;nav-auth&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;nav-login&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main class=&quot;container section&quot;&gt;
+    &lt;h1 class=&quot;page-title&quot;&gt;Products&lt;/h1&gt;
+    &lt;p class=&quot;page-sub&quot;&gt;Our best sellers this week.&lt;/p&gt;
+
+    &lt;div class=&quot;products&quot;&gt;
+      &lt;div class=&quot;product&quot;&gt;
+        &lt;span class=&quot;badge&quot;&gt;-20%&lt;/span&gt;
+        &lt;div class=&quot;product-img bg-1&quot;&gt;🌰&lt;/div&gt;
+        &lt;div class=&quot;product-info&quot;&gt;
+          &lt;h3&gt;Roasted Almonds&lt;/h3&gt;
+          &lt;p class=&quot;price&quot;&gt;EGP 180&lt;/p&gt;
+          &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Add to cart&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;product&quot;&gt;
+        &lt;div class=&quot;product-img bg-2&quot;&gt;☕&lt;/div&gt;
+        &lt;div class=&quot;product-info&quot;&gt;
+          &lt;h3&gt;Turkish Coffee&lt;/h3&gt;
+          &lt;p class=&quot;price&quot;&gt;EGP 95&lt;/p&gt;
+          &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Add to cart&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;product&quot;&gt;
+        &lt;span class=&quot;badge&quot;&gt;NEW&lt;/span&gt;
+        &lt;div class=&quot;product-img bg-3&quot;&gt;🍬&lt;/div&gt;
+        &lt;div class=&quot;product-info&quot;&gt;
+          &lt;h3&gt;Spanish Candy&lt;/h3&gt;
+          &lt;p class=&quot;price&quot;&gt;EGP 60&lt;/p&gt;
+          &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Add to cart&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;product&quot;&gt;
+        &lt;div class=&quot;product-img bg-4&quot;&gt;🍫&lt;/div&gt;
+        &lt;div class=&quot;product-info&quot;&gt;
+          &lt;h3&gt;Dark Chocolate&lt;/h3&gt;
+          &lt;p class=&quot;price&quot;&gt;EGP 75&lt;/p&gt;
+          &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Add to cart&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;product&quot;&gt;
+        &lt;div class=&quot;product-img bg-2&quot;&gt;☕&lt;/div&gt;
+        &lt;div class=&quot;product-info&quot;&gt;
+          &lt;h3&gt;Ice Cream Cup&lt;/h3&gt;
+          &lt;p class=&quot;price&quot;&gt;EGP 40&lt;/p&gt;
+          &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Add to cart&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;product&quot;&gt;
+        &lt;span class=&quot;badge&quot;&gt;-10%&lt;/span&gt;
+        &lt;div class=&quot;product-img bg-1&quot;&gt;🥜&lt;/div&gt;
+        &lt;div class=&quot;product-info&quot;&gt;
+          &lt;h3&gt;Salted Cashews&lt;/h3&gt;
+          &lt;p class=&quot;price&quot;&gt;EGP 220&lt;/p&gt;
+          &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Add to cart&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;product&quot;&gt;
+        &lt;div class=&quot;product-img bg-4&quot;&gt;🍿&lt;/div&gt;
+        &lt;div class=&quot;product-info&quot;&gt;
+          &lt;h3&gt;Sweet Popcorn&lt;/h3&gt;
+          &lt;p class=&quot;price&quot;&gt;EGP 35&lt;/p&gt;
+          &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Add to cart&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;product&quot;&gt;
+        &lt;div class=&quot;product-img bg-3&quot;&gt;🥜&lt;/div&gt;
+        &lt;div class=&quot;product-info&quot;&gt;
+          &lt;h3&gt;Mixed Nuts&lt;/h3&gt;
+          &lt;p class=&quot;price&quot;&gt;EGP 150&lt;/p&gt;
+          &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Add to cart&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;loading&quot;&gt;
+      &lt;div class=&quot;spinner&quot;&gt;&lt;/div&gt;
+      &lt;p&gt;Loading more products...&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+
+  &lt;footer class=&quot;footer&quot;&gt;
+    &lt;div class=&quot;container footer-grid&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Lozina Toaster&lt;/h3&gt;
+        &lt;p&gt;Finest coffee, nuts and snacks. Come taste the difference.&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Pages&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Account&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;p class=&quot;copyright&quot;&gt;&amp;copy; 2026 Lozina Toaster. All rights reserved.&lt;/p&gt;
+  &lt;/footer&gt;
+
+&lt;script&gt;document.addEventListener(&#x27;keydown&#x27;,function(e){var n=e.target&amp;&amp;e.target.tagName;if(n===&#x27;INPUT&#x27;||n===&#x27;TEXTAREA&#x27;)return;parent.postMessage({__k:e.key},&#x27;*&#x27;)});document.addEventListener(&#x27;submit&#x27;,function(e){e.preventDefault()});&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe></div><p class="thumb-label">المنتجات <span>products.html</span></p></div><div class="thumb"><div class="thumb-box"><iframe tabindex="-1" title="تسجيل الدخول" loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Lozina Toaster - Login&lt;/title&gt;
+  &lt;style&gt;
+/* reset: remove default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body = flex column, so the footer stays at the bottom */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7f6;
+  color: #1f2937;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* centered content wrapper */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* spacing and page headings */
+.section {
+  padding-top: 50px;
+}
+
+.page-title {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.page-sub {
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* main button */
+.btn {
+  display: inline-block;
+  background: #7a4b2a;
+  color: #fff;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #5e3a20;
+}
+
+/* Navbar */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo-img {
+  height: 34px;
+  width: auto;
+  border-radius: 6px;
+  vertical-align: middle;
+  margin-inline-end: 8px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #7a4b2a;
+}
+
+.logo span {
+  color: #f59e0b;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links a:hover,
+.nav-login:hover {
+  color: #7a4b2a;
+}
+
+/* Footer */
+.footer {
+  background: #1f2937;
+  color: #d1d5db;
+  padding-top: 40px;
+  margin-top: 60px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+
+.footer h3,
+.footer h4 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.footer a {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.footer a:hover {
+  color: #f59e0b;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
+  margin-top: 32px;
+  border-top: 1px solid #374151;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #7a4b2a, #c08a50);
+  color: #fff;
+  min-height: 340px;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-text {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 44px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 24px;
+}
+
+.btn-light {
+  background: #fff;
+  color: #7a4b2a;
+}
+
+.btn-light:hover {
+  background: #f59e0b;
+  color: #fff;
+}
+
+/* Features */
+.section-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 28px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.feature {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.feature h3 {
+  color: #7a4b2a;
+  margin-bottom: 8px;
+}
+
+.feature p {
+  color: #6b7280;
+}
+
+/* Categories */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.category {
+  display: block;
+  padding: 36px 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.category:hover {
+  transform: translateY(-6px);
+}
+
+.cat-icon {
+  display: block;
+  font-size: 44px;
+  margin-bottom: 10px;
+}
+
+.category h3 {
+  margin-bottom: 4px;
+}
+
+.category p {
+  color: #4b5563;
+  font-size: 14px;
+}
+
+/* background colors (reused later) */
+.bg-1 { background: #dbeafe; }
+.bg-2 { background: #fce7f3; }
+.bg-3 { background: #dcfce7; }
+.bg-4 { background: #fef3c7; }
+.bg-5 { background: #ede9fe; }
+.bg-6 { background: #ffedd5; }
+
+/* Products */
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.product {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.product-img {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+}
+
+.product-info {
+  padding: 16px;
+}
+
+.product-info h3 {
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.price {
+  color: #7a4b2a;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.product-info .btn {
+  display: block;
+  text-align: center;
+}
+
+/* Login / Signup */
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px 0;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-box h1 {
+  font-size: 28px;
+}
+
+.auth-sub {
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.auth-box label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.auth-box input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: #7a4b2a;
+}
+
+.btn-full {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.auth-switch a {
+  color: #7a4b2a;
+  font-weight: bold;
+}
+
+/* Spinner */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 36px;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #e5e7eb;
+  border-top-color: #7a4b2a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .products,
+  .categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .nav-inner {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 0;
+    gap: 10px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .products,
+  .categories,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;header class=&quot;navbar&quot;&gt;
+    &lt;div class=&quot;container nav-inner&quot;&gt;
+      &lt;a href=&quot;#&quot; class=&quot;logo&quot;&gt;&lt;img src=&quot;https://scontent.fcai19-9.fna.fbcdn.net/v/t39.30808-6/476027888_1040011351498331_2443888775141855312_n.jpg?stp=dst-jpg_tt6&amp;cstp=mx3314x1265&amp;ctp=s960x960&amp;_nc_cat=104&amp;_nc_map=urlgen_bucketless&amp;ccb=1-7&amp;_nc_sid=cc71e4&amp;_nc_ohc=hvOXy7D7YR8Q7kNvwET59qE&amp;_nc_oc=Ados5GpCfTMXoMamXBXdpkJYD-4gkk4PyPQFOozdWb8FGIOLVaTh_zXnvqI6Ih1IDn0&amp;_nc_zt=23&amp;_nc_ht=scontent.fcai19-9.fna&amp;_nc_gid=fzWaO2X55shhA14R6jIF7g&amp;_nc_ss=7b2a8&amp;oh=00_AQOGIIq9qq3ur_mdcAYb2arueqUry7n2yt-XifT94BxDKQ&amp;oe=6AD14536&quot; alt=&quot;&quot; class=&quot;logo-img&quot;&gt;Lozi&lt;span&gt;na&lt;/span&gt;&lt;/a&gt;
+
+      &lt;nav class=&quot;nav-links&quot;&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/nav&gt;
+
+      &lt;div class=&quot;nav-auth&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;nav-login&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main class=&quot;auth&quot;&gt;
+    &lt;form class=&quot;auth-box&quot; action=&quot;#&quot; method=&quot;post&quot;&gt;
+      &lt;h1&gt;Welcome back&lt;/h1&gt;
+      &lt;p class=&quot;auth-sub&quot;&gt;Login to your account&lt;/p&gt;
+
+      &lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;
+      &lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;you@example.com&quot; required&gt;
+
+      &lt;label for=&quot;password&quot;&gt;Password&lt;/label&gt;
+      &lt;input type=&quot;password&quot; id=&quot;password&quot; name=&quot;password&quot; placeholder=&quot;Your password&quot; required&gt;
+
+      &lt;button type=&quot;submit&quot; class=&quot;btn btn-full&quot;&gt;Login&lt;/button&gt;
+
+      &lt;p class=&quot;auth-switch&quot;&gt;No account yet? &lt;a href=&quot;#&quot;&gt;Sign up&lt;/a&gt;&lt;/p&gt;
+    &lt;/form&gt;
+  &lt;/main&gt;
+
+  &lt;footer class=&quot;footer&quot;&gt;
+    &lt;div class=&quot;container footer-grid&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Lozina Toaster&lt;/h3&gt;
+        &lt;p&gt;Finest coffee, nuts and snacks. Come taste the difference.&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Pages&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Account&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;p class=&quot;copyright&quot;&gt;&amp;copy; 2026 Lozina Toaster. All rights reserved.&lt;/p&gt;
+  &lt;/footer&gt;
+
+&lt;script&gt;document.addEventListener(&#x27;keydown&#x27;,function(e){var n=e.target&amp;&amp;e.target.tagName;if(n===&#x27;INPUT&#x27;||n===&#x27;TEXTAREA&#x27;)return;parent.postMessage({__k:e.key},&#x27;*&#x27;)});document.addEventListener(&#x27;submit&#x27;,function(e){e.preventDefault()});&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe></div><p class="thumb-label">تسجيل الدخول <span>login.html</span></p></div><div class="thumb"><div class="thumb-box"><iframe tabindex="-1" title="إنشاء حساب" loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Lozina Toaster - Sign up&lt;/title&gt;
+  &lt;style&gt;
+/* reset: remove default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body = flex column, so the footer stays at the bottom */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7f6;
+  color: #1f2937;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* centered content wrapper */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* spacing and page headings */
+.section {
+  padding-top: 50px;
+}
+
+.page-title {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.page-sub {
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* main button */
+.btn {
+  display: inline-block;
+  background: #7a4b2a;
+  color: #fff;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #5e3a20;
+}
+
+/* Navbar */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo-img {
+  height: 34px;
+  width: auto;
+  border-radius: 6px;
+  vertical-align: middle;
+  margin-inline-end: 8px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #7a4b2a;
+}
+
+.logo span {
+  color: #f59e0b;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links a:hover,
+.nav-login:hover {
+  color: #7a4b2a;
+}
+
+/* Footer */
+.footer {
+  background: #1f2937;
+  color: #d1d5db;
+  padding-top: 40px;
+  margin-top: 60px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+
+.footer h3,
+.footer h4 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.footer a {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.footer a:hover {
+  color: #f59e0b;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
+  margin-top: 32px;
+  border-top: 1px solid #374151;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #7a4b2a, #c08a50);
+  color: #fff;
+  min-height: 340px;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-text {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 44px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 24px;
+}
+
+.btn-light {
+  background: #fff;
+  color: #7a4b2a;
+}
+
+.btn-light:hover {
+  background: #f59e0b;
+  color: #fff;
+}
+
+/* Features */
+.section-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 28px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.feature {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.feature h3 {
+  color: #7a4b2a;
+  margin-bottom: 8px;
+}
+
+.feature p {
+  color: #6b7280;
+}
+
+/* Categories */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.category {
+  display: block;
+  padding: 36px 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.category:hover {
+  transform: translateY(-6px);
+}
+
+.cat-icon {
+  display: block;
+  font-size: 44px;
+  margin-bottom: 10px;
+}
+
+.category h3 {
+  margin-bottom: 4px;
+}
+
+.category p {
+  color: #4b5563;
+  font-size: 14px;
+}
+
+/* background colors (reused later) */
+.bg-1 { background: #dbeafe; }
+.bg-2 { background: #fce7f3; }
+.bg-3 { background: #dcfce7; }
+.bg-4 { background: #fef3c7; }
+.bg-5 { background: #ede9fe; }
+.bg-6 { background: #ffedd5; }
+
+/* Products */
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.product {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.product-img {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+}
+
+.product-info {
+  padding: 16px;
+}
+
+.product-info h3 {
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.price {
+  color: #7a4b2a;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.product-info .btn {
+  display: block;
+  text-align: center;
+}
+
+/* Login / Signup */
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px 0;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-box h1 {
+  font-size: 28px;
+}
+
+.auth-sub {
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.auth-box label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.auth-box input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: #7a4b2a;
+}
+
+.btn-full {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.auth-switch a {
+  color: #7a4b2a;
+  font-weight: bold;
+}
+
+/* Spinner */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 36px;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #e5e7eb;
+  border-top-color: #7a4b2a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .products,
+  .categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .nav-inner {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 0;
+    gap: 10px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .products,
+  .categories,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;header class=&quot;navbar&quot;&gt;
+    &lt;div class=&quot;container nav-inner&quot;&gt;
+      &lt;a href=&quot;#&quot; class=&quot;logo&quot;&gt;&lt;img src=&quot;https://scontent.fcai19-9.fna.fbcdn.net/v/t39.30808-6/476027888_1040011351498331_2443888775141855312_n.jpg?stp=dst-jpg_tt6&amp;cstp=mx3314x1265&amp;ctp=s960x960&amp;_nc_cat=104&amp;_nc_map=urlgen_bucketless&amp;ccb=1-7&amp;_nc_sid=cc71e4&amp;_nc_ohc=hvOXy7D7YR8Q7kNvwET59qE&amp;_nc_oc=Ados5GpCfTMXoMamXBXdpkJYD-4gkk4PyPQFOozdWb8FGIOLVaTh_zXnvqI6Ih1IDn0&amp;_nc_zt=23&amp;_nc_ht=scontent.fcai19-9.fna&amp;_nc_gid=fzWaO2X55shhA14R6jIF7g&amp;_nc_ss=7b2a8&amp;oh=00_AQOGIIq9qq3ur_mdcAYb2arueqUry7n2yt-XifT94BxDKQ&amp;oe=6AD14536&quot; alt=&quot;&quot; class=&quot;logo-img&quot;&gt;Lozi&lt;span&gt;na&lt;/span&gt;&lt;/a&gt;
+
+      &lt;nav class=&quot;nav-links&quot;&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/nav&gt;
+
+      &lt;div class=&quot;nav-auth&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;nav-login&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main class=&quot;auth&quot;&gt;
+    &lt;form class=&quot;auth-box&quot; action=&quot;#&quot; method=&quot;post&quot;&gt;
+      &lt;h1&gt;Create account&lt;/h1&gt;
+      &lt;p class=&quot;auth-sub&quot;&gt;Join Lozina Toaster in a minute&lt;/p&gt;
+
+      &lt;label for=&quot;name&quot;&gt;Full name&lt;/label&gt;
+      &lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; placeholder=&quot;Your name&quot; required&gt;
+
+      &lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;
+      &lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;you@example.com&quot; required&gt;
+
+      &lt;label for=&quot;password&quot;&gt;Password&lt;/label&gt;
+      &lt;input type=&quot;password&quot; id=&quot;password&quot; name=&quot;password&quot; placeholder=&quot;Create a password&quot; required&gt;
+
+      &lt;label for=&quot;confirm&quot;&gt;Confirm password&lt;/label&gt;
+      &lt;input type=&quot;password&quot; id=&quot;confirm&quot; name=&quot;confirm&quot; placeholder=&quot;Repeat the password&quot; required&gt;
+
+      &lt;button type=&quot;submit&quot; class=&quot;btn btn-full&quot;&gt;Sign up&lt;/button&gt;
+
+      &lt;p class=&quot;auth-switch&quot;&gt;Already have an account? &lt;a href=&quot;#&quot;&gt;Login&lt;/a&gt;&lt;/p&gt;
+    &lt;/form&gt;
+  &lt;/main&gt;
+
+  &lt;footer class=&quot;footer&quot;&gt;
+    &lt;div class=&quot;container footer-grid&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Lozina Toaster&lt;/h3&gt;
+        &lt;p&gt;Finest coffee, nuts and snacks. Come taste the difference.&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Pages&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Account&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;p class=&quot;copyright&quot;&gt;&amp;copy; 2026 Lozina Toaster. All rights reserved.&lt;/p&gt;
+  &lt;/footer&gt;
+
+&lt;script&gt;document.addEventListener(&#x27;keydown&#x27;,function(e){var n=e.target&amp;&amp;e.target.tagName;if(n===&#x27;INPUT&#x27;||n===&#x27;TEXTAREA&#x27;)return;parent.postMessage({__k:e.key},&#x27;*&#x27;)});document.addEventListener(&#x27;submit&#x27;,function(e){e.preventDefault()});&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe></div><p class="thumb-label">إنشاء حساب <span>signup.html</span></p></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">هيكل المشروع</p><h2 class="anim-2">الملفات وشكل <span class="highlight-purple">الصفحة</span></h2><p class="subtitle anim-3">كل صفحة بتتكوّن من 3 حاجات: Navbar فوق، محتوى الصفحة في النص، وFooter تحت. الـ Navbar والـ Footer بيتكرروا في كل الصفحات.</p><div class="two-col anim-4"><div class="col"><div class="code-window"><div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">الملفات</span></div><div class="code-body">shop/
+├── index.html         # الصفحة الرئيسية
+├── categories.html    # صفحة الأقسام
+├── products.html      # صفحة المنتجات
+├── login.html         # تسجيل الدخول
+├── signup.html        # إنشاء حساب
+└── style.css          # ستايل المشروع كله</div></div></div><div class="anatomy col"><div class="an-part an-nav">Navbar <span>header.navbar</span></div><div class="an-part an-main">محتوى الصفحة <span>main</span></div><div class="an-part an-foot">Footer <span>footer.footer</span></div></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الأدوات</p><h2 class="anim-2">هنستخدم إيه من <span class="highlight-blue">CSS؟</span></h2><p class="subtitle anim-3">أساسيات بس. وفيه <code class="c">transition</code> بسيطة جدًا في الـ hover على كروت الأقسام، زي الملف المرجعي بتاع الـ transition.</p><div class="topics-list anim-4"><div class="topic-item"><span class="topic-num">1</span><span><code class="c">display: flex</code> — الـ Navbar، الـ Hero، فورم الدخول، وتوسيط أي حاجة</span></div><div class="topic-item"><span class="topic-num">2</span><span><code class="c">display: grid</code> — الـ Footer، المميزات، الأقسام، والمنتجات</span></div><div class="topic-item"><span class="topic-num">3</span><span><code class="c">position</code> — <code class="c">sticky</code> للـ Navbar و<code class="c">absolute</code> لبادج الخصم على المنتج</span></div><div class="topic-item"><span class="topic-num">4</span><span><code class="c">background</code> — ألوان صلبة وتدرّج (gradient) في الـ Hero</span></div><div class="topic-item"><span class="topic-num">5</span><span><code class="c">animation</code> — الـ Spinner بس، بـ <code class="c">@keyframes</code></span></div><div class="topic-item"><span class="topic-num">6</span><span><code class="c">@media</code> — الريسبونسف: تابلت وموبايل</span></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">خريطة الخطوات</p><h2 class="anim-2">10 خطوات، <span class="highlight-green">كل خطوة 3 حاجات</span></h2><p class="subtitle anim-3">كل خطوة فيها: الشكل النهائي بتاعها، وبعدين خطوات التنفيذ، وبعدين الكود كامل.</p><div class="topics-grid anim-4"><div class="topic-item"><span class="topic-num">1</span><span>تجهيز المشروع و CSS الأساسي <small>style.css</small></span></div><div class="topic-item"><span class="topic-num">2</span><span>الـ Navbar <small>index.html</small></span></div><div class="topic-item"><span class="topic-num">3</span><span>الـ Footer <small>index.html</small></span></div><div class="topic-item"><span class="topic-num">4</span><span>الصفحة الرئيسية: Hero <small>index.html</small></span></div><div class="topic-item"><span class="topic-num">5</span><span>صفحة Categories <small>categories.html</small></span></div><div class="topic-item"><span class="topic-num">6</span><span>صفحة Products <small>products.html</small></span></div><div class="topic-item"><span class="topic-num">7</span><span>صفحة Login <small>login.html</small></span></div><div class="topic-item"><span class="topic-num">8</span><span>صفحة Signup <small>signup.html</small></span></div><div class="topic-item"><span class="topic-num">9</span><span>الـ Spinner <small>products.html</small></span></div><div class="topic-item"><span class="topic-num">10</span><span>الـ Responsive <small>style.css</small></span></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 1 · الشكل النهائي</p><h2 class="anim-2">تجهيز المشروع و<span class="highlight-teal">CSS الأساسي</span></h2><p class="subtitle anim-3">صفحة بسيطة فيها عنوان وزرار. شكلها بسيط بس ده الأساس اللي كل الصفحات هتتبني عليه.</p><div class="stack wide anim-4"><iframe class="frame" style="height:300px" title="preview" loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Lozina Toaster&lt;/title&gt;
+  &lt;style&gt;
+/* reset: remove default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body = flex column, so the footer stays at the bottom */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7f6;
+  color: #1f2937;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* centered content wrapper */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* spacing and page headings */
+.section {
+  padding-top: 50px;
+}
+
+.page-title {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.page-sub {
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* main button */
+.btn {
+  display: inline-block;
+  background: #7a4b2a;
+  color: #fff;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #5e3a20;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;main class=&quot;container section&quot;&gt;
+    &lt;h1 class=&quot;page-title&quot;&gt;Lozina Toaster&lt;/h1&gt;
+    &lt;p class=&quot;page-sub&quot;&gt;Welcome to our simple online shop.&lt;/p&gt;
+    &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Start shopping&lt;/a&gt;
+  &lt;/main&gt;
+
+&lt;script&gt;document.addEventListener(&#x27;keydown&#x27;,function(e){var n=e.target&amp;&amp;e.target.tagName;if(n===&#x27;INPUT&#x27;||n===&#x27;TEXTAREA&#x27;)return;parent.postMessage({__k:e.key},&#x27;*&#x27;)});document.addEventListener(&#x27;submit&#x27;,function(e){e.preventDefault()});&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe><div class="chips"><span class="chips-label">هنستخدم:</span><span class="chip">reset</span><span class="chip">box-sizing</span><span class="chip">flex (body)</span><span class="chip">.container</span><span class="chip">.btn</span></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 1 · خطوات التنفيذ</p><h2 class="anim-2">خطوات التنفيذ</h2><div class="step-list anim-3"><div class="step-item"><span class="topic-num">1</span><div>اعمل فولدر اسمه <code class="c">shop</code> وجواه ملفين: <code class="c">index.html</code> و<code class="c">style.css</code>.</div></div><div class="step-item"><span class="topic-num">2</span><div>في <code class="c">index.html</code> اكتب هيكل الصفحة، واربط ملف الـ CSS بـ <code class="c">&lt;link&gt;</code> جوه الـ <code class="c">&lt;head&gt;</code>.</div></div><div class="step-item"><span class="topic-num">3</span><div>ضيف <code class="c">&lt;meta name="viewport"&gt;</code> عشان الصفحة تتظبط على الموبايل بعدين.</div></div><div class="step-item"><span class="topic-num">4</span><div>في <code class="c">style.css</code> الغي الـ margin والـ padding الافتراضي بـ <code class="c">*</code> وحط <code class="c">box-sizing: border-box</code>.</div></div><div class="step-item"><span class="topic-num">5</span><div>خلّي الـ <code class="c">body</code> عمود flex بـ <code class="c">min-height: 100vh</code> و<code class="c">main</code> ياخد <code class="c">flex: 1</code>. كده الـ Footer هينزل تحت حتى لو المحتوى قليل.</div></div><div class="step-item"><span class="topic-num">6</span><div>اعمل <code class="c">.container</code> يحدد عرض المحتوى وينتّصه، و<code class="c">.btn</code> للزراير، وكلاسات العناوين <code class="c">.page-title</code> و<code class="c">.page-sub</code>.</div></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 1 · الكود</p><h2 class="anim-2">كود الـ <span class="highlight-orange">HTML</span></h2><p class="subtitle anim-3">ملف <code class="c">index.html</code>: ده الهيكل اللي هننسخه لكل الصفحات.</p><div class="stack wide anim-4"><div class="code-window"><div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">index.html</span></div><div class="code-body"><span class="tag">&lt;!DOCTYPE html&gt;</span>
+&lt;<span class="tag">html</span> <span class="attr">lang</span>=<span class="str">"en"</span>&gt;
+&lt;<span class="tag">head</span>&gt;
+  &lt;<span class="tag">meta</span> <span class="attr">charset</span>=<span class="str">"UTF-8"</span>&gt;
+  &lt;<span class="tag">meta</span> <span class="attr">name</span>=<span class="str">"viewport"</span> <span class="attr">content</span>=<span class="str">"width=device-width, initial-scale=1.0"</span>&gt;
+  &lt;<span class="tag">title</span>&gt;Lozina Toaster&lt;/<span class="tag">title</span>&gt;
+  &lt;<span class="tag">link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"style.css"</span>&gt;
+&lt;/<span class="tag">head</span>&gt;
+&lt;<span class="tag">body</span>&gt;
+
+  &lt;<span class="tag">main</span> <span class="attr">class</span>=<span class="str">"container section"</span>&gt;
+    &lt;<span class="tag">h1</span> <span class="attr">class</span>=<span class="str">"page-title"</span>&gt;Lozina Toaster&lt;/<span class="tag">h1</span>&gt;
+    &lt;<span class="tag">p</span> <span class="attr">class</span>=<span class="str">"page-sub"</span>&gt;Welcome to our simple online shop.&lt;/<span class="tag">p</span>&gt;
+    &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span> <span class="attr">class</span>=<span class="str">"btn"</span>&gt;Start shopping&lt;/<span class="tag">a</span>&gt;
+  &lt;/<span class="tag">main</span>&gt;
+
+&lt;/<span class="tag">body</span>&gt;
+&lt;/<span class="tag">html</span>&gt;
+</div></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 1 · الكود</p><h2 class="anim-2">كود الـ <span class="highlight-blue">CSS</span></h2><p class="subtitle anim-3">ملف <code class="c">style.css</code>: اكتب الكود ده في أوله.</p><div class="stack wide anim-4"><div class="code-window"><div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div><div class="code-body code-sm"><span class="comment">/* reset: remove default spacing */</span>
+<span class="sel">*</span> {
+  <span class="prop">margin</span>: <span class="num">0</span>;
+  <span class="prop">padding</span>: <span class="num">0</span>;
+  <span class="prop">box-sizing</span>: <span class="kw">border-box</span>;
+}
+
+<span class="comment">/* body = flex column, so the footer stays at the bottom */</span>
+<span class="sel">body</span> {
+  <span class="prop">font-family</span>: <span class="kw">Arial</span>, <span class="kw">sans-serif</span>;
+  <span class="prop">background</span>: <span class="num">#f5f7f6</span>;
+  <span class="prop">color</span>: <span class="num">#1f2937</span>;
+  <span class="prop">min-height</span>: <span class="num">100vh</span>;
+  <span class="prop">display</span>: <span class="kw">flex</span>;
+  <span class="prop">flex-direction</span>: <span class="kw">column</span>;
+}
+
+<span class="sel">main</span> {
+  <span class="prop">flex</span>: <span class="num">1</span>;
+}
+
+<span class="sel">a</span> {
+  <span class="prop">text-decoration</span>: <span class="kw">none</span>;
+  <span class="prop">color</span>: <span class="kw">inherit</span>;
+}
+
+<span class="comment">/* centered content wrapper */</span>
+<span class="sel">.container</span> {
+  <span class="prop">width</span>: <span class="num">90%</span>;
+  <span class="prop">max-width</span>: <span class="num">1100px</span>;
+  <span class="prop">margin</span>: <span class="num">0</span> <span class="kw">auto</span>;
+}
+
+<span class="comment">/* spacing and page headings */</span>
+<span class="sel">.section</span> {
+  <span class="prop">padding-top</span>: <span class="num">50px</span>;
+}
+
+<span class="sel">.page-title</span> {
+  <span class="prop">font-size</span>: <span class="num">32px</span>;
+  <span class="prop">margin-bottom</span>: <span class="num">6px</span>;
+}
+
+<span class="sel">.page-sub</span> {
+  <span class="prop">color</span>: <span class="num">#6b7280</span>;
+  <span class="prop">margin-bottom</span>: <span class="num">28px</span>;
+}
+
+<span class="comment">/* main button */</span>
+<span class="sel">.btn</span> {
+  <span class="prop">display</span>: <span class="kw">inline-block</span>;
+  <span class="prop">background</span>: <span class="num">#7a4b2a</span>;
+  <span class="prop">color</span>: <span class="num">#fff</span>;
+  <span class="prop">padding</span>: <span class="num">10px</span> <span class="num">22px</span>;
+  <span class="prop">border</span>: <span class="kw">none</span>;
+  <span class="prop">border-radius</span>: <span class="num">6px</span>;
+  <span class="prop">font-size</span>: <span class="num">16px</span>;
+  <span class="prop">font-family</span>: <span class="kw">inherit</span>;
+  <span class="prop">cursor</span>: <span class="kw">pointer</span>;
+}
+
+<span class="sel">.btn:hover</span> {
+  <span class="prop">background</span>: <span class="num">#5e3a20</span>;
+}</div></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 2 · الشكل النهائي</p><h2 class="anim-2">الـ <span class="highlight-teal">Navbar</span></h2><p class="subtitle anim-3">لوجو على الشمال، لينكات في النص، وزرارين على اليمين. وهو <code class="c">sticky</code> يعني بيفضل ظاهر فوق وانت بتنزل بالـ scroll.</p><div class="stack wide anim-4"><iframe class="frame" style="height:300px" title="preview" loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Lozina Toaster&lt;/title&gt;
+  &lt;style&gt;
+/* reset: remove default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body = flex column, so the footer stays at the bottom */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7f6;
+  color: #1f2937;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* centered content wrapper */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* spacing and page headings */
+.section {
+  padding-top: 50px;
+}
+
+.page-title {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.page-sub {
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* main button */
+.btn {
+  display: inline-block;
+  background: #7a4b2a;
+  color: #fff;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #5e3a20;
+}
+
+/* Navbar */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo-img {
+  height: 34px;
+  width: auto;
+  border-radius: 6px;
+  vertical-align: middle;
+  margin-inline-end: 8px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #7a4b2a;
+}
+
+.logo span {
+  color: #f59e0b;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links a:hover,
+.nav-login:hover {
+  color: #7a4b2a;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;header class=&quot;navbar&quot;&gt;
+    &lt;div class=&quot;container nav-inner&quot;&gt;
+      &lt;a href=&quot;#&quot; class=&quot;logo&quot;&gt;&lt;img src=&quot;https://scontent.fcai19-9.fna.fbcdn.net/v/t39.30808-6/476027888_1040011351498331_2443888775141855312_n.jpg?stp=dst-jpg_tt6&amp;cstp=mx3314x1265&amp;ctp=s960x960&amp;_nc_cat=104&amp;_nc_map=urlgen_bucketless&amp;ccb=1-7&amp;_nc_sid=cc71e4&amp;_nc_ohc=hvOXy7D7YR8Q7kNvwET59qE&amp;_nc_oc=Ados5GpCfTMXoMamXBXdpkJYD-4gkk4PyPQFOozdWb8FGIOLVaTh_zXnvqI6Ih1IDn0&amp;_nc_zt=23&amp;_nc_ht=scontent.fcai19-9.fna&amp;_nc_gid=fzWaO2X55shhA14R6jIF7g&amp;_nc_ss=7b2a8&amp;oh=00_AQOGIIq9qq3ur_mdcAYb2arueqUry7n2yt-XifT94BxDKQ&amp;oe=6AD14536&quot; alt=&quot;&quot; class=&quot;logo-img&quot;&gt;Lozi&lt;span&gt;na&lt;/span&gt;&lt;/a&gt;
+
+      &lt;nav class=&quot;nav-links&quot;&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/nav&gt;
+
+      &lt;div class=&quot;nav-auth&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;nav-login&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main class=&quot;container section&quot;&gt;
+    &lt;p class=&quot;page-sub&quot;&gt;The page content goes here...&lt;/p&gt;
+  &lt;/main&gt;
+
+&lt;script&gt;document.addEventListener(&#x27;keydown&#x27;,function(e){var n=e.target&amp;&amp;e.target.tagName;if(n===&#x27;INPUT&#x27;||n===&#x27;TEXTAREA&#x27;)return;parent.postMessage({__k:e.key},&#x27;*&#x27;)});document.addEventListener(&#x27;submit&#x27;,function(e){e.preventDefault()});&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe><div class="chips"><span class="chips-label">هنستخدم:</span><span class="chip">display: flex</span><span class="chip">justify-content: space-between</span><span class="chip">gap</span><span class="chip">position: sticky</span></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 2 · خطوات التنفيذ</p><h2 class="anim-2">خطوات التنفيذ</h2><div class="step-list anim-3"><div class="step-item"><span class="topic-num">1</span><div>اكتب <code class="c">&lt;header class="navbar"&gt;</code> وجواه <code class="c">&lt;div class="container nav-inner"&gt;</code>. الـ container بيحدد العرض، والـ nav-inner هو الـ flex.</div></div><div class="step-item"><span class="topic-num">2</span><div>حط 3 عناصر جواه: اللوجو <code class="c">&lt;a class="logo"&gt;</code>، اللينكات في <code class="c">&lt;nav class="nav-links"&gt;</code>، وزراير الحساب في <code class="c">&lt;div class="nav-auth"&gt;</code>.</div></div><div class="step-item"><span class="topic-num">3</span><div>خلّي <code class="c">.nav-inner</code> فيه <code class="c">display: flex</code> و<code class="c">justify-content: space-between</code> و<code class="c">align-items: center</code>. ده اللي بيوزّع الـ 3 عناصر على الصفحة.</div></div><div class="step-item"><span class="topic-num">4</span><div>خلّي <code class="c">.nav-links</code> و<code class="c">.nav-auth</code> flex هما كمان، مع <code class="c">gap</code> للمسافات بين اللينكات.</div></div><div class="step-item"><span class="topic-num">5</span><div>ثبّت الـ Navbar فوق بـ <code class="c">position: sticky; top: 0</code> ومعاهم <code class="c">z-index</code> عشان يفضل فوق باقي العناصر.</div></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 2 · الكود</p><h2 class="anim-2">كود الـ <span class="highlight-orange">HTML</span></h2><p class="subtitle anim-3">ملف <code class="c">index.html</code>: الصق الكود ده أول حاجة جوه <code class="c">&lt;body&gt;</code>.</p><div class="stack wide anim-4"><div class="code-window"><div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">index.html</span></div><div class="code-body">  &lt;<span class="tag">header</span> <span class="attr">class</span>=<span class="str">"navbar"</span>&gt;
+    &lt;<span class="tag">div</span> <span class="attr">class</span>=<span class="str">"container nav-inner"</span>&gt;
+      &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"index.html"</span> <span class="attr">class</span>=<span class="str">"logo"</span>&gt;&lt;<span class="tag">img</span> <span class="attr">src</span>=<span class="str">"images/logo.jpg"</span> <span class="attr">alt</span>=<span class="str">""</span> <span class="attr">class</span>=<span class="str">"logo-img"</span>&gt;Lozi&lt;<span class="tag">span</span>&gt;na&lt;/<span class="tag">span</span>&gt;&lt;/<span class="tag">a</span>&gt;
+
+      &lt;<span class="tag">nav</span> <span class="attr">class</span>=<span class="str">"nav-links"</span>&gt;
+        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"index.html"</span>&gt;Home&lt;/<span class="tag">a</span>&gt;
+        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"categories.html"</span>&gt;Categories&lt;/<span class="tag">a</span>&gt;
+        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"products.html"</span>&gt;Products&lt;/<span class="tag">a</span>&gt;
+      &lt;/<span class="tag">nav</span>&gt;
+
+      &lt;<span class="tag">div</span> <span class="attr">class</span>=<span class="str">"nav-auth"</span>&gt;
+        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"login.html"</span> <span class="attr">class</span>=<span class="str">"nav-login"</span>&gt;Login&lt;/<span class="tag">a</span>&gt;
+        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"signup.html"</span> <span class="attr">class</span>=<span class="str">"btn"</span>&gt;Sign up&lt;/<span class="tag">a</span>&gt;
+      &lt;/<span class="tag">div</span>&gt;
+    &lt;/<span class="tag">div</span>&gt;
+  &lt;/<span class="tag">header</span>&gt;</div></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 2 · الكود</p><h2 class="anim-2">كود الـ <span class="highlight-blue">CSS</span></h2><p class="subtitle anim-3">ملف <code class="c">style.css</code>: ضيف الكود ده بعد الكود اللي قبله.</p><div class="stack wide anim-4"><div class="code-window"><div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div><div class="code-body code-sm"><span class="comment">/* Navbar */</span>
+<span class="sel">.navbar</span> {
+  <span class="prop">background</span>: <span class="num">#fff</span>;
+  <span class="prop">border-bottom</span>: <span class="num">1px</span> <span class="kw">solid</span> <span class="num">#e5e7eb</span>;
+  <span class="prop">position</span>: <span class="kw">sticky</span>;
+  <span class="prop">top</span>: <span class="num">0</span>;
+  <span class="prop">z-index</span>: <span class="num">10</span>;
+}
+
+<span class="sel">.nav-inner</span> {
+  <span class="prop">display</span>: <span class="kw">flex</span>;
+  <span class="prop">align-items</span>: <span class="kw">center</span>;
+  <span class="prop">justify-content</span>: <span class="kw">space-between</span>;
+  <span class="prop">height</span>: <span class="num">64px</span>;
+}
+
+<span class="sel">.logo-img</span> {
+  <span class="prop">height</span>: <span class="num">34px</span>;
+  <span class="prop">width</span>: <span class="kw">auto</span>;
+  <span class="prop">border-radius</span>: <span class="num">6px</span>;
+  <span class="prop">vertical-align</span>: <span class="kw">middle</span>;
+  <span class="prop">margin-inline-end</span>: <span class="num">8px</span>;
+}
+
+<span class="sel">.logo</span> {
+  <span class="prop">font-size</span>: <span class="num">24px</span>;
+  <span class="prop">font-weight</span>: <span class="kw">bold</span>;
+  <span class="prop">color</span>: <span class="num">#7a4b2a</span>;
+}
+
+<span class="sel">.logo span</span> {
+  <span class="prop">color</span>: <span class="num">#f59e0b</span>;
+}
+
+<span class="sel">.nav-links</span> {
+  <span class="prop">display</span>: <span class="kw">flex</span>;
+  <span class="prop">gap</span>: <span class="num">24px</span>;
+}
+
+<span class="sel">.nav-auth</span> {
+  <span class="prop">display</span>: <span class="kw">flex</span>;
+  <span class="prop">align-items</span>: <span class="kw">center</span>;
+  <span class="prop">gap</span>: <span class="num">16px</span>;
+}
+
+.nav-links <span class="prop">a</span>:<span class="kw">hover</span>,
+<span class="sel">.nav-login:hover</span> {
+  <span class="prop">color</span>: <span class="num">#7a4b2a</span>;
+}</div></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 3 · الشكل النهائي</p><h2 class="anim-2">الـ <span class="highlight-teal">Footer</span></h2><p class="subtitle anim-3">3 أعمدة بالـ Grid: عمود كبير عن المتجر وعمودين للينكات، وتحتهم سطر حقوق النشر.</p><div class="stack wide anim-4"><iframe class="frame" style="height:380px" title="preview" loading="lazy" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Lozina Toaster&lt;/title&gt;
+  &lt;style&gt;
+/* reset: remove default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body = flex column, so the footer stays at the bottom */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7f6;
+  color: #1f2937;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* centered content wrapper */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* spacing and page headings */
+.section {
+  padding-top: 50px;
+}
+
+.page-title {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.page-sub {
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* main button */
+.btn {
+  display: inline-block;
+  background: #7a4b2a;
+  color: #fff;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #5e3a20;
+}
+
+/* Navbar */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo-img {
+  height: 34px;
+  width: auto;
+  border-radius: 6px;
+  vertical-align: middle;
+  margin-inline-end: 8px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #7a4b2a;
+}
+
+.logo span {
+  color: #f59e0b;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links a:hover,
+.nav-login:hover {
+  color: #7a4b2a;
+}
+
+/* Footer */
+.footer {
+  background: #1f2937;
+  color: #d1d5db;
+  padding-top: 40px;
+  margin-top: 60px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+
+.footer h3,
+.footer h4 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.footer a {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.footer a:hover {
+  color: #f59e0b;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
+  margin-top: 32px;
+  border-top: 1px solid #374151;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;header class=&quot;navbar&quot;&gt;
+    &lt;div class=&quot;container nav-inner&quot;&gt;
+      &lt;a href=&quot;#&quot; class=&quot;logo&quot;&gt;&lt;img src=&quot;https://scontent.fcai19-9.fna.fbcdn.net/v/t39.30808-6/476027888_1040011351498331_2443888775141855312_n.jpg?stp=dst-jpg_tt6&amp;cstp=mx3314x1265&amp;ctp=s960x960&amp;_nc_cat=104&amp;_nc_map=urlgen_bucketless&amp;ccb=1-7&amp;_nc_sid=cc71e4&amp;_nc_ohc=hvOXy7D7YR8Q7kNvwET59qE&amp;_nc_oc=Ados5GpCfTMXoMamXBXdpkJYD-4gkk4PyPQFOozdWb8FGIOLVaTh_zXnvqI6Ih1IDn0&amp;_nc_zt=23&amp;_nc_ht=scontent.fcai19-9.fna&amp;_nc_gid=fzWaO2X55shhA14R6jIF7g&amp;_nc_ss=7b2a8&amp;oh=00_AQOGIIq9qq3ur_mdcAYb2arueqUry7n2yt-XifT94BxDKQ&amp;oe=6AD14536&quot; alt=&quot;&quot; class=&quot;logo-img&quot;&gt;Lozi&lt;span&gt;na&lt;/span&gt;&lt;/a&gt;
+
+      &lt;nav class=&quot;nav-links&quot;&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/nav&gt;
+
+      &lt;div class=&quot;nav-auth&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;nav-login&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main class=&quot;container section&quot;&gt;
+    &lt;p class=&quot;page-sub&quot;&gt;The page content goes here...&lt;/p&gt;
+  &lt;/main&gt;
+
+  &lt;footer class=&quot;footer&quot;&gt;
+    &lt;div class=&quot;container footer-grid&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Lozina Toaster&lt;/h3&gt;
+        &lt;p&gt;Finest coffee, nuts and snacks. Come taste the difference.&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Pages&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Categories&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Products&lt;/a&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        &lt;h4&gt;Account&lt;/h4&gt;
+        &lt;a href=&quot;#&quot;&gt;Login&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Sign up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;p class=&quot;copyright&quot;&gt;&amp;copy; 2026 Lozina Toaster. All rights reserved.&lt;/p&gt;
+  &lt;/footer&gt;
+
+&lt;script&gt;document.addEventListener(&#x27;keydown&#x27;,function(e){var n=e.target&amp;&amp;e.target.tagName;if(n===&#x27;INPUT&#x27;||n===&#x27;TEXTAREA&#x27;)return;parent.postMessage({__k:e.key},&#x27;*&#x27;)});document.addEventListener(&#x27;submit&#x27;,function(e){e.preventDefault()});&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe><div class="chips"><span class="chips-label">هنستخدم:</span><span class="chip">display: grid</span><span class="chip">grid-template-columns</span><span class="chip">fr</span><span class="chip">gap</span></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 3 · خطوات التنفيذ</p><h2 class="anim-2">خطوات التنفيذ</h2><div class="step-list anim-3"><div class="step-item"><span class="topic-num">1</span><div>اكتب <code class="c">&lt;footer class="footer"&gt;</code> في آخر الـ <code class="c">&lt;body&gt;</code>، بعد الـ <code class="c">&lt;main&gt;</code>.</div></div><div class="step-item"><span class="topic-num">2</span><div>جواه <code class="c">&lt;div class="container footer-grid"&gt;</code> وفيه 3 أقسام (div): عن المتجر، الصفحات، الحساب.</div></div><div class="step-item"><span class="topic-num">3</span><div>فعّل الـ Grid بـ <code class="c">grid-template-columns: 2fr 1fr 1fr</code>. يعني العمود الأول ضعف التاني والتالت.</div></div><div class="step-item"><span class="topic-num">4</span><div>حط <code class="c">gap</code> للمسافة بين الأعمدة، وخلّي كل لينك <code class="c">display: block</code> عشان ينزلوا تحت بعض.</div></div><div class="step-item"><span class="topic-num">5</span><div>ضيف سطر الحقوق <code class="c">.copyright</code> تحت الأعمدة، وخط فاصل فوقه بـ <code class="c">border-top</code>.</div></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 3 · الكود</p><h2 class="anim-2">كود الـ <span class="highlight-orange">HTML</span></h2><p class="subtitle anim-3">ملف <code class="c">index.html</code>: الصق الكود ده بعد <code class="c">&lt;/main&gt;</code> وقبل <code class="c">&lt;/body&gt;</code>.</p><div class="stack wide anim-4"><div class="code-window"><div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">index.html</span></div><div class="code-body code-sm">  &lt;<span class="tag">footer</span> <span class="attr">class</span>=<span class="str">"footer"</span>&gt;
+    &lt;<span class="tag">div</span> <span class="attr">class</span>=<span class="str">"container footer-grid"</span>&gt;
+      &lt;<span class="tag">div</span>&gt;
+        &lt;<span class="tag">h3</span>&gt;Lozina Toaster&lt;/<span class="tag">h3</span>&gt;
+        &lt;<span class="tag">p</span>&gt;Finest coffee, nuts and snacks. Come taste the difference.&lt;/<span class="tag">p</span>&gt;
+      &lt;/<span class="tag">div</span>&gt;
+
+      &lt;<span class="tag">div</span>&gt;
+        &lt;<span class="tag">h4</span>&gt;Pages&lt;/<span class="tag">h4</span>&gt;
+        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"index.html"</span>&gt;Home&lt;/<span class="tag">a</span>&gt;
+        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"categories.html"</span>&gt;Categories&lt;/<span class="tag">a</span>&gt;
+        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"products.html"</span>&gt;Products&lt;/<span class="tag">a</span>&gt;
+      &lt;/<span class="tag">div</span>&gt;
+
+      &lt;<span class="tag">div</span>&gt;
+        &lt;<span class="tag">h4</span>&gt;Account&lt;/<span class="tag">h4</span>&gt;
+        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"login.html"</span>&gt;Login&lt;/<span class="tag">a</span>&gt;
+        &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"signup.html"</span>&gt;Sign up&lt;/<span class="tag">a</span>&gt;
+      &lt;/<span class="tag">div</span>&gt;
+    &lt;/<span class="tag">div</span>&gt;
+
+    &lt;<span class="tag">p</span> <span class="attr">class</span>=<span class="str">"copyright"</span>&gt;&amp;copy; 2026 Lozina Toaster. All rights reserved.&lt;/<span class="tag">p</span>&gt;
+  &lt;/<span class="tag">footer</span>&gt;</div></div></div></div>
+<div class="slide"><p class="slide-tag anim-1">الخطوة 3 · الكود</p><h2 class="anim-2">كود الـ <span class="highlight-blue">CSS</span></h2><p class="subtitle anim-3">ملف <code class="c">style.css</code>: ضيف الكود ده بعد الـ Navbar.</p><div class="stack wide anim-4"><div class="code-window"><div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div><div class="code-body code-sm"><span class="comment">/* Footer */</span>
+<span class="sel">.footer</span> {
+  <span class="prop">background</span>: <span class="num">#1f2937</span>;
+  <span class="prop">color</span>: <span class="num">#d1d5db</span>;
+  <span class="prop">padding-top</span>: <span class="num">40px</span>;
+  <span class="prop">margin-top</span>: <span class="num">60px</span>;
+}
+
+<span class="sel">.footer-grid</span> {
+  <span class="prop">display</span>: <span class="kw">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="num">2fr</span> <span class="num">1fr</span> <span class="num">1fr</span>;
+  <span class="prop">gap</span>: <span class="num">32px</span>;
+}
+
+<span class="sel">.footer h3</span>,
+<span class="sel">.footer h4</span> {
+  <span class="prop">color</span>: <span class="num">#fff</span>;
+  <span class="prop">margin-bottom</span>: <span class="num">12px</span>;
+}
+
+<span class="sel">.footer a</span> {
+  <span class="prop">display</span>: <span class="kw">block</span>;
+  <span class="prop">margin-bottom</span>: <span class="num">8px</span>;
+}
+
+<span class="sel">.footer a:hover</span> {
+  <span class="prop">color</span>: <span class="num">#f59e0b</span>;
+}
+
+<span class="sel">.copyright</span> {
+  <span class="prop">text-align</span>: <span class="kw">center</span>;
+  <span class="prop">font-size</span>: <span class="num">14px</span>;
+  <span class="prop">padding</span>: <span class="num">20px</span>;
+  <span class="prop">margin-top</span>: <span class="num">32px</span>;
+  <span class="prop">border-top</span>: <span class="num">1px</span> <span class="kw">solid</span> <span class="num">#374151</span>;
+}</div></div></div></div>
+<div class="slide"><div class="glow-blob glow-blue" style="top:-110px;right:-110px;"></div><p class="slide-tag anim-1">خلّصنا المرحلة 1</p><h2 class="anim-2">برافو! <span class="highlight-teal">الأساس</span> جاهزة ✅</h2><p class="subtitle anim-3">اتأكد إن كل الصفحات بتفتح من غير مشاكل قبل ما تكمّل. المرحلة الجاية: <b>الصفحات</b>.</p><p class="subtitle anim-4 mt-24"><a href="lozina-phase2.html" style="display:inline-block;background:var(--accent-teal);color:#0d1117;padding:10px 28px;border-radius:999px;text-decoration:none;font-weight:900">افتح المرحلة 2 ←</a></p></div>
+</div>
+<div class="controls">
+  <button id="prev" type="button">السابق</button>
+  <span id="counter"></span>
+  <button id="next" type="button">التالي</button>
+</div>
+<script>
+(function(){
+  var slides = [].slice.call(document.querySelectorAll('.slide'));
+  var progress = document.getElementById('progress');
+  var counter = document.getElementById('counter');
+  var cur = 0;
+  function go(i){
+    if(i < 0 || i >= slides.length) return;
+    slides[cur].classList.remove('active');
+    cur = i;
+    slides[cur].classList.add('active');
+    slides[cur].scrollTop = 0;
+    progress.style.width = ((cur + 1) / slides.length * 100) + '%';
+    counter.textContent = (cur + 1) + ' / ' + slides.length;
+    try { history.replaceState(null, '', '#' + (cur + 1)); } catch(e) {}
+  }
+  function key(k){
+    if(k === 'ArrowLeft' || k === 'PageDown' || k === ' ' || k === 'Enter') go(cur + 1);
+    else if(k === 'ArrowRight' || k === 'PageUp' || k === 'Backspace') go(cur - 1);
+    else if(k === 'Home') go(0);
+    else if(k === 'End') go(slides.length - 1);
+    else if(k === 'f' || k === 'F'){
+      if(document.fullscreenElement) document.exitFullscreen();
+      else if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function(){});
+    }
+  }
+  document.addEventListener('keydown', function(e){
+    var n = e.target && e.target.tagName;
+    if(n === 'INPUT' || n === 'TEXTAREA') return;
+    if(n === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return;
+    if(e.key === ' ') e.preventDefault();
+    key(e.key);
+  });
+  window.addEventListener('message', function(e){ if(e.data && e.data.__k) key(e.data.__k); });
+  document.getElementById('next').addEventListener('click', function(){ go(cur + 1); });
+  document.getElementById('prev').addEventListener('click', function(){ go(cur - 1); });
+  var h = parseInt((location.hash || '').slice(1), 10);
+  if(h >= 1 && h <= slides.length) go(h - 1); else go(0);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+div {
+    height: 700px;
+    width: 700px;
+    padding: 10px;
+    margin: 20px;
+    color: white;
+    text-align: center;
+    background-color: red;
+    background-image: url('images/back.png');
+    /* background-repeat: no-repeat; */
+    
+     background-size:contain;
+    /*
+    background-attachment: local;
+    background-origin: padding-box;
+    /* 
+    background: red url("images/lesson.png")
+    no-repeat center right/contain border-box */
+
+    /* background-image:
+        radial-gradient(ellipse 300px 100px, red 1%, violet 80%); */
+}

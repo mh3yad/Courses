@@ -1,0 +1,4 @@
+focus on store data in vars
+print them
+var vs string
+var with string

@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    background: gray;
+    width: 800px;
+    height: 300px;
+}
+
+.container div {
+    /* width: 100px;
+    height: 100px; */
+    padding: 10px;
+    margin: 10px;
+}
+
+.v1 {
+    background: cyan;
+}
+
+.v2 {
+    background: rgb(213, 11, 11);
+}
+
+.v3 {
+    background: wheat;
+}

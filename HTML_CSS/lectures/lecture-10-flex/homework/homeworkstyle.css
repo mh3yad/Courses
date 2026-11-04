@@ -1,0 +1,27 @@
+ .navbar {
+     background: rgb(237, 235, 172);
+     height: 50px;
+     margin: 10px;
+     padding: 10px;
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     align-items: center;
+     box-shadow: 10px 10px 10px rgb(105, 215, 105);
+     border-radius: 15px;
+     border: 2px solid rgb(105, 149, 105);
+ }
+
+ a {
+     text-decoration: none;
+     color: rgb(6, 168, 221);
+     font-size: 20px;
+     font-weight: bold;
+     text-shadow: 0px 0px 5px rgb(114, 221, 60);
+ }
+
+ img {
+     width: 50px;
+     height: 50px;
+     border-radius:5px;
+ }

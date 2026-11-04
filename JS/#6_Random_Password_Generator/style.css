@@ -1,0 +1,123 @@
+:root {
+    --bg: #f4f5f7;
+    --card: #fff;
+    --text: #1c1e21;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --accent-text: #fff;
+    --border: #d1d5db;
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px)
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg: #15171a;
+        --card: #1f2226;
+        --text: #eceef1;
+        --muted: #9aa1ab;
+        --accent: #4f8cff;
+        --accent-text: #0b1220;
+        --border: #3a3f46;
+        color-scheme: dark
+    }
+}
+
+:root[data-theme="dark"] {
+    --bg: #15171a;
+    --card: #1f2226;
+    --text: #eceef1;
+    --muted: #9aa1ab;
+    --accent: #4f8cff;
+    --accent-text: #0b1220;
+    --border: #3a3f46;
+    color-scheme: dark
+}
+
+html {
+    scroll-padding-top: env(safe-area-inset-top, 0px)
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box
+}
+
+h1 {
+    font-size: 1.3rem;
+    margin: 0 0 18px
+}
+
+label {
+    display: block;
+    font-size: .9rem;
+    color: var(--muted);
+    margin-bottom: 6px
+}
+
+input[type=number] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text)
+}
+
+.opts {
+    margin: 16px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px
+}
+
+.opts label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: var(--text);
+    font-size: .95rem
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 0;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--accent-text);
+    cursor: pointer;
+    font-weight: 600
+}
+
+.out {
+    margin-top: 18px;
+    padding: 12px;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    word-break: break-all;
+    min-height: 1.4em;
+    text-align: center;
+}

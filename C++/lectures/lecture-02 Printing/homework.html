@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>كويز C++ — cout و endl</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1b1f2a;--mut:#6b7385;--pri:#2f6fed;--ok:#1f9d55;--okbg:#e3f6ea;--no:#d93a3a;--nobg:#fde6e6;--bd:#dfe3ee;--code:#eef1f8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--card:#1b2030;--tx:#eef0f6;--mut:#9aa3b8;--pri:#6c9bff;--ok:#4cd08a;--okbg:#17382a;--no:#ff7a7a;--nobg:#3f1d1d;--bd:#2b3248;--code:#262d42}}
+:root[data-theme="dark"]{--bg:#12151c;--card:#1b2030;--tx:#eef0f6;--mut:#9aa3b8;--pri:#6c9bff;--ok:#4cd08a;--okbg:#17382a;--no:#ff7a7a;--nobg:#3f1d1d;--bd:#2b3248;--code:#262d42}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font-family:"Segoe UI",Tahoma,"Noto Sans Arabic",Arial,sans-serif;display:flex;flex-direction:column}
+.bar{height:6px;background:var(--bd)}
+.bar i{display:block;height:100%;width:0;background:var(--pri);transition:width .3s}
+.top{display:flex;justify-content:space-between;padding:12px 20px;color:var(--mut);font-size:15px}
+.stage{flex:1;display:flex;align-items:center;justify-content:center;padding:12px;overflow:auto}
+.slide{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:28px;width:100%;max-width:760px}
+h1{font-size:clamp(26px,5vw,40px);margin:0 0 12px}
+h2{font-size:clamp(20px,3.6vw,28px);margin:0 0 20px;line-height:1.6}
+p{color:var(--mut);font-size:18px;line-height:1.8;margin:0 0 8px}
+code{direction:ltr;unicode-bidi:isolate;display:inline-block;background:var(--code);padding:1px 8px;border-radius:6px;font-family:Consolas,Menlo,monospace;font-size:.95em}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:start;background:var(--card);color:var(--tx);border:2px solid var(--bd);border-radius:14px;padding:14px 16px;margin:0 0 10px;font:inherit;font-size:18px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--pri)}
+.opt b{flex:none;width:30px;height:30px;border-radius:50%;background:var(--code);display:grid;place-items:center;font-size:15px}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.no{border-color:var(--no);background:var(--nobg)}
+.why{margin-top:8px;padding:12px 14px;border-radius:12px;background:var(--code);font-size:17px;line-height:1.7;display:none}
+.why.show{display:block}
+.nav{display:flex;justify-content:space-between;gap:10px;padding:12px 20px 18px}
+button.n{background:var(--pri);color:#fff;border:0;border-radius:12px;padding:12px 26px;font:inherit;font-size:17px;cursor:pointer}
+button.n:disabled{opacity:.35;cursor:default}
+.score{font-size:64px;font-weight:700;color:var(--pri);margin:10px 0}
+</style>
+</head>
+<body>
+<div class="bar"><i id="pb"></i></div>
+<div class="top"><span>C++ : cout و endl</span><span id="cnt"></span></div>
+<div class="stage"><div class="slide" id="s"></div></div>
+<div class="nav"><button class="n" id="nx">التالي ←</button><button class="n" id="pv">→ السابق</button></div>
+<script>
+var Q=[
+["أنهي سطر بيطبع كلمة Hello على الشاشة؟",['cout << "Hello";','print "Hello";','say("Hello");','write Hello;'],0,"`cout` هي أمر الطباعة في C++."],
+["إيه الهيدر اللي لازم نكتبه عشان نستخدم `cout`؟",['#include <stdio>','#include <iostream>','#include <print>','#include <cout>'],1,"`cout` موجودة جوه `iostream`."],
+["`cout` بتعمل إيه؟",['بتاخد قيمة من المستخدم','بتمسح الشاشة','بتطبع على الشاشة','بتجمع رقمين'],2,"cout = الطباعة على الشاشة."],
+["أنهي علامة بتتكتب بعد `cout`؟",['>>','==','=>','<<'],3,"بنستخدم `<<` مع cout (واتفرج على السهم رايح ناحية الشاشة)."],
+["`endl` بتعمل إيه؟",['بتخلي الطباعة تنزل سطر جديد','بتقفل البرنامج','بتطبع كلمة end','بتمسح الكود'],0,"`endl` = end line يعني سطر جديد."],
+["كل سطر في C++ المفروض ينتهي بإيه؟",['نقطة .','علامة :','فاصلة ,','فاصلة منقوطة ;'],3,"السطر بيخلص بـ `;`."],
+["إيه ناتج: `cout << \"Hi\" << endl;`",['Hi','"Hi"','endl','Hi endl'],0,"بيطبع Hi وبعدها بينزل سطر."],
+["إيه ناتج: `cout << 5 + 3;`",['5+3','53','8','خطأ'],2,"الأول بيجمع 5+3 وبعدين يطبع 8."],
+["إيه ناتج: `cout << \"5 + 3\";`",['8','5 + 3','53','خطأ'],1,"اللي بين علامتين تنصيص بيتطبع زي ما هو."],
+["إيه ناتج: `cout << \"Ali\" << \"Omar\";`",['Ali Omar','Ali','AliOmar','Omar'],2,"من غير مسافة ولا endl الكلمتين بيلزقوا في بعض."],
+["إزاي نطبع Ali وOmar كل واحد في سطر؟",['cout << "Ali" << "Omar";','cout << "Ali" << endl << "Omar";','cout << "Ali Omar";','cout << endl;'],1,"حطّ `endl` بين الكلمتين."],
+["أنهي سطر فيه غلطة؟",['cout << "Hi";','cout << 10;','cout << "Hi"','cout << endl;'],2,"السطر الناقص `;` في آخره."],
+["الكلام اللي عايزين نطبعه كنص بنكتبه بين إيه؟",['علامتين تنصيص " "','أقواس { }','أقواس [ ]','علامتين < >'],0,"النص بيتحط بين `\" \"`."],
+["من غير `using namespace std;` بنكتب إزاي؟",['cout::std','std::cout','std.cout','cout.std'],1,"بنكتب `std::cout`."],
+["إيه ناتج: `cout << \"A\" << endl << \"B\";`",['AB','A B','A وتحتها B في سطر جديد','B وتحتها A'],2,"`endl` نزلت سطر بين A وB."]
+];
+var i=-1,ans=[],sc=0,s=document.getElementById('s'),L="ABCD";
+function f(t){return t.replace(/</g,'&lt;').replace(/`([^`]+)`/g,'<code>$1</code>')}
+function cd(t){return /[a-zA-Z#:<;]/.test(t)&&!/[\u0600-\u06FF]/.test(t)?'<code>'+t.replace(/</g,'&lt;')+'</code>':f(t)}
+function render(){
+ var n=Q.length;
+ document.getElementById('pb').style.width=Math.max(0,i)/n*100+'%';
+ document.getElementById('cnt').textContent=i>=0&&i<n?'سؤال '+(i+1)+' من '+n:'';
+ document.getElementById('pv').disabled=i<=0||i>=n;
+ var nx=document.getElementById('nx');
+ nx.disabled=i>=n||(i>=0&&ans[i]===undefined);
+ nx.textContent=i===-1?'يلا نبدأ ←':(i===n-1?'النتيجة ←':'التالي ←');
+ if(i===-1){s.innerHTML='<h1>كويز C++ 🖨️</h1><p>١٥ سؤال سهلين عن الطباعة بـ <code>cout</code> و <code>endl</code>.</p><p>اختار الإجابة وهتعرف صح ولا غلط على طول.</p>';return}
+ if(i>=n){s.innerHTML='<h1>خلصت! 🎉</h1><div class="score">'+sc+' / '+n+'</div><p>'+(sc>=13?'عظمة! إنت فاهم الطباعة كويس.':sc>=8?'كويس! راجع الأسئلة الغلط وهتبقى تمام.':'متقلقش، اقرا الشرح تاني وجرب تاني.')+'</p><p><button class="n" onclick="restart()">ابدأ من الأول</button></p>';return}
+ var q=Q[i],h='<h2>'+f(q[0])+'</h2>';
+ q[1].forEach(function(o,k){h+='<button class="opt" data-k="'+k+'"><b>'+L[k]+'</b><span>'+cd(o)+'</span></button>'});
+ h+='<div class="why" id="why">'+f(q[3])+'</div>';
+ s.innerHTML=h;
+ s.querySelectorAll('.opt').forEach(function(b){b.onclick=function(){pick(+b.dataset.k)}});
+ if(ans[i]!==undefined)mark();
+}
+function pick(k){if(ans[i]!==undefined)return;ans[i]=k;if(k===Q[i][2])sc++;mark();render2()}
+function mark(){
+ var c=Q[i][2];
+ s.querySelectorAll('.opt').forEach(function(b){var k=+b.dataset.k;b.disabled=true;if(k===c)b.classList.add('ok');else if(k===ans[i])b.classList.add('no')});
+ var w=document.getElementById('why');w.classList.add('show');
+ w.innerHTML=(ans[i]===c?'✅ صح! ':'❌ غلط. ')+f(Q[i][3]);
+}
+function render2(){document.getElementById('nx').disabled=false}
+function restart(){i=-1;ans=[];sc=0;render()}
+document.getElementById('nx').onclick=function(){i++;render()};
+document.getElementById('pv').onclick=function(){if(i>0){i--;render()}};
+document.onkeydown=function(e){
+ if(e.key==='ArrowLeft'&&!document.getElementById('nx').disabled)document.getElementById('nx').click();
+ if(e.key==='ArrowRight')document.getElementById('pv').click();
+ if(i>=0&&i<Q.length&&'1234'.indexOf(e.key)>=0)pick(+e.key-1);
+};
+render();
+</script>
+</body>
+</html>

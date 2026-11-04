@@ -1,0 +1,22 @@
+    body {
+        text-align: center;
+        font-family: monospace;
+    }
+
+    .pillar {
+        background-color: rgb(101, 143, 156);
+        color: white;
+        border-radius: 20px;
+    }
+    
+    video {
+        margin: 10px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .header {
+        background: rgb(128, 201, 10) url('../images/repeat.gif');
+    }

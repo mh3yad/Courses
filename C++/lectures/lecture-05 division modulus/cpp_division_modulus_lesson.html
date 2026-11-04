@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدرس: Division & Modulus في C++</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1117;
+  --bg2:#161b27;
+  --card:#1c2333;
+  --text:#e6edf3;
+  --text-muted:#9aa7b8;
+  --text-dim:#6e7a8a;
+  --accent-blue:#2f81f7;
+  --accent-teal:#39c5cf;
+  --accent-green:#3fb950;
+  --accent-orange:#d29922;
+  --accent-red:#f85149;
+  --accent-purple:#bc8cff;
+  --code-bg:#0b0f16;
+  --ln:#4b5263;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Cairo',sans-serif;
+  font-weight:700;
+  overflow:hidden;
+  direction:rtl;
+}
+.deck{position:fixed;inset:0;}
+.slide{
+  position:absolute;inset:0;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  text-align:center;
+  min-height:100vh;
+  padding:clamp(54px,7vh,96px) clamp(20px,3vw,64px) clamp(76px,10vh,128px);
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior-y:contain;
+}
+.slide.active{display:flex;}
+h1{font-size:clamp(48px,6.4vw,104px);line-height:1.28;font-weight:900;}
+h2{font-size:clamp(36px,4.35vw,72px);line-height:1.32;font-weight:900;margin-bottom:14px;}
+.slide-tag{
+  color:var(--accent-teal);
+  letter-spacing:1px;
+  font-size:clamp(28px,2vw,36px);
+  margin-bottom:18px;
+  border:1px solid rgba(57,197,207,.35);
+  padding:6px 22px;border-radius:999px;
+  background:rgba(57,197,207,.08);
+}
+.subtitle{color:var(--text-muted);font-size:clamp(28px,2.4vw,42px);max-width:none;width:100%;line-height:1.8;}
+.mt-16{margin-top:22px;} .mt-24{margin-top:30px;}
+/* highlights */
+.highlight-blue{color:var(--accent-blue);}
+.highlight-teal{color:var(--accent-teal);}
+.highlight-green{color:var(--accent-green);}
+.highlight-orange{color:var(--accent-orange);}
+.highlight-red{color:var(--accent-red);}
+.highlight-purple{color:var(--accent-purple);}
+.gradient-text{background:linear-gradient(90deg,var(--accent-blue),var(--accent-purple));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.rainbow-text{background:linear-gradient(90deg,#2f81f7,#39c5cf,#3fb950,#d29922,#f85149,#bc8cff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.rainbow-line{height:4px;width:180px;border-radius:2px;margin:22px auto 0;background:linear-gradient(90deg,#2f81f7,#39c5cf,#3fb950,#d29922,#f85149,#bc8cff);}
+/* glow blobs */
+.glow-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.28;pointer-events:none;z-index:0;}
+.glow-blue{background:var(--accent-blue);width:420px;height:420px;}
+.glow-teal{background:var(--accent-teal);width:420px;height:420px;}
+.glow-purple{background:var(--accent-purple);width:420px;height:420px;}
+.glow-green{background:var(--accent-green);width:420px;height:420px;}
+.slide>*{position:relative;z-index:1;}
+/* code window (VSCode One Dark Pro) */
+.code-window{
+  direction:ltr;text-align:left;
+  background:var(--code-bg);
+  border:1px solid #30363d;
+  border-radius:12px;
+  max-width:none!important;width:100%;
+  margin:24px auto 0;
+  box-shadow:0 12px 40px rgba(0,0,0,.5);
+  font-family:'Cascadia Code','Fira Code',Consolas,monospace;
+}
+.code-titlebar{
+  display:flex;align-items:center;gap:8px;
+  background:#161b22;padding:13px 18px;
+  border-bottom:1px solid #21262d;
+}
+.code-dot{width:14px;height:14px;border-radius:50%;}
+.code-dot.red{background:#ff5f57;} .code-dot.yellow{background:#febc2e;} .code-dot.green{background:#28c840;}
+.code-filename{color:var(--text-dim);font-size:28px;margin-left:12px;font-family:'Cairo',sans-serif;font-weight:700;}
+.code-body{
+  padding:28px 32px;
+  font-size:clamp(28px,2.5vw,44px);
+  line-height:1.7;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  overflow-x:hidden;
+}
+.ln{color:var(--ln);user-select:none;margin-right:22px;}
+/* syntax colors - One Dark Pro (VSCode) */
+.tag{color:#e06c75;} .attr{color:#d19a66;} .str{color:#98c379;}
+.kw{color:#c678dd;} .fn{color:#61afef;} .prop{color:#e5c07b;}
+.punc{color:#56b6c2;} .comment{color:#5c6370;font-style:italic;} .num{color:#d19a66;}
+/* generic card */
+.card{
+  background:var(--card);border:1px solid #2b3446;border-radius:16px;
+  padding:34px 42px;max-width:none;width:100%;
+}
+/* topics list */
+.topics-list{
+  display:flex;flex-direction:column;gap:16px;margin-top:30px;width:100%;
+}
+.topic-item{
+  display:flex;align-items:center;gap:14px;
+  background:var(--card);border:1px solid #2b3446;border-radius:14px;
+  padding:20px 32px;font-size:clamp(28px,2.5vw,42px);
+  transition:transform .2s,border-color .2s;
+}
+.topic-item:hover{transform:translateX(-6px);border-color:var(--accent-teal);}
+.topic-num{
+  min-width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:28px;color:#0d1117;background:var(--accent-teal);
+}
+/* vs cards */
+.vs-container{display:flex;align-items:center;gap:34px;margin-top:34px;flex-wrap:wrap;justify-content:center;width:100%;}
+.vs-card{background:var(--card);border:1px solid #2b3446;border-radius:18px;padding:34px 38px;flex:1 1 40%;width:auto;}
+.vs-name{font-size:clamp(30px,3vw,46px);font-weight:900;margin:6px 0;}
+.vs-desc{color:var(--text-muted);font-size:clamp(28px,2.1vw,36px);line-height:1.8;}
+.vs-plus{font-size:58px;font-weight:900;color:var(--accent-teal);animation:pulse 1.6s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.25);opacity:.6;}}
+/* flip cards */
+.flip-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:32px;justify-content:center;width:100%;}
+.flip-card{position:relative;width:100%;height:280px;perspective:1000px;cursor:pointer;}
+.flip-front,.flip-back{
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;
+  transition:transform .6s;
+}
+.flip-front{background:var(--card);border:2px solid var(--accent-teal);}
+.flip-back{background:var(--bg2);border:2px solid var(--accent-purple);transform:rotateY(180deg);}
+.flip-card.flipped .flip-front{transform:rotateY(180deg);}
+.flip-card.flipped .flip-back{transform:rotateY(360deg);}
+.flip-title{font-size:clamp(28px,2.4vw,42px);font-weight:900;}
+.flip-subtitle{color:var(--text-muted);font-size:28px;line-height:1.8;}
+.flip-hint{font-size:28px;color:var(--text-dim);margin-top:8px;}
+.flip-detail{font-size:clamp(28px,2.2vw,38px);color:var(--text-muted);line-height:1.9;text-align:center;}
+/* clock diagram */
+.clock-wrap{margin-top:20px;direction:ltr;}
+.hstack{display:flex;align-items:center;justify-content:center;gap:clamp(30px,5vw,90px);margin-top:28px;flex-wrap:wrap;direction:ltr;width:100%;}
+.clock{width:min(440px,60vw);height:min(440px,60vw);}
+/* stats / revision */
+.stats-row{display:flex;gap:28px;margin-top:34px;flex-wrap:wrap;justify-content:center;width:100%;}
+.stat-card{background:var(--card);border:1px solid #2b3446;border-radius:16px;padding:30px 42px;min-width:300px;flex:1 1 40%;}
+.stat-number{font-size:clamp(32px,3.3vw,52px);font-weight:900;}
+.stat-label{font-size:28px;margin-top:8px;}
+.stat-desc{color:var(--text-muted);font-size:28px;margin-top:6px;line-height:1.8;}
+/* chrome */
+.branding{position:fixed;top:20px;right:26px;z-index:50;display:flex;align-items:center;gap:12px;color:var(--text-muted);font-size:18px;}
+.branding-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent-blue),var(--accent-teal));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;}
+.slide-nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:50;}
+.nav-dot{width:10px;height:10px;border-radius:50%;background:#30363d;cursor:pointer;transition:.2s;}
+.nav-dot.active{background:var(--accent-teal);transform:scale(1.35);}
+.progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--accent-blue),var(--accent-teal));z-index:60;transition:width .3s;}
+.slide-counter{position:fixed;bottom:24px;right:26px;color:var(--text-dim);font-size:17px;z-index:50;}
+.nav-hints{position:fixed;bottom:24px;left:26px;color:var(--text-dim);font-size:16px;z-index:50;}
+kbd{background:#21262d;border:1px solid #30363d;border-radius:6px;padding:3px 9px;font-family:inherit;}
+/* Enlarge the small inline teaching notes used on a few slides. */
+.slide .subtitle[style*="font-size:14px"]{font-size:28px!important;}
+.topic-item span[style*="font-size:14px"]{font-size:28px!important;}
+.slide h2 span[style*="font-size:15px"]{font-size:28px!important;}
+.card > p[style]{font-size:28px!important;}
+.card > div[style]{font-size:28px!important;}
+/* particles */
+.particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.particle{position:absolute;border-radius:50%;background:var(--accent-teal);opacity:.15;animation:floatUp linear infinite;}
+@keyframes floatUp{from{transform:translateY(110vh);}to{transform:translateY(-10vh);}}
+/* animations */
+.anim-1{animation:fadeInUp .5s .05s both;}
+.anim-2{animation:fadeInUp .5s .18s both;}
+.anim-3{animation:fadeInUp .5s .3s both;}
+.anim-4{animation:fadeInUp .5s .45s both;}
+.anim-5{animation:fadeInUp .5s .6s both;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@media (max-width:640px){
+  .slide{padding:58px 22px 84px;}
+  .flip-grid{grid-template-columns:minmax(240px,90vw);}
+  .vs-card{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+<div class="branding"><div class="branding-icon">٪</div> C++ Basics</div>
+<div class="slide-nav" id="slideNav"></div>
+<div class="progress-bar" id="progress"></div>
+<div class="slide-counter" id="counter"></div>
+<div class="nav-hints"><span><kbd>←</kbd> <kbd>→</kbd> للتنقل &nbsp; <kbd>F</kbd> ملء الشاشة</span></div>
+
+<div class="deck">
+
+<!-- Slide 0: Title -->
+<div class="slide active" data-slide="0">
+  <div class="glow-blob glow-blue" style="top:-120px;left:-120px;"></div>
+  <div class="glow-blob glow-purple" style="bottom:-140px;right:-100px;"></div>
+  <p class="slide-tag anim-1">درس C++ للمبتدئين</p>
+  <h1 class="anim-2">القسمة و الـ <span class="rainbow-text">Modulus</span><br>فـي <span class="highlight-teal">C++</span></h1>
+  <div class="rainbow-line anim-3"></div>
+  <p class="subtitle anim-4 mt-24">هنتعلم إزاي نشتغل بالأرقام بطريقة سهلة و ذكية 👌</p>
+  <p class="subtitle anim-5" style="font-size:14px;margin-top:10px;">بنستخدم <strong>/</strong> للقسمة و <strong>%</strong> للـ Modulus</p>
+  <script type="application/json" class="slide-notes">
+  {"title":"Title","script":"أهلًا بالجميع. النهاردة هنتكلم عن حاجتين أساسيتين في C++: القسمة والـ Modulus. دول أدوات هتستخدموا في كل برنامج تقريبًا.","notes":["رحّب بالطلبة","اسألهم: مين جرّب يقسم رقمين في C++ قبل كده؟"]}
+  </script>
+</div>
+
+<!-- Slide 1: Topics -->
+<div class="slide" data-slide="1">
+  <p class="slide-tag anim-1">خريطة الدرس</p>
+  <h2 class="anim-2">إيه اللي هنغطيه <span class="highlight-blue">النهاردة؟</span></h2>
+  <div class="topics-list anim-3">
+    <div class="topic-item"><span class="topic-num">1</span> الـ Modulus <span style="color:var(--text-dim);font-size:14px;">(يعني إيه %)</span></div>
+    <div class="topic-item"><span class="topic-num">2</span> الـ Modulus بيشتغل إزاي — بفكرة <span class="highlight-teal">الساعة</span> 🕐</div>
+    <div class="topic-item"><span class="topic-num">3</span> استخدام الـ Modulus عشان نعرف الرقم <span class="highlight-green">بيقبل القسمة</span> على رقم معين ولا لأ</div>
+    <div class="topic-item"><span class="topic-num">4</span> الـ Modulus على 2 → <span class="highlight-purple">Odd ولا Even</span></div>
+    <div class="topic-item"><span class="topic-num">5</span> الـ Modulus على 10 → <span class="highlight-orange">آخر رقم</span></div>
+    <div class="topic-item"><span class="topic-num">6</span> القسمة على 10 → <span class="highlight-red">نشيل آخر رقم</span></div>
+    <div class="topic-item"><span class="topic-num">7</span> مراجعة سريعة 📝</div>
+  </div>
+  <script type="application/json" class="slide-notes">
+  {"title":"Topics","script":"دي خريطة الدرس. سبع محطات بسيطة: نفهم الـ Modulus، نشوفه بالساعة، نستخدمه في القابلية للقسمة، الفردي والزوجي، آخر رقم، ونشيل آخر رقم بالقسمة، وفي الآخر مراجعة.","notes":["خلّي الطلبة يعرفوا إن الدرس قصير وبسيط"]}
+  </script>
+</div>
+
+<!-- Slide 2: What is Modulus -->
+<div class="slide" data-slide="2">
+  <div class="glow-blob glow-teal" style="top:-100px;right:-100px;"></div>
+  <p class="slide-tag anim-1">الجزء الأول</p>
+  <h2 class="anim-2">الـ <span class="highlight-teal">Modulus</span> ده إيه أصلاً؟ 🤔</h2>
+  <p class="subtitle anim-3" style="margin-top:10px;">الـ Modulus يعني <strong>الباقي</strong> — الرقم اللي بيفضل بعد ما تقسم</p>
+  <div class="code-window anim-3">
+    <div class="code-titlebar">
+      <div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div>
+      <span class="code-filename">modulus.cpp</span>
+    </div>
+    <div class="code-body"><span class="ln">1</span><span class="kw">#include</span> <span class="punc">&lt;</span><span class="str">iostream</span><span class="punc">&gt;</span>
+<span class="ln">2</span><span class="kw">using namespace</span> <span class="prop">std</span><span class="punc">;</span>
+<span class="ln">3</span>
+<span class="ln">4</span><span class="kw">int</span> <span class="fn">main</span><span class="punc">()</span> <span class="punc">{</span>
+<span class="ln">5</span>    <span class="prop">cout</span> <span class="punc">&lt;&lt;</span> <span class="num">17</span> <span class="punc">%</span> <span class="num">5</span><span class="punc">;</span>   <span class="comment">// هيطبع 2</span>
+<span class="ln">6</span>    <span class="kw">return</span> <span class="num">0</span><span class="punc">;</span>
+<span class="ln">7</span><span class="punc">}</span></div>
+  </div>
+  <p class="subtitle anim-4 mt-16">ليه 2؟ عشان <span class="highlight-teal">5 × 3 = 15</span> و اللي باقي من 17 هو <span class="highlight-teal">2</span> ✅</p>
+  <script type="application/json" class="slide-notes">
+  {"title":"What is Modulus","script":"الـ Modulus بيرجعلك الباقي. 17 على 5 فيها 3 والباقي 2. يعني 17 modulus 5 يساوي 2.","notes":["اكتب 17 % 5 على السبورة وحلها خطوة خطوة","فرّق بين / اللي بترجع الناتج و % اللي بترجع الباقي"]}
+  </script>
+</div>
+
+<!-- Slide 3: Clockwise -->
+<div class="slide" data-slide="3">
+  <div class="glow-blob glow-blue" style="bottom:-120px;left:10%;"></div>
+  <p class="slide-tag anim-1">إزاي بيشتغل</p>
+  <h2 class="anim-2">الـ Modulus شغال <span class="highlight-blue">زي الساعة</span> 🕐</h2>
+  <p class="subtitle anim-3" style="margin-top:8px;">فكّر فيها كده: الساعة ماشية في <strong>دائرة</strong> — لما توصل 12 بترجع تبدأ من 1 تاني</p>
+  <div class="hstack anim-3">
+  <div class="clock-wrap">
+    <svg class="clock" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="90" fill="none" stroke="#2b3446" stroke-width="3"/>
+      <circle cx="100" cy="100" r="6" fill="#39c5cf"/>
+      <text x="100" y="30" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="bold">12</text>
+      <text x="175" y="105" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="bold">3</text>
+      <text x="100" y="182" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="bold">6</text>
+      <text x="25" y="105" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="bold">9</text>
+      <path d="M 100 100 L 100 45" stroke="#2f81f7" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 100 100 L 140 80" stroke="#39c5cf" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 165 65 A 65 65 0 0 1 172 92" fill="none" stroke="#3fb950" stroke-width="3" marker-end="url(#arr)"/>
+      <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#3fb950" stroke-width="1.5"/></marker></defs>
+    </svg>
+  </div>
+  <div class="code-window" style="max-width:480px;">
+    <div class="code-titlebar">
+      <div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div>
+      <span class="code-filename">clock.cpp</span>
+    </div>
+    <div class="code-body"><span class="ln">1</span><span class="prop">cout</span> <span class="punc">&lt;&lt;</span> <span class="num">14</span> <span class="punc">%</span> <span class="num">12</span><span class="punc">;</span>  <span class="comment">// هيطبع 2</span>
+<span class="ln">2</span><span class="prop">cout</span> <span class="punc">&lt;&lt;</span> <span class="num">25</span> <span class="punc">%</span> <span class="num">12</span><span class="punc">;</span>  <span class="comment">// هيطبع 1</span></div>
+  </div>
+  </div>
+  <script type="application/json" class="slide-notes">
+  {"title":"Clockwise","script":"الساعة بتلف في دائرة. لو الساعة دلوقتي 12 وعدّيت 14 ساعة، هتبقى الساعة 2. ده بالظبط 14 modulus 12 يساوي 2. الرقم بيلف ويرجع من الأول.","notes":["ارسم دائرة على السبورة وعدّ من 12","25 ساعة بعد 12 = الساعة 1 → 25 % 12 = 1"]}
+  </script>
+</div>
+
+<!-- Slide 4: Divisibility -->
+<div class="slide" data-slide="4">
+  <div class="glow-blob glow-green" style="top:20%;left:-120px;"></div>
+  <p class="slide-tag anim-1">استخدام عملي</p>
+  <h2 class="anim-2">الرقم ده <span class="highlight-green">بيقبل القسمة</span> على 5 ولا لأ؟</h2>
+  <p class="subtitle anim-3" style="margin-top:8px;">القاعدة ذهبية: لو الباقي <strong>صفر</strong> يبقى الرقم <strong>بيقبل القسمة</strong></p>
+  <div class="code-window anim-3">
+    <div class="code-titlebar">
+      <div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div>
+      <span class="code-filename">divide.cpp</span>
+    </div>
+    <div class="code-body"><span class="ln">1</span><span class="kw">int</span> <span class="prop">n</span> <span class="punc">=</span> <span class="num">20</span><span class="punc">;</span>
+<span class="ln">2</span>
+<span class="ln">3</span><span class="kw">if</span> <span class="punc">(</span><span class="prop">n</span> <span class="punc">%</span> <span class="num">5</span> <span class="punc">==</span> <span class="num">0</span><span class="punc">)</span> <span class="punc">{</span>
+<span class="ln">4</span>    <span class="prop">cout</span> <span class="punc">&lt;&lt;</span> <span class="str">"yes, divisible"</span><span class="punc">;</span>  <span class="comment">// 20 % 5 = 0 ✅</span>
+<span class="ln">5</span><span class="punc">}</span> <span class="kw">else</span> <span class="punc">{</span>
+<span class="ln">6</span>    <span class="prop">cout</span> <span class="punc">&lt;&lt;</span> <span class="str">"no"</span><span class="punc">;</span>
+<span class="ln">7</span><span class="punc">}</span></div>
+  </div>
+  <p class="subtitle anim-4 mt-16">نفس الفكرة تشتغل مع أي رقم: <span class="highlight-green">n % 3</span> , <span class="highlight-green">n % 7</span> , <span class="highlight-green">n % 9</span> ... إلخ</p>
+  <script type="application/json" class="slide-notes">
+  {"title":"Divisibility","script":"عايز تعرف الرقم بيقبل القسمة على رقم معين ولا لأ؟ اعمل modulus وشوف لو الناتج صفر. 20 % 5 = 0 يبقى 20 بيقبل القسمة على 5.","notes":["المقارنة اللي بنستخدمها دايمًا هي == 0","دربهم: 21 بيقبل القسمة على 7؟"]}
+  </script>
+</div>
+
+<!-- Slide 5: Odd / Even -->
+<div class="slide" data-slide="5">
+  <div class="glow-blob glow-purple" style="top:-100px;left:30%;"></div>
+  <p class="slide-tag anim-1">تطبيق مشهور</p>
+  <h2 class="anim-2">الرقم <span class="highlight-purple">Odd</span> ولا <span class="highlight-teal">Even</span>؟</h2>
+  <div class="vs-container anim-3">
+    <div class="vs-card">
+      <div class="vs-name highlight-teal">Even 🟢</div>
+      <div class="vs-desc">لو <strong style="color:var(--accent-teal);">n % 2 == 0</strong><br>يبقى الرقم <strong>Even</strong> (زوجي)</div>
+    </div>
+    <div class="vs-plus">+</div>
+    <div class="vs-card">
+      <div class="vs-name highlight-purple">Odd 🟣</div>
+      <div class="vs-desc">لو <strong style="color:var(--accent-purple);">n % 2 == 1</strong><br>يبقى الرقم <strong>Odd</strong> (فردي)</div>
+    </div>
+  </div>
+  <div class="code-window anim-4" style="max-width:620px;">
+    <div class="code-titlebar">
+      <div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div>
+      <span class="code-filename">odd_even.cpp</span>
+    </div>
+    <div class="code-body"><span class="ln">1</span><span class="kw">int</span> <span class="prop">n</span> <span class="punc">=</span> <span class="num">7</span><span class="punc">;</span>
+<span class="ln">2</span>
+<span class="ln">3</span><span class="kw">if</span> <span class="punc">(</span><span class="prop">n</span> <span class="punc">%</span> <span class="num">2</span> <span class="punc">==</span> <span class="num">0</span><span class="punc">)</span>
+<span class="ln">4</span>    <span class="prop">cout</span> <span class="punc">&lt;&lt;</span> <span class="str">"Even"</span><span class="punc">;</span>   <span class="comment">// 7 % 2 = 1 → مش هنا</span>
+<span class="ln">5</span><span class="kw">else</span>
+<span class="ln">6</span>    <span class="prop">cout</span> <span class="punc">&lt;&lt;</span> <span class="str">"Odd"</span><span class="punc">;</span>    <span class="comment">// ✅ هيتطبع Odd</span></div>
+  </div>
+  <script type="application/json" class="slide-notes">
+  {"title":"Odd or Even","script":"أشهر استخدام للـ Modulus: n % 2. لو الناتج صفر يبقى Even، لو واحد يبقى Odd. ده سؤال بيتسأل في كل امتحان تقريبًا.","notes":["7 % 2 = 1 → Odd","جرّب معاهم: 10 , 13 , 100"]}
+  </script>
+</div>
+
+<!-- Slide 6: %10 last digit -->
+<div class="slide" data-slide="6">
+  <div class="glow-blob glow-orange" style="bottom:-100px;right:-100px;"></div>
+  <p class="slide-tag anim-1">ترفند ذكي</p>
+  <h2 class="anim-2">عايز <span class="highlight-orange">آخر رقم</span>؟ اعمل Modulus على 10</h2>
+  <div class="code-window anim-3" style="max-width:600px;">
+    <div class="code-titlebar">
+      <div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div>
+      <span class="code-filename">last_digit.cpp</span>
+    </div>
+    <div class="code-body"><span class="ln">1</span><span class="kw">int</span> <span class="prop">n</span> <span class="punc">=</span> <span class="num">1234</span><span class="punc">;</span>
+<span class="ln">2</span>
+<span class="ln">3</span><span class="prop">cout</span> <span class="punc">&lt;&lt;</span> <span class="prop">n</span> <span class="punc">%</span> <span class="num">10</span><span class="punc">;</span>  <span class="comment">// هيطبع 4 → آخر رقم</span></div>
+  </div>
+  <div class="stats-row anim-4">
+    <div class="stat-card"><div class="stat-number highlight-orange">1234 % 10</div><div class="stat-label">الناتج</div><div class="stat-desc">4 — آخر رقم على اليمين</div></div>
+    <div class="stat-card"><div class="stat-number highlight-orange">987 % 10</div><div class="stat-label">الناتج</div><div class="stat-desc">7 — برضه آخر رقم</div></div>
+  </div>
+  <script type="application/json" class="slide-notes">
+  {"title":"Last digit with % 10","script":"لما تعمل Modulus على 10، بيجيبلك آخر رقم في الرقم. 1234 % 10 = 4. سؤال: ليه؟ عشان أي رقم آخره على 10 بيبقى هو نفسه الباقي.","notes":["1234 = 123 × 10 + 4","مثال سريع: 987 % 10 = 7"]}
+  </script>
+</div>
+
+<!-- Slide 7: /10 remove last digit -->
+<div class="slide" data-slide="7">
+  <div class="glow-blob glow-red" style="top:10%;left:-100px;"></div>
+  <p class="slide-tag anim-1">العكس بالظبط</p>
+  <h2 class="anim-2">عايز <span class="highlight-red">تشيل آخر رقم</span>؟ اقسم على 10</h2>
+  <div class="code-window anim-3" style="max-width:620px;">
+    <div class="code-titlebar">
+      <div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div>
+      <span class="code-filename">remove_last.cpp</span>
+    </div>
+    <div class="code-body"><span class="ln">1</span><span class="kw">int</span> <span class="prop">n</span> <span class="punc">=</span> <span class="num">1234</span><span class="punc">;</span>
+<span class="ln">2</span>
+<span class="ln">3</span><span class="prop">n</span> <span class="punc">=</span> <span class="prop">n</span> <span class="punc">/</span> <span class="num">10</span><span class="punc">;</span>   <span class="comment">// 123 → اتشال الـ 4</span>
+<span class="ln">4</span><span class="prop">cout</span> <span class="punc">&lt;&lt;</span> <span class="prop">n</span><span class="punc">;</span>        <span class="comment">// هيطبع 123</span></div>
+  </div>
+  <p class="subtitle anim-4 mt-16">⚠️ لازم تكون شغال بـ <span class="highlight-teal">int</span> مش <span class="highlight-orange">double</span> — عشان القسمة تتجاهل الكسر</p>
+  <script type="application/json" class="slide-notes">
+  {"title":"Remove last digit with / 10","script":"عكس الترفند اللي فات: القسمة على 10 بتشيل آخر رقم. 1234 / 10 = 123. بس انتبه: لو الشغل double هتطلعلك 123.4 — لازم int.","notes":["شدد على الفرق بين int و double","لو عايز تمسح رقمين: اقسم على 100"]}
+  </script>
+</div>
+
+<!-- Slide 8: Revision (flip cards) -->
+<div class="slide" data-slide="8">
+  <p class="slide-tag anim-1">مراجعة</p>
+  <h2 class="anim-2">يلا نراجع <span class="highlight-blue">بسرعة</span> 📝 <span style="font-size:15px;color:var(--text-dim);font-weight:700;">(اضغط على أي كارت)</span></h2>
+  <div class="flip-grid anim-3">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-front" style="border-color:var(--accent-teal);">
+        <div class="flip-title">% يعني إيه؟</div>
+        <div class="flip-hint">click to flip</div>
+      </div>
+      <div class="flip-back" style="border-color:var(--accent-teal);">
+        <div class="flip-detail">الباقي بعد القسمة<br><strong style="color:var(--accent-teal);">17 % 5 = 2</strong></div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-front" style="border-color:var(--accent-purple);">
+        <div class="flip-title">Odd ولا Even؟</div>
+        <div class="flip-hint">click to flip</div>
+      </div>
+      <div class="flip-back" style="border-color:var(--accent-purple);">
+        <div class="flip-detail">اعمل <strong style="color:var(--accent-purple);">n % 2</strong><br>0 → Even | 1 → Odd</div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-front" style="border-color:var(--accent-orange);">
+        <div class="flip-title">آخر رقم إزاي؟</div>
+        <div class="flip-hint">click to flip</div>
+      </div>
+      <div class="flip-back" style="border-color:var(--accent-orange);">
+        <div class="flip-detail"><strong style="color:var(--accent-orange);">n % 10</strong><br>1234 % 10 = 4</div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-front" style="border-color:var(--accent-red);">
+        <div class="flip-title">نشيل آخر رقم إزاي؟</div>
+        <div class="flip-hint">click to flip</div>
+      </div>
+      <div class="flip-back" style="border-color:var(--accent-red);">
+        <div class="flip-detail"><strong style="color:var(--accent-red);">n / 10</strong> (بـ int)<br>1234 / 10 = 123</div>
+      </div>
+    </div>
+  </div>
+  <script type="application/json" class="slide-notes">
+  {"title":"Revision","script":"مراجعة سريعة بكروت قلابة. اطلب من الطلبة يقولوا الإجابة قبل ما يقلبوا الكارت.","notes":["سيب وقت للطلبة يجاوبوا الأول","كارت زيادة: إزاي تعرف الرقم بيقبل القسمة على 7؟"]}
+  </script>
+</div>
+
+<!-- Slide 9: CTA -->
+<div class="slide" data-slide="9">
+  <div class="glow-blob glow-blue" style="top:30%;left:30%;"></div>
+  <div class="glow-blob glow-teal" style="bottom:20%;right:20%;"></div>
+  <h2 class="anim-1">جرب بنفسك على <span class="gradient-text">الكمبيوتر</span> 💻</h2>
+  <p class="subtitle anim-2 mt-16">أفضل طريقة للتعلم: اكتب الكود و غيّر الأرقام و شوف النتيجة</p>
+  <div class="card anim-3" style="margin-top:24px;text-align:right;">
+    <p style="font-size:16px;color:var(--text-muted);margin-bottom:12px;">تمارين سريعة:</p>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;line-height:1.8;">
+      <div><span style="color:var(--accent-teal);">●</span> اطبع آخر رقم في رقم الموبايل بتاعك (n % 10)</div>
+      <div><span style="color:var(--accent-green);">●</span> اكتب برنامج يقوللك رقم random بـ Even ولا Odd</div>
+      <div><span style="color:var(--accent-purple);">●</span> امسح آخر رقمين من رقم كبير (اقسم على 100 😉)</div>
+    </div>
+  </div>
+  <div class="rainbow-line anim-4 mt-24"></div>
+  <p class="subtitle anim-5" style="font-size:14px;margin-top:10px;">أسئلة؟ ولا حاجة مش واضحة؟</p>
+  <script type="application/json" class="slide-notes">
+  {"title":"CTA","script":"خلّصنا! أهم حاجة إنهم يجربوا بإيدهم. التلات تمارين دول هيثبتوا الدرس كويس.","notes":["شجعهم يجربوا في البيت","الدرس الجاي: Loop مع الـ Modulus — عشان نعكس رقم!"]}
+  </script>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var nav = document.getElementById('slideNav');
+  var progress = document.getElementById('progress');
+  var counter = document.getElementById('counter');
+  var current = 0;
+
+  slides.forEach(function(s, i){
+    var d = document.createElement('div');
+    d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', function(){ go(i); });
+    nav.appendChild(d);
+  });
+
+  function logNotes(i){
+    try{
+      var noteEl = slides[i].querySelector('.slide-notes');
+      if(noteEl){
+        var n = JSON.parse(noteEl.textContent);
+        console.log('%c📋 Slide ' + (i+1) + ': ' + n.title + '\n' + '━'.repeat(40) + '\n' + n.script + '\n\n  • ' + n.notes.join('\n  • ') + '\n' + '━'.repeat(40), 'color:#39c5cf;font-weight:bold;');
+      }
+    }catch(e){}
+  }
+
+  function go(i){
+    if(i < 0 || i >= slides.length) return;
+    slides[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    var dots = nav.children;
+    for(var k = 0; k < dots.length; k++) dots[k].classList.toggle('active', k === current);
+    progress.style.width = ((current + 1) / slides.length * 100) + '%';
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+    logNotes(current);
+  }
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight') go(current - 1); // RTL deck
+    if(e.key === 'ArrowLeft') go(current + 1);
+    if(e.key === ' ') { e.preventDefault(); go(current + 1); }
+    if(e.key.toLowerCase() === 'f'){
+      if(document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen().catch(function(){});
+    }
+  });
+
+  // particles
+  var pWrap = document.getElementById('particles');
+  for(var p = 0; p < 18; p++){
+    var el = document.createElement('div');
+    el.className = 'particle';
+    var size = 2 + Math.random() * 4;
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animationDuration = (8 + Math.random() * 14) + 's';
+    el.style.animationDelay = (Math.random() * 10) + 's';
+    pWrap.appendChild(el);
+  }
+
+  progress.style.width = (1 / slides.length * 100) + '%';
+  counter.textContent = '1 / ' + slides.length;
+  logNotes(0);
+})();
+</script>
+</body>
+</html>

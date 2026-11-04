@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+button {
+    font-size: 30px;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+
+#result {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.win {
+    color: green;
+}
+
+.lose {
+    color: red;
+}
+
+.disabled {
+    background: gray;
+    color: white;
+    cursor: not-allowed;
+}

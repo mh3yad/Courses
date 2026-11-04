@@ -1,0 +1,51 @@
+* {
+    margin:0px;
+    padding:0px;
+    background:black;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgb(224, 224, 224);
+    position:sticky;
+    top:0px;
+}
+
+.nav-logo img {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+}
+
+.nav-link a {
+    text-decoration: none;
+    color:black;
+}
+
+.nav-btn button{
+    background:rgb(62, 235, 235);
+    padding:10px;
+}
+
+
+.item{
+    width:300px;
+    height:300px;
+    border:2px solid red;
+    overflow: auto;
+    margin:10px 0px;
+}
+
+.whatsapp-icon video{
+    width:150px;
+    height:150px;   
+
+}
+
+.whatsapp-icon{
+    position:fixed;
+    bottom:10px;
+    right:10px;
+}

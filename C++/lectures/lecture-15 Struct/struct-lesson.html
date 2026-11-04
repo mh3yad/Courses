@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Struct في ++C | لوغاريتم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-900:#0a1628;
+    --navy-800:#0f1e35;
+    --navy-700:#152742;
+    --navy-600:#1c3252;
+    --blue:#4c8dff;
+    --blue-soft:#2d5fb8;
+    --coral:#ff6b5b;
+    --text-hi:#eef2f8;
+    --text-lo:#8ea0bd;
+    --line:#223252;
+    --code-bg:#1113;
+    --editor-bg:#12192a;
+    /* vscode dark+ tokens */
+    --tok-kw:#569cd6;
+    --tok-type:#4ec9b0;
+    --tok-str:#ce9178;
+    --tok-num:#b5cea8;
+    --tok-com:#6a9955;
+    --tok-fn:#dcdcaa;
+    --tok-var:#9cdcfe;
+    --tok-txt:#d4d4d4;
+    --tok-punc:#d4d4d4;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-snap-type:y mandatory; scroll-behavior:smooth;}
+
+  body{
+    font-family:'Cairo', sans-serif;
+    background:var(--navy-900);
+    color:var(--text-hi);
+    overflow-x:hidden;
+  }
+
+  section.slide{
+    min-height:100vh;
+    width:100%;
+    scroll-snap-align:start;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:64px 8vw;
+    position:relative;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(circle at 85% 12%, rgba(76,141,255,.10), transparent 45%),
+      radial-gradient(circle at 10% 90%, rgba(255,107,91,.08), transparent 40%),
+      var(--navy-900);
+  }
+
+  .slide-inner{ width:100%; max-width:980px; }
+
+  .eyebrow{
+    color:var(--coral);
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.3px;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow .dash{ width:28px; height:3px; background:var(--coral); border-radius:3px; display:inline-block; }
+
+  h1{
+    font-weight:900;
+    font-size:clamp(34px, 5vw, 58px);
+    line-height:1.25;
+    color:var(--text-hi);
+  }
+  h1 .accent{ color:var(--blue); }
+
+  h2{
+    font-weight:800;
+    font-size:clamp(28px,4vw,42px);
+    margin-bottom:28px;
+    color:var(--text-hi);
+  }
+
+  p.lead{
+    font-size:clamp(17px,1.7vw,21px);
+    line-height:2;
+    color:var(--text-lo);
+    font-weight:600;
+    max-width:780px;
+  }
+  p.lead b{ color:var(--text-hi); }
+  p.lead .en{ font-family:'JetBrains Mono', monospace; direction:ltr; unicode-bidi:embed; color:var(--blue); font-weight:600; }
+
+  /* code blocks — vscode style */
+  .code-window{
+    margin-top:28px;
+    background:var(--editor-bg);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+    direction:ltr;
+    text-align:left;
+  }
+  .code-titlebar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 14px;
+    background:var(--navy-700);
+    border-bottom:1px solid var(--line);
+  }
+  .code-titlebar .dot{ width:11px; height:11px; border-radius:50%; }
+  .dot.red{ background:#ff5f56; }
+  .dot.yellow{ background:#ffbd2e; }
+  .dot.green{ background:#27c93f; }
+  .code-titlebar .fname{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    color:var(--text-lo);
+    margin-inline-start:8px;
+  }
+  pre.code{
+    padding:20px 22px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:clamp(12.5px, 1.35vw, 15px);
+    line-height:1.85;
+    overflow-x:auto;
+    color:var(--tok-txt);
+  }
+  pre.code .kw{ color:var(--tok-kw); }
+  pre.code .type{ color:var(--tok-type); }
+  pre.code .str{ color:var(--tok-str); }
+  pre.code .num{ color:var(--tok-num); }
+  pre.code .com{ color:var(--tok-com); font-style:italic; }
+  pre.code .fn{ color:var(--tok-fn); }
+  pre.code .var{ color:var(--tok-var); }
+
+  .bad-label, .good-label{
+    display:inline-flex; align-items:center; gap:8px;
+    font-weight:800; font-size:13.5px;
+    padding:5px 12px; border-radius:20px;
+    margin-bottom:12px;
+  }
+  .bad-label{ background:rgba(255,107,91,.12); color:var(--coral); }
+  .good-label{ background:rgba(76,141,255,.12); color:var(--blue); }
+
+  /* agenda */
+  .agenda-list{ list-style:none; display:flex; flex-direction:column; gap:4px; }
+  .agenda-list li{
+    display:flex; align-items:center; gap:18px;
+    padding:16px 20px;
+    border-radius:10px;
+    border:1px solid transparent;
+    font-size:clamp(16px,1.9vw,20px);
+    font-weight:700;
+    color:var(--text-lo);
+    transition:none;
+  }
+  .agenda-list li:nth-child(odd){ background:rgba(255,255,255,.02); }
+  .agenda-list .num{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--blue);
+    font-weight:600;
+    font-size:14px;
+    width:34px;
+    flex-shrink:0;
+  }
+  .agenda-list li b{ color:var(--text-hi); }
+
+  /* real life card */
+  .lib-card{
+    margin-top:30px;
+    background:var(--navy-700);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:26px 30px;
+    max-width:420px;
+    position:relative;
+  }
+  .lib-card::before{
+    content:"";
+    position:absolute; inset-inline-start:0; top:14px; bottom:14px; width:4px;
+    background:var(--coral); border-radius:4px;
+  }
+  .lib-card .field{ display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px dashed var(--line); font-size:15px; }
+  .lib-card .field:last-child{ border-bottom:none; }
+  .lib-card .field .k{ color:var(--text-lo); font-weight:700; }
+  .lib-card .field .v{ color:var(--text-hi); font-weight:700; font-family:'JetBrains Mono', monospace; direction:ltr; }
+
+  /* revision */
+  .rev-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px; }
+  .rev-item{
+    background:var(--navy-700);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+    font-weight:700;
+    font-size:16px;
+    line-height:1.9;
+    color:var(--text-lo);
+  }
+  .rev-item b{ color:var(--blue); }
+  .rev-item .en{ font-family:'JetBrains Mono', monospace; direction:ltr; unicode-bidi:embed; color:var(--coral); }
+
+  /* logo mark */
+  .logo{
+    display:inline-flex; align-items:center; gap:10px;
+    font-weight:900; font-size:20px;
+    color:var(--text-hi);
+    position:absolute; top:34px; inset-inline-end:8vw;
+  }
+  .logo .sq{
+    width:30px; height:30px; border-radius:8px;
+    background:linear-gradient(135deg, var(--blue), var(--coral));
+    display:flex; align-items:center; justify-content:center;
+    color:var(--navy-900); font-family:'JetBrains Mono', monospace; font-weight:800; font-size:15px;
+  }
+
+  .slide-num{
+    position:absolute; bottom:28px; inset-inline-start:8vw;
+    font-family:'JetBrains Mono', monospace;
+    color:var(--text-lo); font-size:13px;
+  }
+
+  /* progress bar */
+  #progress{ position:fixed; top:0; right:0; left:0; height:3px; background:var(--line); z-index:50; }
+  #progress-fill{ height:100%; width:0%; background:linear-gradient(90deg, var(--blue), var(--coral)); transition:width .1s linear; }
+
+  @media (max-width:720px){
+    .rev-grid{ grid-template-columns:1fr; }
+    .logo{ position:static; margin-bottom:20px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"><div id="progress-fill"></div></div>
+
+<!-- 1. COVER -->
+<section class="slide">
+  <span class="logo"><span class="sq">λ</span>لوغاريتم</span>
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>Lesson · ++C</div>
+    <h1>الـ <span class="accent">Struct</span> في ++C</h1>
+    <p class="lead" style="margin-top:22px;">إزاي تجمع كذا <b>variable</b> مرتبطين ببعض في حتة واحدة، بدل ما يبقوا متبعترين في كل حتة.</p>
+  </div>
+  <div class="slide-num">01 / 11</div>
+</section>
+
+<!-- 2. TOPICS -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>Agenda</div>
+    <h2>هنتكلم عن إيه النهاردة</h2>
+    <ul class="agenda-list">
+      <li><span class="num">01</span><b>ليه محتاجين</b> struct</li>
+      <li><span class="num">02</span>مثال من <b>الواقع</b></li>
+      <li><span class="num">03</span><b>Basic Syntax</b></li>
+      <li><span class="num">04</span><b>Create</b> — بتعمل object إزاي</li>
+      <li><span class="num">05</span><b>Read</b> — بتقرا البيانات إزاي</li>
+      <li><span class="num">06</span><b>Write</b> — بتغير البيانات إزاي</li>
+      <li><span class="num">07</span><b>Function</b> جوه الـ struct</li>
+      <li><span class="num">08</span>مثال <b>شامل</b></li>
+      <li><span class="num">09</span><b>Revision</b></li>
+    </ul>
+  </div>
+  <div class="slide-num">02 / 11</div>
+</section>
+
+<!-- 3. WHY -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>ليه محتاجين struct</div>
+    <h2>لما البيانات تتبعتر</h2>
+    <p class="lead">تخيل بتشتغل على بيانات كتاب: العنوان، المؤلف، السعر، عدد الصفحات. لو عملت لكل حاجة <span class="en">variable</span> لوحدها، مفيش حاجة في الكود بتقولك إن كل الـ variables دي بتوصف <b>نفس الكتاب</b>. ولو عندك أكتر من كتاب، الدنيا هتتلخبط أكتر.</p>
+    <div class="code-window">
+      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">without_struct.cpp</span></div>
+      <pre class="code"><span class="bad-label">✕ متبعتر</span>
+<span class="type">string</span> <span class="var">title1</span> = <span class="str">"Clean Code"</span>;
+<span class="type">string</span> <span class="var">author1</span> = <span class="str">"Robert Martin"</span>;
+<span class="type">double</span> <span class="var">price1</span> = <span class="num">250.0</span>;
+<span class="type">int</span> <span class="var">pages1</span> = <span class="num">320</span>;
+<span class="com">// دول كل واحد فيهم منفصل عن التاني، مفيش رابط بينهم</span></pre>
+    </div>
+  </div>
+  <div class="slide-num">03 / 11</div>
+</section>
+
+<!-- 4. REAL LIFE -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>مثال من الواقع</div>
+    <h2>فكّر في بطاقة الكتاب</h2>
+    <p class="lead">في مكتبة حقيقية، كل كتاب ليه <b>بطاقة واحدة</b> مكتوب فيها كل معلوماته مع بعض — مش ورقة لوحدها لكل معلومة. الـ <span class="en">struct</span> في ++C بيعمل بالظبط كده: بيجمعلك البيانات المرتبطة في نوع واحد جديد اسمه <span class="en">Book</span>.</p>
+    <div class="lib-card">
+      <div class="field"><span class="k">Title</span><span class="v">Clean Code</span></div>
+      <div class="field"><span class="k">Author</span><span class="v">R. Martin</span></div>
+      <div class="field"><span class="k">Price</span><span class="v">250.0</span></div>
+      <div class="field"><span class="k">Pages</span><span class="v">320</span></div>
+    </div>
+  </div>
+  <div class="slide-num">04 / 11</div>
+</section>
+
+<!-- 5. BASIC SYNTAX -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>Basic Syntax</div>
+    <h2>إزاي بنكتب الـ struct</h2>
+    <p class="lead">بنبدأ بكلمة <span class="en">struct</span> وبعدها اسم الـ <span class="en">type</span> الجديد (هنا <span class="en">Book</span>)، وجوه الأقواس بنكتب الـ <b>members</b> بتاعته بنفس شكل تعريف الـ variables العادي. ومتنساش <span class="en">;</span> بعد الـ <span class="en">}</span>.</p>
+    <div class="code-window">
+      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">book.cpp</span></div>
+      <pre class="code"><span class="good-label">✓ Struct</span>
+<span class="kw">struct</span> <span class="type">Book</span> {
+    <span class="type">string</span> <span class="var">title</span>;
+    <span class="type">string</span> <span class="var">author</span>;
+    <span class="type">double</span> <span class="var">price</span>;
+    <span class="type">int</span> <span class="var">pages</span>;
+};</pre>
+    </div>
+  </div>
+  <div class="slide-num">05 / 11</div>
+</section>
+
+<!-- 6. CREATE -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>Create</div>
+    <h2>بتعمل object إزاي</h2>
+    <p class="lead">بتعمل <span class="en">variable</span> من نوع <span class="en">Book</span> زي أي <span class="en">data type</span> تاني، وتملى الـ <span class="en">members</span> بالـ <span class="en">dot operator</span>. أو تديله كل القيم مرة واحدة بالترتيب.</p>
+    <div class="code-window">
+      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">main.cpp</span></div>
+      <pre class="code"><span class="type">Book</span> <span class="var">b1</span>;
+<span class="var">b1</span>.<span class="var">title</span>  = <span class="str">"Clean Code"</span>;
+<span class="var">b1</span>.<span class="var">author</span> = <span class="str">"Robert Martin"</span>;
+<span class="var">b1</span>.<span class="var">price</span>  = <span class="num">250.0</span>;
+<span class="var">b1</span>.<span class="var">pages</span>  = <span class="num">320</span>;
+
+<span class="com">// أو أسرع من كده</span>
+<span class="type">Book</span> <span class="var">b2</span> = {<span class="str">"The Hobbit"</span>, <span class="str">"Tolkien"</span>, <span class="num">180.5</span>, <span class="num">310</span>};</pre>
+    </div>
+  </div>
+  <div class="slide-num">06 / 11</div>
+</section>
+
+<!-- 7. READ -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>Read</div>
+    <h2>بتقرا البيانات إزاي</h2>
+    <p class="lead">عشان تقرا أي <span class="en">member</span> جوه الـ <span class="en">struct</span>، بتحط <span class="en">.</span> بعد اسم الـ <span class="en">variable</span> وبعدها اسم الـ <span class="en">member</span>. زي ما بتوصل لصفحة في الكتاب.</p>
+    <div class="code-window">
+      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">main.cpp</span></div>
+      <pre class="code"><span class="var">cout</span> &lt;&lt; <span class="var">b1</span>.<span class="var">title</span> &lt;&lt; <span class="var">endl</span>;
+<span class="var">cout</span> &lt;&lt; <span class="var">b1</span>.<span class="var">price</span> &lt;&lt; <span class="var">endl</span>;
+<span class="com">// هيطبع: Clean Code  ثم  250</span></pre>
+    </div>
+  </div>
+  <div class="slide-num">07 / 11</div>
+</section>
+
+<!-- 8. WRITE -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>Write</div>
+    <h2>بتغيّر البيانات إزاي</h2>
+    <p class="lead">بنفس طريقة القراءة، تقدر تغيّر قيمة أي <span class="en">member</span> وقتما تحب باستخدام نفس الـ <span class="en">dot operator</span>.</p>
+    <div class="code-window">
+      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">main.cpp</span></div>
+      <pre class="code"><span class="var">b1</span>.<span class="var">price</span> = <span class="num">199.99</span>;
+<span class="var">b1</span>.<span class="var">pages</span> = <span class="var">b1</span>.<span class="var">pages</span> + <span class="num">10</span>;
+<span class="com">// السعر اتغير، وعدد الصفحات زاد 10</span></pre>
+    </div>
+  </div>
+  <div class="slide-num">08 / 11</div>
+</section>
+
+<!-- 9. FUNCTION INSIDE STRUCT -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>Function جوه الـ struct</div>
+    <h2>مش بس بيانات، فيه functions كمان</h2>
+    <p class="lead">تقدر تحط <span class="en">function</span> جوه الـ <span class="en">struct</span> نفسه. الـ <span class="en">function</span> دي بتوصل لكل الـ <span class="en">members</span> مباشرة من غير ما تكتب اسم الـ <span class="en">object</span> قبلها.</p>
+    <div class="code-window">
+      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">book.cpp</span></div>
+      <pre class="code"><span class="kw">struct</span> <span class="type">Book</span> {
+    <span class="type">string</span> <span class="var">title</span>;
+    <span class="type">string</span> <span class="var">author</span>;
+    <span class="type">double</span> <span class="var">price</span>;
+    <span class="type">int</span> <span class="var">pages</span>;
+
+    <span class="kw">void</span> <span class="fn">printInfo</span>() {
+        <span class="var">cout</span> &lt;&lt; <span class="var">title</span> &lt;&lt; <span class="str">" - "</span> &lt;&lt; <span class="var">author</span> &lt;&lt; <span class="var">endl</span>;
+        <span class="var">cout</span> &lt;&lt; <span class="str">"Price: "</span> &lt;&lt; <span class="var">price</span> &lt;&lt; <span class="var">endl</span>;
+    }
+};</pre>
+    </div>
+  </div>
+  <div class="slide-num">09 / 11</div>
+</section>
+
+<!-- 10. FULL EXAMPLE -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>مثال شامل</div>
+    <h2>كل حاجة مع بعض</h2>
+    <p class="lead">دلوقتي خلينا نجمع كل اللي اتعلمناه في برنامج واحد كامل.</p>
+    <div class="code-window">
+      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">full_example.cpp</span></div>
+      <pre class="code"><span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="var">std</span>;
+
+<span class="kw">struct</span> <span class="type">Book</span> {
+    <span class="type">string</span> <span class="var">title</span>;
+    <span class="type">string</span> <span class="var">author</span>;
+    <span class="type">double</span> <span class="var">price</span>;
+    <span class="type">int</span> <span class="var">pages</span>;
+
+    <span class="kw">void</span> <span class="fn">printInfo</span>() {
+        <span class="var">cout</span> &lt;&lt; <span class="var">title</span> &lt;&lt; <span class="str">" by "</span> &lt;&lt; <span class="var">author</span> &lt;&lt; <span class="var">endl</span>;
+        <span class="var">cout</span> &lt;&lt; <span class="str">"Price: "</span> &lt;&lt; <span class="var">price</span> &lt;&lt; <span class="str">" | Pages: "</span> &lt;&lt; <span class="var">pages</span> &lt;&lt; <span class="var">endl</span>;
+    }
+};
+
+<span class="type">int</span> <span class="fn">main</span>() {
+    <span class="type">Book</span> <span class="var">b1</span> = {<span class="str">"Clean Code"</span>, <span class="str">"Robert Martin"</span>, <span class="num">250.0</span>, <span class="num">320</span>};
+    <span class="var">b1</span>.<span class="var">price</span> = <span class="num">199.99</span>;
+    <span class="var">b1</span>.<span class="fn">printInfo</span>();
+    <span class="kw">return</span> <span class="num">0</span>;
+}</pre>
+    </div>
+  </div>
+  <div class="slide-num">10 / 11</div>
+</section>
+
+<!-- 11. REVISION -->
+<section class="slide">
+  <div class="slide-inner">
+    <div class="eyebrow"><span class="dash"></span>Revision</div>
+    <h2>اللي لازم يفضل في دماغك</h2>
+    <div class="rev-grid">
+      <div class="rev-item"><b>struct</b> بيخليك تجمع بيانات مختلفة النوع في حتة واحدة.</div>
+      <div class="rev-item">بتعمل <span class="en">object</span> منه زي أي <span class="en">data type</span> عادي.</div>
+      <div class="rev-item">بتوصل للـ <span class="en">members</span> بالـ <span class="en">dot operator</span> <span class="en">( . )</span></div>
+      <div class="rev-item">تقدر <b>تقرا</b> و<b>تكتب</b> فيهم زي أي <span class="en">variable</span> عادي.</div>
+      <div class="rev-item">تقدر تحط <span class="en">function</span> جواه تشتغل على نفس بيانات الـ <span class="en">object</span>.</div>
+      <div class="rev-item">الـ <span class="en">struct</span> بيخلي الكود <b>منظم</b> وأقرب لطريقة تفكيرك في المشكلة.</div>
+    </div>
+  </div>
+  <div class="slide-num">11 / 11</div>
+</section>
+
+<script>
+  const fill = document.getElementById('progress-fill');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    fill.style.width = pct + '%';
+  });
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  document.addEventListener('keydown', (e) => {
+    const y = window.scrollY;
+    const idx = slides.findIndex(s => Math.abs(s.offsetTop - y) < 50);
+    if(e.key === 'ArrowDown' || e.key === 'PageDown'){
+      const next = slides[Math.min(idx+1, slides.length-1)];
+      if(next) next.scrollIntoView({behavior:'smooth'});
+    }
+    if(e.key === 'ArrowUp' || e.key === 'PageUp'){
+      const prev = slides[Math.max(idx-1, 0)];
+      if(prev) prev.scrollIntoView({behavior:'smooth'});
+    }
+  });
+</script>
+</body>
+</html>

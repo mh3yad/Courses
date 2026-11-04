@@ -1,0 +1,32 @@
+.container {
+    background: rgb(233, 145, 145);
+    display: grid;
+    height: 800px;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 2fr 1fr;
+    justify-content: center;
+}
+
+
+
+.header {
+    background: red;
+    grid-column: 1/-1;
+}
+
+.navbar {
+    background: rgb(102, 232, 42);
+}
+
+.content {
+    background: rgb(71, 178, 221);
+}
+
+.sidebar {
+    background: rgb(224, 94, 198);
+}
+
+.footer {
+    background: rgb(237, 221, 74);
+    grid-column: 1/4;
+}

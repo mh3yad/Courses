@@ -1,0 +1,2 @@
+focus on bllean reslut of boolean
+focus on ++ -- 

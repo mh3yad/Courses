@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>الدرس: CSS Transition & Animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b27; --card:#1c2333;
+  --text:#e6edf3; --text-muted:#9aa7b8; --text-dim:#6e7a8a;
+  --accent-blue:#2f81f7; --accent-teal:#39c5cf; --accent-green:#3fb950;
+  --accent-orange:#d29922; --accent-red:#f85149; --accent-purple:#bc8cff;
+  --code-bg:#0b0f16; --ln:#4b5263;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;font-weight:700;overflow:hidden;direction:rtl;}
+.deck{position:fixed;inset:0;}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;min-height:100vh;padding:clamp(46px,6vh,80px) clamp(24px,4vw,80px) clamp(90px,11vh,140px);overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;}
+.slide.active{display:flex;}
+h1{font-size:clamp(58px,7.4vw,120px);line-height:1.25;font-weight:900;}
+h2{font-size:clamp(42px,4.6vw,78px);line-height:1.28;font-weight:900;margin-bottom:14px;}
+.slide-tag{color:var(--accent-teal);letter-spacing:1px;font-size:clamp(26px,2.1vw,34px);margin-bottom:18px;border:1px solid rgba(57,197,207,.35);padding:8px 26px;border-radius:999px;background:rgba(57,197,207,.08);}
+.subtitle{color:var(--text-muted);font-size:clamp(24px,2.1vw,36px);width:100%;line-height:1.75;max-width:1000px;}
+.mt-16{margin-top:20px;} .mt-24{margin-top:28px;}
+.highlight-blue{color:var(--accent-blue);} .highlight-teal{color:var(--accent-teal);} .highlight-green{color:var(--accent-green);}
+.highlight-orange{color:var(--accent-orange);} .highlight-red{color:var(--accent-red);} .highlight-purple{color:var(--accent-purple);}
+.rainbow-text{background:linear-gradient(90deg,#2f81f7,#39c5cf,#3fb950,#d29922,#f85149,#bc8cff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.rainbow-line{height:5px;width:200px;border-radius:2px;margin:22px auto 0;background:linear-gradient(90deg,#2f81f7,#39c5cf,#3fb950,#d29922,#f85149,#bc8cff);}
+.glow-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.28;pointer-events:none;z-index:0;}
+.glow-blue{background:var(--accent-blue);width:420px;height:420px;} .glow-teal{background:var(--accent-teal);width:420px;height:420px;}
+.glow-purple{background:var(--accent-purple);width:420px;height:420px;} .glow-orange{background:var(--accent-orange);width:420px;height:420px;}
+.slide>*{position:relative;z-index:1;}
+.code-window{direction:ltr;text-align:left;background:var(--code-bg);border:1px solid #30363d;border-radius:12px;width:100%;margin:0;box-shadow:0 12px 40px rgba(0,0,0,.5);font-family:'Cascadia Code','Fira Code',Consolas,monospace;}
+.code-titlebar{display:flex;align-items:center;gap:10px;background:#161b22;padding:12px 18px;border-bottom:1px solid #21262d;}
+.code-dot{width:14px;height:14px;border-radius:50%;}
+.code-dot.red{background:#ff5f57;} .code-dot.yellow{background:#febc2e;} .code-dot.green{background:#28c840;}
+.code-filename{color:var(--text-dim);font-size:19px;margin-left:12px;font-family:'Cairo',sans-serif;font-weight:700;}
+.code-body{padding:18px 22px;font-size:clamp(18px,1.5vw,25px);line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;}
+.prop{color:#e5c07b;} .kw{color:#c678dd;} .num{color:#d19a66;} .comment{color:#5c6370;font-style:italic;} .sel{color:#e06c75;} .tag{color:#e06c75;} .attr{color:#d19a66;}
+.topics-list{display:flex;flex-direction:column;gap:14px;margin-top:24px;width:100%;max-width:1000px;}
+.topic-item{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid #2b3446;border-radius:16px;padding:16px 28px;font-size:clamp(23px,2vw,32px);}
+.topic-num{min-width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#0d1117;background:var(--accent-teal);flex-shrink:0;}
+.branding{position:fixed;top:20px;right:26px;z-index:50;display:flex;align-items:center;gap:12px;color:var(--text-muted);font-size:20px;}
+.branding-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent-blue),var(--accent-teal));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;}
+.slide-nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:50;flex-wrap:wrap;max-width:80%;justify-content:center;}
+.nav-dot{width:10px;height:10px;border-radius:50%;background:#30363d;cursor:pointer;transition:.2s;}
+.nav-dot.active{background:var(--accent-teal);transform:scale(1.35);}
+.progress-bar{position:fixed;top:0;left:0;height:5px;background:linear-gradient(90deg,var(--accent-blue),var(--accent-teal));z-index:60;transition:width .3s;}
+.slide-counter{position:fixed;bottom:24px;right:26px;color:var(--text-dim);font-size:19px;z-index:50;}
+.nav-hints{position:fixed;bottom:24px;left:26px;color:var(--text-dim);font-size:18px;z-index:50;}
+kbd{background:#21262d;border:1px solid #30363d;border-radius:6px;padding:4px 11px;font-family:inherit;}
+.anim-1{animation:fadeInUp .5s .05s both;} .anim-2{animation:fadeInUp .5s .18s both;} .anim-3{animation:fadeInUp .5s .3s both;}
+.anim-4{animation:fadeInUp .5s .45s both;} .anim-5{animation:fadeInUp .5s .6s both;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.stack{display:flex;flex-direction:column;gap:18px;width:100%;max-width:820px;margin-top:22px;}
+.demo-box{background:var(--card);border:1px solid #2b3446;border-radius:14px;padding:18px 20px;width:100%;direction:ltr;text-align:left;}
+.demo-label{color:var(--text-dim);font-size:19px;margin-bottom:12px;letter-spacing:.5px;}
+.demo-stage{min-height:110px;background:#0b0f16;border-radius:10px;border:1px dashed #30363d;padding:16px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;}
+.demo-swatch{border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:clamp(15px,1.3vw,19px);text-align:center;padding:6px;}
+.exercise-list{display:flex;flex-direction:column;gap:12px;margin-top:18px;width:100%;text-align:right;max-width:1000px;}
+.exercise-item{display:flex;align-items:flex-start;gap:14px;background:var(--card);border:1px solid #2b3446;border-radius:16px;padding:14px 22px;font-size:clamp(20px,1.7vw,26px);line-height:1.65;}
+.exercise-dot{min-width:11px;height:11px;border-radius:50%;background:var(--accent-teal);margin-top:8px;flex-shrink:0;}
+.live-tag{display:inline-block;background:rgba(63,185,80,.15);color:var(--accent-green);border:1px solid rgba(63,185,80,.4);padding:4px 14px;border-radius:999px;font-size:16px;margin-bottom:10px;}
+@media (max-width:800px){.slide{padding:56px 20px 84px;}}
+
+/* ===== live animation demo components ===== */
+.an-box{width:110px;height:60px;border-radius:10px;background:var(--accent-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;}
+.an-transition{transition:background .3s ease, transform .3s ease;}
+.an-transition:hover{background:var(--accent-teal);transform:scale(1.08);}
+
+.an-translate{transition:transform .3s ease;}
+.an-translate:hover{transform:translateY(-14px);}
+.an-scale{transition:transform .3s ease;background:var(--accent-teal);}
+.an-scale:hover{transform:scale(1.25);}
+.an-rotate{transition:transform .3s ease;background:var(--accent-purple);}
+.an-rotate:hover{transform:rotate(18deg);}
+
+@keyframes kf-slide{from{transform:translateX(0);}to{transform:translateX(140px);}}
+.an-keyframe{animation:kf-slide 1.6s ease-in-out infinite alternate;background:var(--accent-orange);}
+
+@keyframes kf-spin3{to{transform:rotate(360deg);}}
+.an-spin3{animation:kf-spin3 1s linear 3;background:var(--accent-teal);}
+
+@keyframes kf-move{to{transform:translateX(120px);}}
+.an-fill-none{animation:kf-move 2s ease-out 1;background:var(--accent-blue);}
+.an-fill-forwards{animation:kf-move 2s ease-out 1 forwards;background:var(--accent-green);}
+
+@keyframes kf-race{to{transform:translateX(220px);}}
+.an-race{width:70px;height:36px;border-radius:8px;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;font-weight:900;}
+.an-race-linear{animation:kf-race 1.8s linear infinite alternate;background:var(--accent-blue);}
+.an-race-ease{animation:kf-race 1.8s ease infinite alternate;background:var(--accent-teal);}
+.an-race-easeio{animation:kf-race 1.8s ease-in-out infinite alternate;background:var(--accent-purple);}
+
+.an-spinner{width:56px;height:56px;border:7px solid #2b3446;border-top-color:var(--accent-teal);border-radius:50%;animation:kf-spin3b .8s linear infinite;}
+@keyframes kf-spin3b{to{transform:rotate(360deg);}}
+
+.an-btn{background:var(--accent-teal);color:#0d1117;padding:16px 32px;border-radius:10px;font-weight:900;font-size:18px;transition:transform .2s ease, box-shadow .2s ease;cursor:pointer;}
+.an-btn:hover{transform:translateY(-6px);box-shadow:0 10px 24px rgba(0,0,0,.45);}
+
+.an-badge-wrap{display:flex;align-items:center;gap:10px;font-size:30px;}
+.an-badge{width:22px;height:22px;border-radius:50%;background:var(--accent-red);animation:kf-pulse 1.4s ease-in-out infinite;}
+@keyframes kf-pulse{0%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.55;}100%{transform:scale(1);opacity:1;}}
+
+.tr-box{width:70px;height:70px;background:var(--accent-red);border-radius:8px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;text-align:center;overflow:hidden;}
+.tr1{transition:width 2s;} .tr1:hover{width:300px;}
+.tr-multi{transition:width 2s,height 4s,background-color 3s;} .tr-multi:hover{width:260px;height:130px;background-color:var(--accent-green);}
+.tr-bar{width:80px;height:34px;background:var(--accent-red);border-radius:6px;color:#fff;font-size:14px;display:flex;align-items:center;padding:0 10px;white-space:nowrap;transition:width 2s;} .tr-bar:hover{width:330px;}
+.tl1{transition-timing-function:linear;} .tl2{transition-timing-function:ease;} .tl3{transition-timing-function:ease-in;} .tl4{transition-timing-function:ease-out;} .tl5{transition-timing-function:ease-in-out;}
+.tr-delay{transition-property:width;transition-duration:2s;transition-timing-function:linear;transition-delay:1s;} .tr-delay:hover{width:300px;}
+.tr-short{transition:width 2s linear 1s;font-size:11px;} .tr-short:hover{width:300px;}
+
+.ab{width:60px;height:60px;background:red;position:relative;border-radius:8px;cursor:pointer;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ab.bar{width:92px;height:32px;font-size:12px;white-space:nowrap;}
+@keyframes ab1{from{background-color:red;}to{background-color:yellow;}}
+@keyframes ab2{0%{background-color:red;}25%{background-color:yellow;}50%{background-color:blue;}100%{background-color:green;}}
+@keyframes ab3{0%{background-color:red;left:0;top:0;}25%{background-color:yellow;left:200px;top:0;}50%{background-color:blue;left:200px;top:200px;}75%{background-color:green;left:0;top:200px;}100%{background-color:red;left:0;top:0;}}
+@keyframes ab4{from{background-color:yellow;left:0;}to{background-color:green;left:200px;}}
+@keyframes ab5{from{background-color:red;left:0;}to{background-color:yellow;left:250px;}}
+.ab1{animation:ab1 4s;} .ab2{animation:ab2 4s;} .ab3{animation:ab3 4s;} .ab5{animation-name:ab5;animation-duration:4s;}
+.ad1{animation-delay:2s;} .ad2{animation-delay:-2s;}
+.ai1{animation-iteration-count:3;} .ai2{animation-iteration-count:infinite;}
+.bar[class*="at"]{animation:ab5 3s infinite alternate;}
+.at1{animation-timing-function:linear!important;} .at2{animation-timing-function:ease!important;} .at3{animation-timing-function:ease-in!important;} .at4{animation-timing-function:ease-out!important;} .at5{animation-timing-function:ease-in-out!important;}
+.ad-n,.ad-r,.ad-a,.ad-ar{animation-name:ab5;animation-duration:3s;animation-iteration-count:2;}
+.ad-r{animation-direction:reverse;} .ad-a{animation-direction:alternate;} .ad-ar{animation-direction:alternate-reverse;}
+.af-none,.af-forwards,.af-backwards,.af-both{animation-name:ab4;animation-duration:3s;animation-delay:2s;}
+.af-forwards{animation-fill-mode:forwards;} .af-backwards{animation-fill-mode:backwards;} .af-both{animation-fill-mode:both;}
+.ash{animation:ab5 5s linear 2s infinite alternate;}
+</style>
+</head>
+<body>
+
+<div class="branding"><div class="branding-icon">◆</div> CSS Basics</div>
+<div class="slide-nav" id="slideNav"></div>
+<div class="progress-bar" id="progress"></div>
+<div class="slide-counter" id="counter"></div>
+<div class="nav-hints"><span><kbd>←</kbd> <kbd>→</kbd> للتنقل &nbsp; <kbd>F</kbd> ملء الشاشة</span></div>
+
+<div class="deck">
+
+
+<div class="slide active" data-slide="0">
+  <div class="glow-blob glow-teal" style="top:-120px;left:-120px;"></div>
+  <div class="glow-blob glow-purple" style="bottom:-140px;right:-100px;"></div>
+  <p class="slide-tag anim-1">درس CSS</p>
+  <h1 class="anim-2">حرّك عناصرك مع <span class="rainbow-text">Transition & Animation</span></h1>
+  <div class="rainbow-line anim-3"></div>
+  <p class="subtitle anim-4 mt-24">من تغيير ناعم بسيط لحد حركات كاملة بالـ keyframes — من غير JavaScript ✨</p>
+</div>
+
+<div class="slide" data-slide="1">
+  <p class="slide-tag anim-1">خريطة الدرس</p>
+  <h2 class="anim-2">إيه اللي هنغطيه <span class="highlight-blue">النهاردة؟</span></h2>
+  <div class="topics-list anim-3">
+    <div class="topic-item"><span class="topic-num">1</span> <span class="highlight-teal">transition</span>: الأساس، الـ trigger، السرعة، التأخير</div>
+    <div class="topic-item"><span class="topic-num">2</span> <span class="highlight-orange">animation</span> و<span class="highlight-purple">@keyframes</span></div>
+    <div class="topic-item"><span class="topic-num">3</span> <span class="highlight-blue">delay</span> و<span class="highlight-blue">iteration-count</span></div>
+    <div class="topic-item"><span class="topic-num">4</span> <span class="highlight-teal">timing-function</span> و<span class="highlight-orange">direction</span></div>
+    <div class="topic-item"><span class="topic-num">5</span> <span class="highlight-green">fill-mode</span> والـ shorthand</div>
+  </div>
+</div>
+
+<div class="slide" data-slide="2">
+  <p class="slide-tag anim-1">الفكرة</p>
+  <h2 class="anim-2"><span class="highlight-teal">transition</span> يعني إيه؟</h2>
+  <p class="subtitle anim-3">الـ transition بتخلي قيمة الخاصية تتغيّر <b>بالتدريج</b> على مدة زمنية، مش مرة واحدة. عشان تعملها لازم تحدد حاجتين: <span class="highlight-teal">الخاصية</span> اللي عايز تحركها، و<span class="highlight-orange">المدة</span>. وهي في الحقيقة اختصار لـ 4 خصائص:</p>
+  <div class="topics-list anim-4">
+    <div class="topic-item"><span class="topic-num">1</span> <span class="highlight-teal">transition-property</span> — إيه الخاصية اللي تتحرك</div>
+    <div class="topic-item"><span class="topic-num">2</span> <span class="highlight-orange">transition-duration</span> — الحركة تاخد قد إيه</div>
+    <div class="topic-item"><span class="topic-num">3</span> <span class="highlight-purple">transition-timing-function</span> — منحنى السرعة</div>
+    <div class="topic-item"><span class="topic-num">4</span> <span class="highlight-green">transition-delay</span> — نستنى قد إيه قبل ما تبدأ</div>
+  </div>
+</div>
+
+<div class="slide" data-slide="3">
+  <p class="slide-tag anim-1">أول مثال</p>
+  <h2 class="anim-2">مربع <span class="highlight-red">100×100</span> بيكبر في ثانيتين</h2>
+  <p class="subtitle anim-3">حددنا transition على الـ <span class="highlight-teal">width</span> لمدة <b>2s</b>. لما العرض يتغيّر، المتصفح بيحرّكه بالتدريج.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="sel">div</span> {
+  <span class="prop">width</span>: <span class="num">100px</span>;
+  <span class="prop">height</span>: <span class="num">100px</span>;
+  <span class="prop">background-color</span>: <span class="kw">red</span>;
+  <span class="prop">transition</span>: <span class="kw">width</span> <span class="num">2s</span>;
+}</div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="4">
+  <p class="slide-tag anim-1">إيه اللي بيشغّلها؟</p>
+  <h2 class="anim-2">الـ <span class="highlight-orange">Trigger</span></h2>
+  <p class="subtitle anim-3">الـ transition بتبدأ لما <b>قيمة الخاصية تتغيّر</b>. غالبًا ده بيحصل جوه <span class="highlight-teal">:hover</span> أو <span class="highlight-teal">:active</span> أو <span class="highlight-teal">:focus</span> أو <span class="highlight-teal">:checked</span>.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="sel">div</span><span class="kw">:hover</span> {
+  <span class="prop">width</span>: <span class="num">300px</span>;
+}</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">حط الماوس فوق المربع الأحمر 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;"><div class="tr-box tr1">2s</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="5">
+  <p class="slide-tag anim-1">أكتر من خاصية</p>
+  <h2 class="anim-2">نغيّر <span class="highlight-purple">كذا حاجة</span> مرة واحدة</h2>
+  <p class="subtitle anim-3">افصل بين الخصائص بـ <b>فاصلة (,)</b> ولكل خاصية مدتها. هنا: width ثانيتين، height 4 ثواني، background-color 3 ثواني.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="sel">div</span> {
+  <span class="prop">transition</span>: <span class="kw">width</span> <span class="num">2s</span>, <span class="kw">height</span> <span class="num">4s</span>, <span class="kw">background-color</span> <span class="num">3s</span>;
+}</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">حط الماوس وراقب كل خاصية بتخلص إمتى 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;min-height:150px;"><div class="tr-box tr-multi">hover</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="6">
+  <p class="slide-tag anim-1">سرعة الحركة</p>
+  <h2 class="anim-2"><span class="highlight-teal">timing-function</span></h2>
+  <p class="subtitle anim-3">بتحدد منحنى السرعة: <span class="highlight-teal">ease</span> (الافتراضي: بطيء ← سريع ← بطيء)، <span class="highlight-blue">linear</span> (سرعة ثابتة)، <span class="highlight-orange">ease-in</span> (بداية بطيئة)، <span class="highlight-green">ease-out</span> (نهاية بطيئة)، <span class="highlight-purple">ease-in-out</span> (بداية ونهاية بطيئة).</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="sel">#div1</span> { <span class="prop">transition-timing-function</span>: <span class="kw">linear</span>; }
+<span class="sel">#div2</span> { <span class="prop">transition-timing-function</span>: <span class="kw">ease</span>; }
+<span class="sel">#div3</span> { <span class="prop">transition-timing-function</span>: <span class="kw">ease-in</span>; }
+<span class="sel">#div4</span> { <span class="prop">transition-timing-function</span>: <span class="kw">ease-out</span>; }
+<span class="sel">#div5</span> { <span class="prop">transition-timing-function</span>: <span class="kw">ease-in-out</span>; }</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">حط الماوس على كل شريط وقارن السرعة 👇</div>
+      <div class="demo-stage" style="flex-direction:column;align-items:flex-start;gap:8px;">
+        <div class="tr-bar tl1">linear</div><div class="tr-bar tl2">ease</div><div class="tr-bar tl3">ease-in</div><div class="tr-bar tl4">ease-out</div><div class="tr-bar tl5">ease-in-out</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="7">
+  <p class="slide-tag anim-1">التأخير</p>
+  <h2 class="anim-2"><span class="highlight-green">transition-delay</span></h2>
+  <p class="subtitle anim-3">بتحدد نستنى قد إيه قبل ما الحركة تبدأ. القيمة بالثواني (<b>s</b>) أو الميلي ثانية (<b>ms</b>). هنا فيه <b>ثانية تأخير</b> قبل البداية.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="sel">div</span> {
+  <span class="prop">transition-delay</span>: <span class="num">1s</span>;
+}</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">حط الماوس وعُد: ثانية انتظار ثم الحركة 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;"><div class="tr-box tr-delay">1s</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="8">
+  <p class="slide-tag anim-1">طريقتين للكتابة</p>
+  <h2 class="anim-2">واحدة واحدة <span class="highlight-orange">ولا</span> shorthand؟</h2>
+  <p class="subtitle anim-3">الاتنين بيدّوا نفس النتيجة بالظبط. الـ shorthand بترتّب القيم: <b>الخاصية ← المدة ← المنحنى ← التأخير</b>.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">طريقة 1: واحدة واحدة</span></div>
+      <div class="code-body"><span class="sel">div</span> {
+  <span class="prop">transition-property</span>: <span class="kw">width</span>;
+  <span class="prop">transition-duration</span>: <span class="num">2s</span>;
+  <span class="prop">transition-timing-function</span>: <span class="kw">linear</span>;
+  <span class="prop">transition-delay</span>: <span class="num">1s</span>;
+}</div>
+    </div>
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">طريقة 2: shorthand</span></div>
+      <div class="code-body"><span class="sel">div</span> {
+  <span class="prop">transition</span>: <span class="kw">width</span> <span class="num">2s</span> <span class="kw">linear</span> <span class="num">1s</span>;
+}</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">حط الماوس على المربع 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;"><div class="tr-box tr-short">width 2s linear 1s</div></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="slide" data-slide="x"><div class="glow-blob glow-orange" style="top:-100px;right:-100px;"></div>
+  <p class="slide-tag anim-1">الجزء التاني</p>
+  <h2 class="anim-2"><span class="highlight-orange">CSS Animation</span> يعني إيه؟</h2>
+  <p class="subtitle anim-3">الـ animation بتخلي العنصر يتغيّر <b>تدريجيًا</b> من ستايل لستايل تاني، من غير JavaScript. تقدر تغيّر أي عدد من الخصائص، وأي عدد من المرات. وعشان تشتغل لازم تحدد <span class="highlight-purple">keyframes</span> — وهي بتقول العنصر هيبقى شكله إيه في أوقات معينة.</p>
+  <div class="stack anim-4">
+    <div class="demo-box"><span class="live-tag">🔴 لايف</span><div class="demo-stage"><div class="an-badge-wrap">🔔<div class="an-badge"></div></div></div></div>
+  </div>
+</div>
+
+<div class="slide" data-slide="x">
+  <p class="slide-tag anim-1">الأساس</p>
+  <h2 class="anim-2"><span class="highlight-purple">@keyframes</span> + name + duration</h2>
+  <p class="subtitle anim-3">الـ <b>animation-name</b> بتحدد اسم الحركة، والـ <b>animation-duration</b> بتحدد بتاخد قد إيه. لو ما كتبتش duration مفيش حركة خالص (القيمة الافتراضية 0s). هنا المربع بيتحول من أحمر لأصفر في 4 ثواني. <b>from</b> = 0% و<b>to</b> = 100%.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="comment">/* كود الحركة */</span>
+<span class="kw">@keyframes</span> <span class="sel">myAnimation</span> {
+  <span class="prop">from</span> { <span class="prop">background-color</span>: <span class="kw">red</span>; }
+  <span class="prop">to</span> { <span class="prop">background-color</span>: <span class="kw">yellow</span>; }
+}
+
+<span class="comment">/* العنصر اللي هنطبق عليه */</span>
+<span class="sel">div</span> {
+  <span class="prop">width</span>: <span class="num">100px</span>;
+  <span class="prop">height</span>: <span class="num">100px</span>;
+  <span class="prop">background-color</span>: <span class="kw">red</span>;
+  <span class="prop">animation-name</span>: <span class="kw">myAnimation</span>;
+  <span class="prop">animation-duration</span>: <span class="num">4s</span>;
+}</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">اضغط على المربع لإعادة التشغيل 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;"><div class="ab ab1 replay"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="x">
+  <p class="slide-tag anim-1">بالنسب المئوية</p>
+  <h2 class="anim-2">مراحل <span class="highlight-teal">كتير</span> بالـ %</h2>
+  <p class="subtitle anim-3">بالنسب تقدر تضيف تغييرات قد ما تحب. هنا اللون بيتغيّر عند 25% و50% و100%.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="kw">@keyframes</span> <span class="sel">myAnimation</span> {
+  <span class="prop">0%</span>   { <span class="prop">background-color</span>: <span class="kw">red</span>; }
+  <span class="prop">25%</span>  { <span class="prop">background-color</span>: <span class="kw">yellow</span>; }
+  <span class="prop">50%</span>  { <span class="prop">background-color</span>: <span class="kw">blue</span>; }
+  <span class="prop">100%</span> { <span class="prop">background-color</span>: <span class="kw">green</span>; }
+}</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">اضغط على المربع لإعادة التشغيل 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;"><div class="ab ab2 replay"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="x">
+  <p class="slide-tag anim-1">لون + مكان</p>
+  <h2 class="anim-2">نغيّر <span class="highlight-blue">اللون والمكان</span> مع بعض</h2>
+  <p class="subtitle anim-3">تقدر تحرّك العنصر (left و top) وتغيّر لونه في نفس الوقت. لازم العنصر يكون <b>position: relative</b> عشان left/top يشتغلوا.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="kw">@keyframes</span> <span class="sel">myAnimation</span> {
+  <span class="prop">0%</span>   { <span class="prop">background-color</span>:<span class="kw">red</span>;    <span class="prop">left</span>:<span class="num">0px</span>;   <span class="prop">top</span>:<span class="num">0px</span>; }
+  <span class="prop">25%</span>  { <span class="prop">background-color</span>:<span class="kw">yellow</span>; <span class="prop">left</span>:<span class="num">200px</span>; <span class="prop">top</span>:<span class="num">0px</span>; }
+  <span class="prop">50%</span>  { <span class="prop">background-color</span>:<span class="kw">blue</span>;   <span class="prop">left</span>:<span class="num">200px</span>; <span class="prop">top</span>:<span class="num">200px</span>; }
+  <span class="prop">75%</span>  { <span class="prop">background-color</span>:<span class="kw">green</span>;  <span class="prop">left</span>:<span class="num">0px</span>;   <span class="prop">top</span>:<span class="num">200px</span>; }
+  <span class="prop">100%</span> { <span class="prop">background-color</span>:<span class="kw">red</span>;    <span class="prop">left</span>:<span class="num">0px</span>;   <span class="prop">top</span>:<span class="num">0px</span>; }
+}
+
+<span class="sel">div</span> { <span class="prop">position</span>: <span class="kw">relative</span>; <span class="prop">animation</span>: <span class="kw">myAnimation</span> <span class="num">4s</span>; }</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">اضغط على المربع لإعادة التشغيل 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;min-height:300px;align-items:flex-start;"><div class="ab ab3 replay"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="x">
+  <p class="slide-tag anim-1">التأخير</p>
+  <h2 class="anim-2"><span class="highlight-green">animation-delay</span></h2>
+  <p class="subtitle anim-3">بتأخر بداية الحركة. <b>2s</b> يعني نستنى ثانيتين قبل ما تبدأ. وكمان بتقبل <b>قيم سالبة</b>: <b>-2s</b> يعني الحركة تبدأ كأنها شغالة من ثانيتين.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="sel">div</span> {
+  <span class="prop">animation-name</span>: <span class="kw">myAnimation</span>;
+  <span class="prop">animation-duration</span>: <span class="num">4s</span>;
+  <span class="prop">animation-delay</span>: <span class="num">2s</span>;   <span class="comment">/* أو -2s */</span>
+}</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">الأول: delay 2s — التاني: delay -2s (اضغط للإعادة) 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:10px;"><div class="ab ab5 ad1 replay">2s</div><div class="ab ab5 ad2 replay">-2s</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="x">
+  <p class="slide-tag anim-1">عدد المرات</p>
+  <h2 class="anim-2"><span class="highlight-orange">animation-iteration-count</span></h2>
+  <p class="subtitle anim-3">بتحدد الحركة تتكرر كام مرة. رقم زي <b>3</b> يعني تتكرر 3 مرات وتقف، و<b>infinite</b> يعني تفضل شغالة للأبد.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="sel">.a</span> { <span class="prop">animation-iteration-count</span>: <span class="num">3</span>; }
+<span class="sel">.b</span> { <span class="prop">animation-iteration-count</span>: <span class="kw">infinite</span>; }</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">الأول 3 مرات، التاني infinite 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:10px;"><div class="ab ab5 ai1 replay">3</div><div class="ab ab5 ai2">∞</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="x">
+  <p class="slide-tag anim-1">سرعة الحركة</p>
+  <h2 class="anim-2"><span class="highlight-teal">animation-timing-function</span></h2>
+  <p class="subtitle anim-3"><span class="highlight-teal">ease</span> (الافتراضي)، <span class="highlight-blue">linear</span>، <span class="highlight-orange">ease-in</span>، <span class="highlight-green">ease-out</span>، <span class="highlight-purple">ease-in-out</span>، وكمان <b>cubic-bezier(n,n,n,n)</b> تحدد منحنى سرعة بنفسك.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="sel">#div1</span> { <span class="prop">animation-timing-function</span>: <span class="kw">linear</span>; }
+<span class="sel">#div2</span> { <span class="prop">animation-timing-function</span>: <span class="kw">ease</span>; }
+<span class="sel">#div3</span> { <span class="prop">animation-timing-function</span>: <span class="kw">ease-in</span>; }
+<span class="sel">#div4</span> { <span class="prop">animation-timing-function</span>: <span class="kw">ease-out</span>; }
+<span class="sel">#div5</span> { <span class="prop">animation-timing-function</span>: <span class="kw">ease-in-out</span>; }</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">قارن السرعة بين الخمس أشرطة 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:8px;"><div class="ab bar at1">linear</div><div class="ab bar at2">ease</div><div class="ab bar at3">ease-in</div><div class="ab bar at4">ease-out</div><div class="ab bar at5">ease-in-out</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="x">
+  <p class="slide-tag anim-1">الاتجاه</p>
+  <h2 class="anim-2"><span class="highlight-purple">animation-direction</span></h2>
+  <p class="subtitle anim-3"><b>normal</b> (الافتراضي: قدام)، <b>reverse</b> (ورا)، <b>alternate</b> (قدام وبعدين ورا)، <b>alternate-reverse</b> (ورا وبعدين قدام).</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="sel">div</span> {
+  <span class="prop">animation-duration</span>: <span class="num">4s</span>;
+  <span class="prop">animation-iteration-count</span>: <span class="num">2</span>;
+  <span class="prop">animation-direction</span>: <span class="kw">alternate</span>;
+}</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">اضغط على المربع لإعادة التشغيل 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:8px;"><div class="ab bar ad-n replay">normal</div><div class="ab bar ad-r replay">reverse</div><div class="ab bar ad-a replay">alternate</div><div class="ab bar ad-ar replay">alt-reverse</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="x">
+  <p class="slide-tag anim-1">قبل وبعد الحركة</p>
+  <h2 class="anim-2"><span class="highlight-green">animation-fill-mode</span></h2>
+  <p class="subtitle anim-3">الحركة مش بتأثر على العنصر قبل أول keyframe ولا بعد آخر واحدة. الـ fill-mode بتغيّر ده: <b>none</b> (افتراضي)، <b>forwards</b> (يفضل على آخر ستايل)، <b>backwards</b> (ياخد أول ستايل أثناء الـ delay)، <b>both</b> (الاتنين).</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">style.css</span></div>
+      <div class="code-body"><span class="sel">div</span> {
+  <span class="prop">animation-name</span>: <span class="kw">myAnimation</span>;
+  <span class="prop">animation-duration</span>: <span class="num">3s</span>;
+  <span class="prop">animation-delay</span>: <span class="num">2s</span>;
+  <span class="prop">animation-fill-mode</span>: <span class="kw">both</span>;
+}</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">اضغط على المربع لإعادة التشغيل 👇 (الأصفر = أول keyframe، الأخضر = آخر keyframe)</div>
+      <div class="demo-stage" style="justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:8px;"><div class="ab bar af-none replay">none</div><div class="ab bar af-forwards replay">forwards</div><div class="ab bar af-backwards replay">backwards</div><div class="ab bar af-both replay">both</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="x">
+  <p class="slide-tag anim-1">اختصار</p>
+  <h2 class="anim-2">الـ <span class="highlight-orange">animation</span> shorthand</h2>
+  <p class="subtitle anim-3">بدل 6 خصائص، اكتبهم في سطر واحد بالترتيب: <b>name ← duration ← timing-function ← delay ← iteration-count ← direction</b>.</p>
+  <div class="stack anim-4">
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">الطريقة الطويلة</span></div>
+      <div class="code-body"><span class="sel">div</span> {
+  <span class="prop">animation-name</span>: <span class="kw">myAnimation</span>;
+  <span class="prop">animation-duration</span>: <span class="num">5s</span>;
+  <span class="prop">animation-timing-function</span>: <span class="kw">linear</span>;
+  <span class="prop">animation-delay</span>: <span class="num">2s</span>;
+  <span class="prop">animation-iteration-count</span>: <span class="kw">infinite</span>;
+  <span class="prop">animation-direction</span>: <span class="kw">alternate</span>;
+}</div>
+    </div>
+    <div class="code-window">
+      <div class="code-titlebar"><div class="code-dot red"></div><div class="code-dot yellow"></div><div class="code-dot green"></div><span class="code-filename">الـ shorthand</span></div>
+      <div class="code-body"><span class="sel">div</span> {
+  <span class="prop">animation</span>: <span class="kw">myAnimation</span> <span class="num">5s</span> <span class="kw">linear</span> <span class="num">2s</span> <span class="kw">infinite</span> <span class="kw">alternate</span>;
+}</div>
+    </div>
+    <div class="demo-box">
+      <span class="live-tag">🔴 لايف</span>
+      <div class="demo-label">نفس النتيجة بالظبط 👇</div>
+      <div class="demo-stage" style="justify-content:flex-start;"><div class="ab ab5 ash"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide" data-slide="x">
+  <div class="glow-blob glow-blue" style="top:-110px;right:-110px;"></div>
+  <div class="glow-blob glow-teal" style="bottom:-130px;left:-100px;"></div>
+  <p class="slide-tag anim-1">آخر حاجة</p>
+  <h2 class="anim-2">مراجعة <span class="highlight-teal">سريعة</span></h2>
+  <div class="exercise-list anim-3">
+    <div class="exercise-item"><span class="exercise-dot"></span><span class="highlight-teal">transition</span> بتحتاج trigger (hover/focus...)، و<span class="highlight-orange">animation</span> بتشتغل لوحدها بالـ <span class="highlight-purple">@keyframes</span></div>
+    <div class="exercise-item"><span class="exercise-dot"></span>transition: الخاصية ← المدة ← المنحنى ← التأخير</div>
+    <div class="exercise-item"><span class="exercise-dot"></span>animation محتاجة name و duration، ولو duration مش موجودة مفيش حركة</div>
+    <div class="exercise-item"><span class="exercise-dot"></span>from/to = 0%/100%، وبالنسب تعمل مراحل قد ما تحب</div>
+    <div class="exercise-item"><span class="exercise-dot"></span>delay (ممكن سالب)، iteration-count (رقم أو infinite)، direction (normal/reverse/alternate)</div>
+    <div class="exercise-item"><span class="exercise-dot"></span><span class="highlight-green">fill-mode</span>: none / forwards / backwards / both</div>
+    <div class="exercise-item"><span class="exercise-dot"></span>الـ shorthand: name ← duration ← timing ← delay ← count ← direction</div>
+  </div>
+  <p class="subtitle anim-4 mt-24" style="font-size:20px;">جرّب دلوقتي تعمل حركتك بنفسك 💪</p>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var nav = document.getElementById('slideNav');
+  var progress = document.getElementById('progress');
+  var counter = document.getElementById('counter');
+  var current = 0;
+
+  slides.forEach(function(s, i){
+    var d = document.createElement('div');
+    d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', function(){ go(i); });
+    nav.appendChild(d);
+  });
+
+  function go(i){
+    if(i < 0 || i >= slides.length) return;
+    slides[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    slides[current].scrollTop = 0;
+    var dots = nav.children;
+    for(var k = 0; k < dots.length; k++) dots[k].classList.toggle('active', k === current);
+    progress.style.width = ((current + 1) / slides.length * 100) + '%';
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+  }
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight') go(current - 1);
+    if(e.key === 'ArrowLeft') go(current + 1);
+    if(e.key === ' ') { e.preventDefault(); go(current + 1); }
+    if(e.key.toLowerCase() === 'f'){
+      if(document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen().catch(function(){});
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('.replay');
+    if(el){ el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; }
+  });
+  progress.style.width = (1 / slides.length * 100) + '%';
+  counter.textContent = '1 / ' + slides.length;
+})();
+</script>
+</body>
+</html>

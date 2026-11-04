@@ -1,0 +1,36 @@
+  body {
+      text-align: center;
+      font-family: monospace;
+  }
+
+  ul {
+      display: inline-block;
+  }
+
+  table {
+      margin: 0 auto;
+      text-align: center
+  }
+
+  th,
+  td {
+      border: 3px solid rgb(47, 216, 216);
+  }
+.country {
+    background-color: rgb(98, 157, 157);
+    border-radius: 20px;
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 10;
+}
+audio,button {
+    margin: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.header {
+    background: rgb(128, 201, 10) url('../images/repeat.jpg') no-repeat center/cover;
+}

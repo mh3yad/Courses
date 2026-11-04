@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logarithm – CSS Quiz</title>
+<style>
+:root{--bg:#0B1F3A;--card:#12294a;--ac:#FF7A1A;--tx:#fff;--mu:#9fb3cf;--ok:#2ecc71;--no:#e74c3c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font-family:"Cairo","Segoe UI",Tahoma,sans-serif;display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:10px;padding:12px 18px}
+header b{font-size:20px;letter-spacing:1px}header b span{color:var(--ac)}
+.bar{height:5px;background:#1d3a63}.bar i{display:block;height:100%;width:0;background:var(--ac);transition:.3s}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+.s{width:100%;max-width:760px;background:var(--card);border-radius:20px;padding:26px;border-top:6px solid var(--ac)}
+.tag{color:var(--ac);font-weight:700;font-size:14px}
+h1{font-size:30px;margin:8px 0}h2{font-size:24px;margin:10px 0 18px;line-height:1.6}
+p{color:var(--mu);font-size:18px;line-height:1.8}
+.o{display:block;width:100%;text-align:start;margin:8px 0;padding:13px 16px;font:inherit;font-size:18px;color:var(--tx);background:#0e2342;border:2px solid #24456f;border-radius:12px;cursor:pointer}
+.o:hover{border-color:var(--ac)}.o.ok{background:var(--ok);border-color:var(--ok)}.o.no{background:var(--no);border-color:var(--no)}
+pre{direction:ltr;text-align:left;background:#07142a;padding:14px;border-radius:12px;font-size:18px;overflow-x:auto;color:#ffd7b3}
+.btn{background:var(--ac);color:#fff;border:0;padding:12px 24px;font:inherit;font-size:18px;border-radius:12px;cursor:pointer;margin-top:12px}
+footer{display:flex;justify-content:space-between;padding:12px 18px}
+footer .btn{margin:0;padding:10px 22px}footer .btn:disabled{opacity:.35}
+.big{font-size:64px;color:var(--ac);font-weight:800}
+</style>
+</head>
+<body>
+<header>
+<svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true"><circle cx="19" cy="19" r="18" fill="#FF7A1A"/><text x="19" y="25" font-size="17" font-weight="800" text-anchor="middle" fill="#0B1F3A" font-family="Arial">log</text></svg>
+<b>LOG<span>ARITHM</span></b>
+</header>
+<div class="bar"><i id="pb"></i></div>
+<main><div class="s" id="sl"></div></main>
+<footer><button class="btn" id="nx">التالي ←</button><button class="btn" id="pv">→ السابق</button></footer>
+<script>
+const E=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const Q=t=>{const p=t.split("\n");return `<h2 dir="rtl">${E(p[0])}</h2>`+(p[1]?`<pre>${E(p.slice(1).join("\n"))}</pre>`:"")};
+const mc=[
+["السيليكتور ده بيختار إيه؟\np { color: red; }",["كل عناصر p","كل عناصر div","العنصر اللي id بتاعه p","كل الصفحة"],0],
+["إزاي نختار العناصر اللي class بتاعها box؟",[".box","#box","box","*box"],0],
+["إزاي نختار كل العناصر في الصفحة؟",["#","*",".","&gt;"],1],
+["السيليكتور ده بيختار إيه؟\ndiv ul li",["كل li جوه ul اللي جوه div","كل div جوه li","كل ul بس","العنصر اللي class بتاعه li"],0],
+["أنهي سيليكتور بيختار ul ابن مباشر لـ div؟",["div > ul","div ul","div.ul","div, ul"],0],
+["السيليكتور ده بيختار إيه؟\nli:first-child",["أول li جوه أبوه","آخر li جوه أبوه","كل li في الصفحة","أول li في الصفحة كلها بس"],0],
+["margin هو إيه؟",["المسافة برا العنصر","المسافة جوه العنصر","لون الخلفية","الإطار"],0],
+["padding هو إيه؟",["المسافة جوه العنصر بين المحتوى والإطار","المسافة برا العنصر","حجم الخط","لون الإطار"],0],
+["الكود ده بيعمل إيه؟\nborder: 2px solid red;",["إطار أحمر سمكه 2px","خلفية حمرا","مسافة 2px برا العنصر","خط أحمر سمكه 2px جوه الكلام"],0],
+["إيه ترتيب الصندوق من جوه لبرا؟",["content → padding → border → margin","content → margin → border → padding","margin → content → padding → border","border → content → margin → padding"],0]];
+const tf=[
+["السيليكتور ده بيختار كل العناصر:\n*",true],
+["السيليكتور ده بيختار أي ul جوه div حتى لو مش ابنه المباشر:\ndiv > ul",false],
+["السيليكتور ده بيختار العنصر اللي id بتاعه box:\n.box",false],
+["padding هو المسافة اللي برا الإطار.",false],
+["margin هو المسافة اللي برا العنصر.",true]];
+// shuffle options so correct isn't always a
+const rnd=a=>{const k=a.map((_,j)=>j).sort(()=>Math.random()-.5);return k};
+const L=['a','b','c','d'];
+const S=[()=>`<div class="tag">CSS Basics</div><h1>اختبار CSS بسيط 🎨</h1><p>15 سؤال: 10 اختيارات + 5 صح وغلط<br>المواضيع: selectors ، margin ، padding ، border</p><button class="btn" onclick="go(1)">يلا نبدأ</button>`];
+mc.forEach((q,n)=>{const k=rnd(q[1]);S.push(()=>`<div class="tag">اختيار من متعدد ${n+1}/${mc.length}</div>${Q(q[0])}`+k.map((j,x)=>{const o=q[1][j],ar=/[\u0600-\u06FF]/.test(o);return `<button class="o" dir="${ar?'rtl':'ltr'}" onclick="pick(this,${j},${q[2]})">${L[x]}) ${o}</button>`}).join(""))});
+tf.forEach((q,n)=>S.push(()=>`<div class="tag">صح ولا غلط ${n+1}/${tf.length}</div>${Q(q[0])}<button class="o" onclick="pick(this,1,${q[1]?1:0})">✅ صح</button><button class="o" onclick="pick(this,0,${q[1]?1:0})">❌ غلط</button>`));
+const tot=mc.length+tf.length;
+S.push(()=>`<div class="tag">النتيجة</div><div class="big">${sc} / ${tot}</div><h2>${sc/tot>=.8?"جامد جداً! 🔥":sc/tot>=.5?"كويس، كمّل 👍":"ولا يهمك، راجع وجرّب تاني 💪"}</h2><button class="btn" onclick="sc=0;done={};go(-i)">ابدأ من الأول</button>`);
+let i=0,sc=0,done={};
+function pick(b,j,c){if(done[i])return;done[i]=1;const bs=[...b.parentNode.querySelectorAll('.o')];if(j==c){sc++;b.classList.add('ok')}else{b.classList.add('no');const t=bs.find(x=>x.getAttribute('onclick').endsWith(`,${c})`)&&x.getAttribute('onclick').includes(`,${c},`));t&&t.classList.add('ok')}}
+function go(d){i=Math.max(0,Math.min(S.length-1,i+d));r()}
+function r(){sl.innerHTML=S[i]();pb.style.width=(i/(S.length-1)*100)+'%';pv.disabled=i==0;nx.disabled=i==S.length-1}
+nx.onclick=()=>go(1);pv.onclick=()=>go(-1);
+addEventListener('keydown',e=>{if(e.key=='ArrowLeft')go(1);if(e.key=='ArrowRight')go(-1)});
+r();
+</script>
+</body>
+</html>

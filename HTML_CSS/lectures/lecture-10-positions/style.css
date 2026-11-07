@@ -1,0 +1,55 @@
+/* Part 1: relative + absolute */
+.card {
+    position: relative;
+    /* الأب: نقطة البداية للـ badge */
+    width: 250px;
+    padding: 20px;
+    margin: 40px;
+    border: 2px solid #0B1F3A;
+}
+
+.badge {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background: #FF7A1A;
+    color: white;
+    padding: 4px 10px;
+}
+
+/* Part 2: z-index */
+.stack {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 40px;
+}
+
+.box {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    color: white;
+    font-size: 30px;
+}
+
+.red {
+    top: 0;
+    left: 0;
+    background: red;
+    z-index: 1;
+}
+
+.blue {
+    top: 30px;
+    left: 30px;
+    background: blue;
+    z-index: 3;
+}
+
+.green {
+    top: 60px;
+    left: 60px;
+    background: green;
+    z-index: 2;
+}

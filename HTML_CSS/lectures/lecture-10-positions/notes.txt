@@ -1,0 +1,4 @@
+explain static with relative 
+absolute with fixed
+sticky
+use linkedin homepage to explain sticky vs fixed

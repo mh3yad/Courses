@@ -42,30 +42,30 @@ const E=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
 const Q=t=>{const p=t.split("\n");return `<h2 dir="rtl">${E(p[0])}</h2>`+(p[1]?`<pre>${E(p.slice(1).join("\n"))}</pre>`:"")};
 const mc=[
 ["أنهي تاج بيعرض صورة؟",["<img>","<video>","<audio>","<a>"],0,"img هو تاج الصورة."],
-["أنهي خاصية بنكتب فيها مكان الصورة؟",["src","href","link","name"],0,"src (source) هي اللي بنكتب فيها مكان الملف."],
+["أنهي خاصية بنكتب فيها مكان الملف؟",["src","href","link","name"],0,"src (source) هي اللي بنكتب فيها مكان الملف."],
 ["أنهي تاج بيشغّل فيديو؟",["<video>","<img>","<audio>","<p>"],0,"video هو تاج الفيديو."],
 ["أنهي تاج بيشغّل صوت؟",["<audio>","<video>","<img>","<h1>"],0,"audio هو تاج الصوت."],
 ["الصورة في الكود ده جاية منين؟\n<img src=\"photo.jpg\">",["من ملف جنب صفحة HTML (local)","من النت (remote)","من الفيديو","مفيش صورة"],0,"photo.jpg اسم ملف بس، يعني local جنب الصفحة."],
 ["الصورة في الكود ده جاية منين؟\n<img src=\"https://example.com/cat.jpg\">",["من النت (remote)","من ملف جنب الصفحة (local)","من الصوت","مفيش صورة"],0,"اللينك الكامل اللي بيبدأ بـ https:// يبقى remote."],
-["أنهي كود صح لصورة اسمها logo.png جنب الصفحة؟",["<img src=\"logo.png\">","<img href=\"logo.png\">","<image src=\"logo.png\">","<img link=\"logo.png\">"],0,"التاج img والخاصية src."],
+["أنهي تاج بنكتبه جوه video أو audio عشان نحط الملف؟",["<source>","<img>","<a>","<p>"],0,"source هو التاج اللي جواه src ومكان الملف."],
 ["اللينك الـ remote بيبدأ بإيه؟",["https://","photo","C:","./"],0,"عنوان النت بيبدأ بـ https://"],
-["أنهي كود صح للفيديو؟",["<video src=\"movie.mp4\" controls></video>","<video href=\"movie.mp4\"></video>","<movie src=\"movie.mp4\"></movie>","<video link=\"movie.mp4\"></video>"],0,"video بياخد src، وcontrols بتظهر أزرار التشغيل."],
-["أنهي كود صح للصوت؟",["<audio src=\"song.mp3\" controls></audio>","<audio href=\"song.mp3\"></audio>","<sound src=\"song.mp3\"></sound>","<audio link=\"song.mp3\"></audio>"],0,"audio بياخد src، وcontrols بتظهر أزرار التشغيل."]];
+["أنهي كود صح للفيديو؟",["<video controls><source src=\"movie.mp4\"></video>","<video controls><source href=\"movie.mp4\"></video>","<video controls><movie src=\"movie.mp4\"></video>","<video controls><link src=\"movie.mp4\"></video>"],0,"الفيديو بنحط جواه source وفيه src. وcontrols بتظهر أزرار التشغيل."],
+["أنهي كود صح للصوت؟",["<audio controls><source src=\"song.mp3\"></audio>","<audio controls><source href=\"song.mp3\"></audio>","<audio controls><sound src=\"song.mp3\"></audio>","<audio controls><link src=\"song.mp3\"></audio>"],0,"الصوت بنحط جواه source وفيه src. وcontrols بتظهر أزرار التشغيل."]];
 const tf=[
-["src فيها مكان الصورة.",true,"أيوه، src بتقول الصورة فين."],
-["الكود ده بيعرض فيديو:\n<audio src=\"movie.mp4\" controls></audio>",false,"audio للصوت. الفيديو تاجه video."],
+["src فيها مكان الملف.",true,"أيوه، src بتقول الملف فين."],
+["الكود ده بيعرض فيديو:\n<audio controls><source src=\"movie.mp4\"></audio>",false,"audio للصوت. الفيديو تاجه video."],
 ["الكود ده فيه صورة remote:\n<img src=\"https://site.com/a.jpg\">",true,"أيوه، اللينك الكامل بـ https:// يبقى remote."],
 ["بنكتب مكان الصورة في href.",false,"الصورة بتستخدم src، مش href."],
-["تاج audio بيشغّل صوت.",true,"أيوه، audio للصوت."]];
+["بنكتب source جوه تاج video عشان نحط ملف الفيديو.",true,"أيوه، source جوه video وفيه src."]];
 const cc=[
 ["كمّل الخاصية اللي بتحط مكان الصورة (local):\n<img ___=\"photo.jpg\">","<img src=\"photo.jpg\">","src هي الخاصية اللي فيها مكان الملف.",["src"]],
 ["كمّل أول اللينك (remote):\n<img src=\"___://example.com/cat.jpg\">","<img src=\"https://example.com/cat.jpg\">","اللينك على النت بيبدأ بـ https",["https"]],
-["كمّل تاج الفيديو:\n<___ src=\"movie.mp4\" controls></video>","<video src=\"movie.mp4\" controls></video>","تاج الفيديو video، وcontrols بتظهر أزرار التشغيل.",["video"]],
-["كمّل تاج الصوت:\n<___ src=\"song.mp3\" controls></audio>","<audio src=\"song.mp3\" controls></audio>","تاج الصوت audio.",["audio"]],
-["كمّل الصفحة كلها:\n<img src=\"photo.jpg\">\n<___ src=\"movie.mp4\" controls></video>\n<audio ___=\"https://example.com/song.mp3\" controls></audio>","<img src=\"photo.jpg\">\n<video src=\"movie.mp4\" controls></video>\n<audio src=\"https://example.com/song.mp3\" controls></audio>","video للفيديو، وsrc فيها مكان الملف سواء local أو remote.",["video","src"]]];
+["كمّل التاج اللي جوه الفيديو:\n<video controls>\n  <___ src=\"movie.mp4\">\n</video>","<video controls>\n  <source src=\"movie.mp4\">\n</video>","source جوه video، وفيه src ومكان الملف.",["source"]],
+["كمّل تاج الصوت:\n<___ controls>\n  <source src=\"song.mp3\">\n</audio>","<audio controls>\n  <source src=\"song.mp3\">\n</audio>","تاج الصوت audio، وجواه source.",["audio"]],
+["كمّل الصفحة كلها:\n<img src=\"photo.jpg\">\n<video controls>\n  <___ src=\"movie.mp4\">\n</video>\n<audio controls>\n  <source ___=\"https://example.com/song.mp3\">\n</audio>","<img src=\"photo.jpg\">\n<video controls>\n  <source src=\"movie.mp4\">\n</video>\n<audio controls>\n  <source src=\"https://example.com/song.mp3\">\n</audio>","source جوه video وaudio، وsrc فيها مكان الملف سواء local أو remote.",["source","src"]]];
 const rnd=a=>a.map((_,j)=>j).sort(()=>Math.random()-.5);
 const L=['a','b','c','d'];
-const S=[()=>`<div class="tag">HTML Media</div><h1>اختبار الصور والفيديو والصوت 🖼️</h1><p>10 اختيارات + 5 صح وغلط + 5 تحديات كود<br>المواضيع: img ، video ، audio ، src (local و remote)</p><button class="btn" onclick="go(1)">يلا نبدأ</button>`];
+const S=[()=>`<div class="tag">HTML Media</div><h1>اختبار الصور والفيديو والصوت 🖼️</h1><p>10 اختيارات + 5 صح وغلط + 5 تحديات كود<br>المواضيع: img ، video ، audio ، source ، src (local و remote)</p><button class="btn" onclick="go(1)">يلا نبدأ</button>`];
 mc.forEach((q,n)=>{const k=rnd(q[1]);S.push(()=>`<div class="tag">اختيار من متعدد ${n+1}/${mc.length}</div>${Q(q[0])}`+k.map((j,x)=>{const o=E(q[1][j]),ar=/[\u0600-\u06FF]/.test(o);return `<button class="o" dir="${ar?'rtl':'ltr'}" onclick="pick(this,${j},${q[2]})">${L[x]}) ${o}</button>`}).join(""))});
 tf.forEach((q,n)=>S.push(()=>`<div class="tag">صح ولا غلط ${n+1}/${tf.length}</div>${Q(q[0])}<button class="o" onclick="pick(this,1,${q[1]?1:0})">✅ صح</button><button class="o" onclick="pick(this,0,${q[1]?1:0})">❌ غلط</button>`));
 const tot=mc.length+tf.length;

@@ -1,35 +1,32 @@
 #include<iostream>
+#include <iomanip>
 using namespace std;
 
 
 
 int main()
 {
+    /*int age;
+    cout << "enter your age: ";
+    cin >> age;
 
-    string name = "obaida";
-    int age = 15;
-    cout <<"my name is : " <<  Name << endl;
-    cout << "my age is : " << age << endl;
+    string name;
+    cout << "enter your name: ";
+    cin >> name;
+
+    cout << "your age is " << age << endl;
+    cout << "your name is " << name << endl;
+
+    age++;
+    cout << "your age is: " << age;*/
+    cout << fixed << showpoint;
+    cout << setprecision(15);
+    double PI = 3.14566545645445456;
+    cout << PI;
+  //  long long salary = 2000000000;
+    //char grade = 'D';
 
 
-
-
-
-
-
-
-
-
-
-    int score = -10;
-    long long population = 3000000000000000;
-    bool isStudent = true;
-    float PI = 3.14;
-
-    cout << "my score is: " << score << endl;
-    cout << "egypt population is " << population << endl;
-    cout << "is student: " << isStudent << endl;
-    cout << "PI is : " << PI;
 
     return 0;
 }

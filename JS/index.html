@@ -6,16 +6,19 @@
 </head>
 
 <body>
-<h1>Math Quiz</h1>
+    <h1>Image Slider</h1>
 
-    <div id="question">5 + 3 = ?</div>
-
-    <button onclick="check(7)">7</button>
-    <button onclick="check(8)">8</button>
-    <button onclick="check(9)">9</button>
-
-    <div id="result"></div>
-
+    <div class="slider">
+        <div class="slides">
+            <img class="slide" src="images/1.png" />
+            <img class="slide" src="images/2.png" />
+            <img class="slide" src="images/3.png" />
+        </div>
+       <div class="btns">
+            <button class="prev" onclick="prevSlide()"><</button>
+            <button class="next" onclick="nextSlide()">></button>
+       </div>
+    </div>
     <script src="script.js"></script>
 </body>
 

@@ -1,320 +1,690 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Types في ++C | لوغاريتم</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --navy-900:#0a1628;
-    --navy-800:#0f1e35;
-    --navy-700:#152742;
-    --navy-600:#1c3252;
-    --blue:#4c8dff;
-    --coral:#ff6b5b;
-    --text-hi:#eef2f8;
-    --text-lo:#8ea0bd;
-    --line:#223252;
-    --editor-bg:#12192a;
-    --tok-kw:#569cd6;
-    --tok-type:#4ec9b0;
-    --tok-str:#ce9178;
-    --tok-num:#b5cea8;
-    --tok-com:#6a9955;
-    --tok-fn:#dcdcaa;
-    --tok-var:#9cdcfe;
-    --tok-txt:#d4d4d4;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{ font-family:'Cairo', sans-serif; background:var(--navy-900); color:var(--text-hi); overflow-x:hidden; }
-  section.slide{
-    min-height:100vh; width:100%; scroll-snap-align:start;
-    display:flex; flex-direction:column; justify-content:flex-start; align-items:center;
-    padding:clamp(54px,7vh,96px) clamp(20px,3vw,64px) clamp(76px,10vh,128px); position:relative; border-bottom:1px solid var(--line);
-    background:
-      radial-gradient(circle at 85% 12%, rgba(76,141,255,.10), transparent 45%),
-      radial-gradient(circle at 10% 90%, rgba(255,107,91,.08), transparent 40%),
-      var(--navy-900);
-  }
-  .slide-inner{ width:100%; max-width:none; }
-  .eyebrow{ color:var(--coral); font-weight:700; font-size:28px; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
-  .eyebrow .dash{ width:28px; height:3px; background:var(--coral); border-radius:3px; display:inline-block; }
-  h1{ font-weight:900; font-size:clamp(48px,6.4vw,104px); line-height:1.25; }
-  h1 .accent{ color:var(--blue); }
-  h2{ font-weight:800; font-size:clamp(36px,4.35vw,72px); margin-bottom:24px; }
-  p.lead{ font-size:clamp(28px,2.4vw,42px); line-height:1.8; color:var(--text-lo); font-weight:600; max-width:none; }
-  p.lead b{ color:var(--text-hi); }
-  .en{ font-family:'JetBrains Mono', monospace; direction:ltr; unicode-bidi:embed; color:var(--blue); font-weight:600; }
-  .code-window{ margin-top:24px; width:100%; max-width:none; background:var(--editor-bg); border:1px solid var(--line); border-radius:12px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,.35); direction:ltr; text-align:left; }
-  .code-titlebar{ display:flex; align-items:center; gap:8px; padding:16px 22px; background:var(--navy-700); border-bottom:1px solid var(--line); }
-  .code-titlebar .dot{ width:11px; height:11px; border-radius:50%; }
-  .dot.red{ background:#ff5f56; } .dot.yellow{ background:#ffbd2e; } .dot.green{ background:#27c93f; }
-  .code-titlebar .fname{ font-family:'JetBrains Mono', monospace; font-size:28px; color:var(--text-lo); margin-inline-start:8px; }
-  pre.code{ padding:28px 32px; font-family:'JetBrains Mono', monospace; font-size:clamp(28px,2.5vw,44px); line-height:1.7; white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden; color:var(--tok-txt); }
-  pre.code .kw{ color:var(--tok-kw); } pre.code .type{ color:var(--tok-type); } pre.code .str{ color:var(--tok-str); }
-  pre.code .num{ color:var(--tok-num); } pre.code .com{ color:var(--tok-com); font-style:italic; }
-  pre.code .fn{ color:var(--tok-fn); } pre.code .var{ color:var(--tok-var); }
-  .good-label,.bad-label{ display:inline-flex; align-items:center; gap:8px; font-weight:800; font-size:28px; padding:6px 14px; border-radius:20px; margin-bottom:10px; }
-  .good-label{ background:rgba(76,141,255,.12); color:var(--blue); }
-  .bad-label{ background:rgba(255,107,91,.12); color:var(--coral); }
-  .agenda-list{ list-style:none; display:flex; flex-direction:column; gap:2px; }
-  .agenda-list li{ display:flex; align-items:center; gap:16px; padding:20px 32px; border-radius:10px; font-size:clamp(28px,2.5vw,42px); font-weight:700; color:var(--text-lo); }
-  .agenda-list li:nth-child(odd){ background:rgba(255,255,255,.02); }
-  .agenda-list .num{ font-family:'JetBrains Mono', monospace; color:var(--blue); font-weight:600; font-size:28px; width:54px; flex-shrink:0; }
-  .agenda-list li b{ color:var(--text-hi); }
-  .type-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:22px; }
-  .type-card{ background:var(--navy-700); border:1px solid var(--line); border-radius:12px; padding:28px 32px; position:relative; }
-  .type-card::before{ content:""; position:absolute; inset-inline-start:0; top:12px; bottom:12px; width:4px; background:var(--coral); border-radius:4px; }
-  .type-card .tname{ font-family:'JetBrains Mono', monospace; color:var(--tok-type); font-weight:700; font-size:28px; margin-bottom:10px; }
-  .type-card .tdesc{ color:var(--text-lo); font-weight:600; font-size:28px; line-height:1.7; }
-  .rules-list{ list-style:none; display:flex; flex-direction:column; gap:10px; margin-top:8px; }
-  .rules-list li{ display:flex; align-items:flex-start; gap:12px; font-weight:600; color:var(--text-lo); font-size:clamp(28px,2.4vw,42px); line-height:1.8; }
-  .rules-list .mark{ color:var(--blue); font-weight:900; flex-shrink:0; }
-  .rev-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:6px; }
-  .rev-item{ background:var(--navy-700); border:1px solid var(--line); border-radius:12px; padding:28px 32px; font-weight:700; font-size:28px; line-height:1.85; color:var(--text-lo); }
-  .rev-item b{ color:var(--blue); }
-  .logo{ display:inline-flex; align-items:center; gap:10px; font-weight:900; font-size:20px; color:var(--text-hi); position:absolute; top:34px; inset-inline-end:8vw; }
-  .logo .sq{ width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--blue),var(--coral)); display:flex; align-items:center; justify-content:center; color:var(--navy-900); font-family:'JetBrains Mono', monospace; font-weight:800; font-size:15px; }
-  .slide-num{ position:absolute; bottom:28px; inset-inline-start:8vw; font-family:'JetBrains Mono', monospace; color:var(--text-lo); font-size:13px; }
-  #progress{ position:fixed; top:0; right:0; left:0; height:3px; background:var(--line); z-index:50; }
-  #progress-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--blue),var(--coral)); transition:width .1s linear; }
-  @media (max-width:720px){ .rev-grid,.type-grid{ grid-template-columns:1fr; } .logo{ position:static; margin-bottom:20px; } }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Types في ++C | لوغاريتم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy-900: #0a1628;
+      --navy-800: #0f1e35;
+      --navy-700: #152742;
+      --navy-600: #1c3252;
+      --blue: #4c8dff;
+      --coral: #ff6b5b;
+      --text-hi: #eef2f8;
+      --text-lo: #8ea0bd;
+      --line: #223252;
+      --editor-bg: #12192a;
+      --tok-kw: #569cd6;
+      --tok-type: #4ec9b0;
+      --tok-str: #ce9178;
+      --tok-num: #b5cea8;
+      --tok-com: #6a9955;
+      --tok-fn: #dcdcaa;
+      --tok-var: #9cdcfe;
+      --tok-txt: #d4d4d4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--navy-900);
+      color: var(--text-hi);
+      overflow-x: hidden;
+    }
+
+    section.slide {
+      min-height: 100vh;
+      width: 100%;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: clamp(54px, 7vh, 96px) clamp(20px, 3vw, 64px) clamp(76px, 10vh, 128px);
+      position: relative;
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 85% 12%, rgba(76, 141, 255, .10), transparent 45%),
+        radial-gradient(circle at 10% 90%, rgba(255, 107, 91, .08), transparent 40%),
+        var(--navy-900);
+    }
+
+    .slide-inner {
+      width: 100%;
+      max-width: none;
+    }
+
+    .eyebrow {
+      color: var(--coral);
+      font-weight: 700;
+      font-size: 28px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .eyebrow .dash {
+      width: 28px;
+      height: 3px;
+      background: var(--coral);
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    h1 {
+      font-weight: 900;
+      font-size: clamp(48px, 6.4vw, 104px);
+      line-height: 1.25;
+    }
+
+    h1 .accent {
+      color: var(--blue);
+    }
+
+    h2 {
+      font-weight: 800;
+      font-size: clamp(36px, 4.35vw, 72px);
+      margin-bottom: 24px;
+    }
+
+    p.lead {
+      font-size: clamp(28px, 2.4vw, 42px);
+      line-height: 1.8;
+      color: var(--text-lo);
+      font-weight: 600;
+      max-width: none;
+    }
+
+    p.lead b {
+      color: var(--text-hi);
+    }
+
+    .en {
+      font-family: 'JetBrains Mono', monospace;
+      direction: ltr;
+      unicode-bidi: embed;
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .code-window {
+      margin-top: 24px;
+      width: 100%;
+      max-width: none;
+      background: var(--editor-bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+      direction: ltr;
+      text-align: left;
+    }
+
+    .code-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 22px;
+      background: var(--navy-700);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .code-titlebar .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .dot.red {
+      background: #ff5f56;
+    }
+
+    .dot.yellow {
+      background: #ffbd2e;
+    }
+
+    .dot.green {
+      background: #27c93f;
+    }
+
+    .code-titlebar .fname {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      color: var(--text-lo);
+      margin-inline-start: 8px;
+    }
+
+    pre.code {
+      padding: 28px 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(28px, 2.5vw, 44px);
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      overflow-x: hidden;
+      color: var(--tok-txt);
+    }
+
+    pre.code .kw {
+      color: var(--tok-kw);
+    }
+
+    pre.code .type {
+      color: var(--tok-type);
+    }
+
+    pre.code .str {
+      color: var(--tok-str);
+    }
+
+    pre.code .num {
+      color: var(--tok-num);
+    }
+
+    pre.code .com {
+      color: var(--tok-com);
+      font-style: italic;
+    }
+
+    pre.code .fn {
+      color: var(--tok-fn);
+    }
+
+    pre.code .var {
+      color: var(--tok-var);
+    }
+
+    .good-label,
+    .bad-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 28px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .good-label {
+      background: rgba(76, 141, 255, .12);
+      color: var(--blue);
+    }
+
+    .bad-label {
+      background: rgba(255, 107, 91, .12);
+      color: var(--coral);
+    }
+
+    .agenda-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .agenda-list li {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 32px;
+      border-radius: 10px;
+      font-size: clamp(28px, 2.5vw, 42px);
+      font-weight: 700;
+      color: var(--text-lo);
+    }
+
+    .agenda-list li:nth-child(odd) {
+      background: rgba(255, 255, 255, .02);
+    }
+
+    .agenda-list .num {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--blue);
+      font-weight: 600;
+      font-size: 28px;
+      width: 54px;
+      flex-shrink: 0;
+    }
+
+    .agenda-list li b {
+      color: var(--text-hi);
+    }
+
+    .type-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .type-card {
+      background: var(--navy-700);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 28px 32px;
+      position: relative;
+    }
+
+    .type-card::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      top: 12px;
+      bottom: 12px;
+      width: 4px;
+      background: var(--coral);
+      border-radius: 4px;
+    }
+
+    .type-card .tname {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--tok-type);
+      font-weight: 700;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .type-card .tdesc {
+      color: var(--text-lo);
+      font-weight: 600;
+      font-size: 28px;
+      line-height: 1.7;
+    }
+
+    .rules-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .rules-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-weight: 600;
+      color: var(--text-lo);
+      font-size: clamp(28px, 2.4vw, 42px);
+      line-height: 1.8;
+    }
+
+    .rules-list .mark {
+      color: var(--blue);
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .rev-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .rev-item {
+      background: var(--navy-700);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 28px 32px;
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 1.85;
+      color: var(--text-lo);
+    }
+
+    .rev-item b {
+      color: var(--blue);
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 20px;
+      color: var(--text-hi);
+      position: absolute;
+      top: 34px;
+      inset-inline-end: 8vw;
+    }
+
+    .logo .sq {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--blue), var(--coral));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy-900);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .slide-num {
+      position: absolute;
+      bottom: 28px;
+      inset-inline-start: 8vw;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-lo);
+      font-size: 13px;
+    }
+
+    #progress {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 3px;
+      background: var(--line);
+      z-index: 50;
+    }
+
+    #progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--coral));
+      transition: width .1s linear;
+    }
+
+    @media (max-width:720px) {
+
+      .rev-grid,
+      .type-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .logo {
+        position: static;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="progress"><div id="progress-fill"></div></div>
-
-<!-- 1. COVER -->
-<section class="slide">
-  <span class="logo"><span class="sq">λ</span>لوغاريتم</span>
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>Lesson · ++C</div>
-    <h1>الـ <span class="accent">Data Types</span> في ++C</h1>
-    <p class="lead" style="margin-top:22px;">إزاي تختار الـ <span class="en">type</span> الصح لكل قيمة في برنامجك، وتتعامل معاها صح من الأول.</p>
+  <div id="progress">
+    <div id="progress-fill"></div>
   </div>
-  <div class="slide-num">01 / 14</div>
-</section>
 
-<!-- 2. TOPICS -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>Agenda</div>
-    <h2>هنتكلم عن إيه النهاردة</h2>
-    <ul class="agenda-list">
-      <li><span class="num">01</span><b>Data Type</b> يعني إيه</li>
-      <li><span class="num">02</span>الأرقام الصحيحة: <b>int</b> و <b>long long</b></li>
-      <li><span class="num">03</span>الحروف والنصوص: <b>char</b> و <b>string</b></li>
-      <li><span class="num">04</span><b>bool</b></li>
-      <li><span class="num">05</span>الكسور: <b>float</b> و <b>double</b></li>
-      <li><span class="num">06</span>قواعد <b>تسمية الـ variables</b></li>
-      <li><span class="num">07</span><b>Assign</b> value</li>
-      <li><span class="num">08</span><b>Update</b> value</li>
-      <li><span class="num">09</span><b>cin</b> — تاخد input إزاي</li>
-      <li><span class="num">10</span><b>cin</b> للأرقام مقابل النصوص</li>
-      <li><span class="num">11</span>مثال <b>شامل</b></li>
-      <li><span class="num">12</span><b>Revision</b></li>
-    </ul>
-  </div>
-  <div class="slide-num">02 / 14</div>
-</section>
-
-<!-- 3. WHAT IS A DATA TYPE -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>الأساس</div>
-    <h2><span class="en">Data Type</span> يعني إيه؟</h2>
-    <p class="lead">كل <span class="en">variable</span> في ++C لازم يكون ليه <b>نوع (type)</b> محدد بيقول للـ <span class="en">compiler</span> نوع البيانات اللي هيتخزن جواه، وحجم المساحة اللي هياخدها في الذاكرة. من غير الـ type، الـ compiler مش هيعرف يتعامل مع القيمة صح.</p>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">types.cpp</span></div>
-      <pre class="code"><span class="type">int</span> <span class="var">age</span> = <span class="num">20</span>;
-<span class="com">// int = النوع  |  age = اسم الـ variable  |  20 = القيمة</span></pre>
+  <!-- 1. COVER -->
+  <section class="slide">
+    <span class="logo"><span class="sq">λ</span>لوغاريتم</span>
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>Lesson · ++C</div>
+      <h1>الـ <span class="accent">Data Types</span> في ++C</h1>
+      <p class="lead" style="margin-top:22px;">إزاي تختار الـ <span class="en">type</span> الصح لكل قيمة في برنامجك،
+        وتتعامل معاها صح من الأول.</p>
     </div>
-  </div>
-  <div class="slide-num">03 / 14</div>
-</section>
+    <div class="slide-num">01 / 14</div>
+  </section>
 
-<!-- 4. int & long long -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>الأرقام الصحيحة</div>
-    <h2><span class="en">int</span> و <span class="en">long long</span></h2>
-    <p class="lead"><span class="en">int</span> بيخزن أرقام صحيحة (من غير كسور) زي <span class="en">5</span> أو <span class="en">-10</span>، بس ليه حد أقصى. لو هتشتغل برقم كبير أوي هيتعدى الحد ده (زي عدد سكان دولة)، تستخدم <span class="en">long long</span>.</p>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">numbers.cpp</span></div>
-      <pre class="code"><span class="type">int</span> <span class="var">age</span> = <span class="num">25</span>;
+  <!-- 2. TOPICS -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>Agenda</div>
+      <h2>هنتكلم عن إيه النهاردة</h2>
+      <ul class="agenda-list">
+        <li><span class="num">01</span><b>Data Type</b> يعني إيه</li>
+        <li><span class="num">02</span>الأرقام الصحيحة: <b>int</b> و <b>long long</b></li>
+        <li><span class="num">03</span>الحروف والنصوص: <b>char</b> و <b>string</b></li>
+        <li><span class="num">04</span><b>bool</b></li>
+        <li><span class="num">05</span>الكسور: <b>float</b> و <b>double</b></li>
+        <li><span class="num">06</span>قواعد <b>تسمية الـ variables</b></li>
+        <li><span class="num">07</span><b>Assign</b> value</li>
+        <li><span class="num">08</span><b>Update</b> value</li>
+        <li><span class="num">09</span><b>cin</b> — تاخد input إزاي</li>
+        <li><span class="num">10</span><b>cin</b> للأرقام مقابل النصوص</li>
+        <li><span class="num">11</span>مثال <b>شامل</b></li>
+        <li><span class="num">12</span><b>Revision</b></li>
+      </ul>
+    </div>
+    <div class="slide-num">02 / 14</div>
+  </section>
+
+  <!-- 3. WHAT IS A DATA TYPE -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>الأساس</div>
+      <h2><span class="en">Data Type</span> يعني إيه؟</h2>
+      <p class="lead">كل <span class="en">variable</span> في ++C لازم يكون ليه <b>نوع (type)</b> محدد بيقول للـ <span
+          class="en">compiler</span> نوع البيانات اللي هيتخزن جواه، وحجم المساحة اللي هياخدها في الذاكرة. من غير الـ
+        type، الـ compiler مش هيعرف يتعامل مع القيمة صح.</p>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">types.cpp</span></div>
+        <pre class="code"><span class="type">int</span> <span class="var">age</span> = <span class="num">20</span>;
+<span class="com">// int = النوع  |  age = اسم الـ variable  |  20 = القيمة</span></pre>
+      </div>
+    </div>
+    <div class="slide-num">03 / 14</div>
+  </section>
+
+  <!-- 4. int & long long -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>الأرقام الصحيحة</div>
+      <h2><span class="en">int</span> و <span class="en">long long</span></h2>
+      <p class="lead"><span class="en">int</span> بيخزن أرقام صحيحة (من غير كسور) زي <span class="en">5</span> أو <span
+          class="en">-10</span>، بس ليه حد أقصى. لو هتشتغل برقم كبير أوي هيتعدى الحد ده (زي عدد سكان دولة)، تستخدم <span
+          class="en">long long</span>.</p>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">numbers.cpp</span></div>
+        <pre class="code"><span class="type">int</span> <span class="var">age</span> = <span class="num">25</span>;
 <span class="type">int</span> <span class="var">score</span> = <span class="num">-10</span>;
 <span class="type">long long</span> <span class="var">population</span> = <span class="num">8000000000</span>;
 <span class="com">// رقم كبير أوي مفيش مكان له في int</span></pre>
+      </div>
     </div>
-  </div>
-  <div class="slide-num">04 / 14</div>
-</section>
+    <div class="slide-num">04 / 14</div>
+  </section>
 
-<!-- 5. char & string -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>الحروف والنصوص</div>
-    <h2><span class="en">char</span> و <span class="en">string</span></h2>
-    <p class="lead"><span class="en">char</span> بيخزن <b>حرف واحد بس</b> بين quotes مفردة <span class="en">' '</span>. <span class="en">string</span> بيخزن <b>مجموعة حروف (نص)</b> بين quotes مزدوجة <span class="en">" "</span>، وعشان تستخدمه لازم تعمل <span class="en">#include &lt;string&gt;</span>.</p>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">text.cpp</span></div>
-      <pre class="code"><span class="kw">#include</span> <span class="str">&lt;string&gt;</span>
+  <!-- 5. char & string -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>الحروف والنصوص</div>
+      <h2><span class="en">char</span> و <span class="en">string</span></h2>
+      <p class="lead"><span class="en">char</span> بيخزن <b>حرف واحد بس</b> بين quotes مفردة <span class="en">'
+          '</span>. <span class="en">string</span> بيخزن <b>مجموعة حروف (نص)</b> بين quotes مزدوجة <span class="en">"
+          "</span>، وعشان تستخدمه لازم تعمل <span class="en">#include &lt;string&gt;</span>.</p>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">text.cpp</span></div>
+        <pre class="code"><span class="kw">#include</span> <span class="str">&lt;string&gt;</span>
 
 <span class="type">char</span> <span class="var">grade</span> = <span class="str">'A'</span>;
 <span class="type">string</span> <span class="var">name</span> = <span class="str">"Mohamed"</span>;</pre>
+      </div>
     </div>
-  </div>
-  <div class="slide-num">05 / 14</div>
-</section>
+    <div class="slide-num">05 / 14</div>
+  </section>
 
-<!-- 6. bool -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>القيم المنطقية</div>
-    <h2><span class="en">bool</span></h2>
-    <p class="lead"><span class="en">bool</span> بيخزن قيمة من اتنين بس: <span class="en">true</span> أو <span class="en">false</span>. بتستخدمه في الشروط والقرارات جوه البرنامج.</p>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">bool.cpp</span></div>
-      <pre class="code"><span class="type">bool</span> <span class="var">isStudent</span> = <span class="kw">true</span>;
+  <!-- 6. bool -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>القيم المنطقية</div>
+      <h2><span class="en">bool</span></h2>
+      <p class="lead"><span class="en">bool</span> بيخزن قيمة من اتنين بس: <span class="en">true</span> أو <span
+          class="en">false</span>. بتستخدمه في الشروط والقرارات جوه البرنامج.</p>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">bool.cpp</span></div>
+        <pre class="code"><span class="type">bool</span> <span class="var">isStudent</span> = <span class="kw">true</span>;
 <span class="type">bool</span> <span class="var">isPassed</span> = <span class="kw">false</span>;</pre>
+      </div>
     </div>
-  </div>
-  <div class="slide-num">06 / 14</div>
-</section>
+    <div class="slide-num">06 / 14</div>
+  </section>
 
-<!-- 7. float & double -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>الكسور العشرية</div>
-    <h2><span class="en">float</span> و <span class="en">double</span></h2>
-    <p class="lead">لو القيمة فيها كسور عشرية زي <span class="en">3.14</span> أو <span class="en">19.99</span>، تستخدم <span class="en">float</span> أو <span class="en">double</span>. <span class="en">double</span> بيدي دقة أعلى ومساحة أكبر، وده اللي بنستخدمه في الغالب.</p>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">decimals.cpp</span></div>
-      <pre class="code"><span class="type">float</span> <span class="var">price</span> = <span class="num">19.99f</span>;
+  <!-- 7. float & double -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>الكسور العشرية</div>
+      <h2><span class="en">float</span> و <span class="en">double</span></h2>
+      <p class="lead">لو القيمة فيها كسور عشرية زي <span class="en">3.14</span> أو <span class="en">19.99</span>، تستخدم
+        <span class="en">float</span> أو <span class="en">double</span>. <span class="en">double</span> بيدي دقة أعلى
+        ومساحة أكبر، وده اللي بنستخدمه في الغالب.</p>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">decimals.cpp</span></div>
+        <pre class="code"><span class="type">float</span> <span class="var">price</span> = <span class="num">19.99f</span>;
 <span class="type">double</span> <span class="var">pi</span> = <span class="num">3.14159265</span>;
 <span class="com">// double أدق وأشيع استخدام</span></pre>
+      </div>
     </div>
-  </div>
-  <div class="slide-num">07 / 14</div>
-</section>
+    <div class="slide-num">07 / 14</div>
+  </section>
 
-<!-- 8. NAMING RULES -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>قواعد التسمية</div>
-    <h2>تسمية الـ <span class="en">variables</span></h2>
-    <ul class="rules-list">
-      <li><span class="mark">—</span>الاسم لازم يبدأ بحرف أو <span class="en">underscore ( _ )</span>، مش رقم.</li>
-      <li><span class="mark">—</span>ممنوع مسافات أو رموز زي <span class="en">@ # -</span> جوه الاسم.</li>
-      <li><span class="mark">—</span>++C بيفرق بين الحروف الكبيرة والصغيرة، يعني <span class="en">age</span> و <span class="en">Age</span> اسمين مختلفين تمامًا.</li>
-      <li><span class="mark">—</span>متستخدمش <span class="en">keywords</span> زي <span class="en">int</span> أو <span class="en">return</span> كاسم لـ variable.</li>
-      <li><span class="mark">—</span>الاسم الواضح أحسن من الحرف الوحيد: <span class="en">studentAge</span> أوضح بكتير من <span class="en">a</span>.</li>
-    </ul>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">naming.cpp</span></div>
-      <pre class="code"><span class="good-label">✓ صح</span>
+  <!-- 8. NAMING RULES -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>قواعد التسمية</div>
+      <h2>تسمية الـ <span class="en">variables</span></h2>
+      <ul class="rules-list">
+        <li><span class="mark">—</span>الاسم لازم يبدأ بحرف أو <span class="en">underscore ( _ )</span>، مش رقم.</li>
+        <li><span class="mark">—</span>ممنوع مسافات أو رموز زي <span class="en">@ # -</span> جوه الاسم.</li>
+        <li><span class="mark">—</span>++C بيفرق بين الحروف الكبيرة والصغيرة، يعني <span class="en">age</span> و <span
+            class="en">Age</span> اسمين مختلفين تمامًا.</li>
+        <li><span class="mark">—</span>متستخدمش <span class="en">keywords</span> زي <span class="en">int</span> أو <span
+            class="en">return</span> كاسم لـ variable.</li>
+        <li><span class="mark">—</span>الاسم الواضح أحسن من الحرف الوحيد: <span class="en">studentAge</span> أوضح بكتير
+          من <span class="en">a</span>.</li>
+      </ul>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">naming.cpp</span></div>
+        <pre class="code"><span class="good-label">✓ صح</span>
 <span class="type">int</span> <span class="var">studentAge</span> = <span class="num">20</span>;
 <span class="type">int</span> <span class="var">_score</span> = <span class="num">90</span>;
 
 <span class="bad-label">✕ غلط</span>
 <span class="com">// int 2age = 20;      لا يبدأ برقم</span>
 <span class="com">// int student age;    فيه مسافة</span></pre>
+      </div>
     </div>
-  </div>
-  <div class="slide-num">08 / 14</div>
-</section>
+    <div class="slide-num">08 / 14</div>
+  </section>
 
-<!-- 9. ASSIGN VALUE -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>Assign Value</div>
-    <h2>بتدي قيمة للـ <span class="en">variable</span> إزاي</h2>
-    <p class="lead">تقدر تدي القيمة وانت بتعرّف الـ <span class="en">variable</span> (<span class="en">declare + assign</span> مع بعض)، أو تعرّفه الأول وتديله القيمة بعد كده.</p>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">assign.cpp</span></div>
-      <pre class="code"><span class="type">int</span> <span class="var">age</span> = <span class="num">20</span>;
+  <!-- 9. ASSIGN VALUE -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>Assign Value</div>
+      <h2>بتدي قيمة للـ <span class="en">variable</span> إزاي</h2>
+      <p class="lead">تقدر تدي القيمة وانت بتعرّف الـ <span class="en">variable</span> (<span class="en">declare +
+          assign</span> مع بعض)، أو تعرّفه الأول وتديله القيمة بعد كده.</p>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">assign.cpp</span></div>
+        <pre class="code"><span class="type">int</span> <span class="var">age</span> = <span class="num">20</span>;
 <span class="com">// declare و assign في سطر واحد</span>
 
 <span class="type">int</span> <span class="var">score</span>;
 <span class="var">score</span> = <span class="num">95</span>;
 <span class="com">// declare الأول، وassign بعد كده</span></pre>
+      </div>
     </div>
-  </div>
-  <div class="slide-num">09 / 14</div>
-</section>
+    <div class="slide-num">09 / 14</div>
+  </section>
 
-<!-- 10. UPDATE VALUE -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>Update Value</div>
-    <h2>بتغيّر القيمة إزاي</h2>
-    <p class="lead">تقدر تغيّر قيمة الـ <span class="en">variable</span> في أي وقت بعد كده — بس <b>النوع بتاعه ثابت</b> ومش بيتغير.</p>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">update.cpp</span></div>
-      <pre class="code"><span class="type">int</span> <span class="var">score</span> = <span class="num">95</span>;
+  <!-- 10. UPDATE VALUE -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>Update Value</div>
+      <h2>بتغيّر القيمة إزاي</h2>
+      <p class="lead">تقدر تغيّر قيمة الـ <span class="en">variable</span> في أي وقت بعد كده — بس <b>النوع بتاعه
+          ثابت</b> ومش بيتغير.</p>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">update.cpp</span></div>
+        <pre class="code"><span class="type">int</span> <span class="var">score</span> = <span class="num">95</span>;
 <span class="var">score</span> = <span class="num">100</span>;
 <span class="com">// اتحدثت القيمة القديمة بقيمة جديدة</span>
 
 <span class="var">score</span> = <span class="var">score</span> + <span class="num">5</span>;
 <span class="com">// بناء على القيمة القديمة نفسها</span></pre>
+      </div>
     </div>
-  </div>
-  <div class="slide-num">10 / 14</div>
-</section>
+    <div class="slide-num">10 / 14</div>
+  </section>
 
-<!-- 11. CIN -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>Input</div>
-    <h2><span class="en">cin</span> — تاخد قيمة من المستخدم</h2>
-    <p class="lead"><span class="en">cin</span> بتستخدمها عشان تاخد <span class="en">input</span> من المستخدم من الـ <span class="en">keyboard</span>، ولازم تعمل <span class="en">#include &lt;iostream&gt;</span> عشان تستخدمها.</p>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">input.cpp</span></div>
-      <pre class="code"><span class="type">int</span> <span class="var">age</span>;
+  <!-- 11. CIN -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>Input</div>
+      <h2><span class="en">cin</span> — تاخد قيمة من المستخدم</h2>
+      <p class="lead"><span class="en">cin</span> بتستخدمها عشان تاخد <span class="en">input</span> من المستخدم من الـ
+        <span class="en">keyboard</span>، ولازم تعمل <span class="en">#include &lt;iostream&gt;</span> عشان تستخدمها.
+      </p>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">input.cpp</span></div>
+        <pre class="code"><span class="type">int</span> <span class="var">age</span>;
 <span class="var">cout</span> &lt;&lt; <span class="str">"Enter your age: "</span>;
 <span class="var">cin</span> &gt;&gt; <span class="var">age</span>;
 <span class="com">// المستخدم كتب رقم، اتخزن جوه age</span></pre>
+      </div>
     </div>
-  </div>
-  <div class="slide-num">11 / 14</div>
-</section>
+    <div class="slide-num">11 / 14</div>
+  </section>
 
-<!-- 12. CIN FOR NUMBER VS STRING -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>خد بالك</div>
-    <h2><span class="en">cin</span> للأرقام مقابل النصوص</h2>
-    <p class="lead"><span class="en">cin >></span> مع رقم (<span class="en">int</span>, <span class="en">double</span>...) بتقرا لحد أول <b>مسافة</b>. لو عايز تقرا سطر كامل فيه مسافات (زي الاسم الرباعي)، تستخدم <span class="en">getline(cin, variable)</span> بدل <span class="en">cin >></span>.</p>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">cin_vs_getline.cpp</span></div>
-      <pre class="code"><span class="good-label">✓ رقم</span>
+  <!-- 12. CIN FOR NUMBER VS STRING -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>خد بالك</div>
+      <h2><span class="en">cin</span> للأرقام مقابل النصوص</h2>
+      <p class="lead"><span class="en">cin >></span> بتشتغل مع أي نوع (<span class="en">int</span>, <span
+          class="en">double</span>, <span class="en">string</span>...) وبتقرا لحد أول <b>مسافة</b>. يعني لو النص كلمة
+        واحدة هيتخزن كله، ولو كتب المستخدم كلمتين هيتخزن أول كلمة بس.</p>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">cin_types.cpp</span></div>
+        <pre class="code"><span class="good-label">✓ رقم</span>
 <span class="type">int</span> <span class="var">age</span>;
 <span class="var">cin</span> &gt;&gt; <span class="var">age</span>;
 <span class="com">// شغالة عادي مع الأرقام</span>
 
-<span class="good-label">✓ نص فيه مسافات</span>
-<span class="type">string</span> <span class="var">fullName</span>;
-<span class="fn">getline</span>(<span class="var">cin</span>, <span class="var">fullName</span>);
-<span class="com">// cin >> fullName هتوقف عند أول مسافة بس</span></pre>
+<span class="good-label">✓ نص (كلمة واحدة)</span>
+<span class="type">string</span> <span class="var">name</span>;
+<span class="var">cin</span> &gt;&gt; <span class="var">name</span>;
+      </div>
     </div>
-  </div>
-  <div class="slide-num">12 / 14</div>
-</section>
+    <div class="slide-num">12 / 14</div>
+  </section>
 
-<!-- 13. FULL EXAMPLE -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>مثال شامل</div>
-    <h2>كل الأنواع مع بعض</h2>
-    <p class="lead">دلوقتي خلينا نجمع كل الـ types والـ input في برنامج واحد كامل.</p>
-    <div class="code-window">
-      <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="fname">full_example.cpp</span></div>
-      <pre class="code"><span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>
+  <!-- 13. FULL EXAMPLE -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>مثال شامل</div>
+      <h2>كل الأنواع مع بعض</h2>
+      <p class="lead">دلوقتي خلينا نجمع كل الـ types والـ input في برنامج واحد كامل.</p>
+      <div class="code-window">
+        <div class="code-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span
+            class="dot green"></span><span class="fname">full_example.cpp</span></div>
+        <pre class="code"><span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>
 <span class="kw">using namespace</span> <span class="var">std</span>;
 
 <span class="type">int</span> <span class="fn">main</span>() {
@@ -324,7 +694,7 @@
     <span class="type">bool</span> <span class="var">isPassed</span>;
 
     <span class="var">cout</span> &lt;&lt; <span class="str">"Enter your name: "</span>;
-    <span class="fn">getline</span>(<span class="var">cin</span>, <span class="var">name</span>);
+    <span class="var">cin</span> &gt;&gt; <span class="var">name</span>;
 
     <span class="var">cout</span> &lt;&lt; <span class="str">"Enter your age: "</span>;
     <span class="var">cin</span> &gt;&gt; <span class="var">age</span>;
@@ -337,52 +707,56 @@
     <span class="var">cout</span> &lt;&lt; <span class="var">name</span> &lt;&lt; <span class="str">" - Age: "</span> &lt;&lt; <span class="var">age</span> &lt;&lt; <span class="str">" - Passed: "</span> &lt;&lt; <span class="var">isPassed</span>;
     <span class="kw">return</span> <span class="num">0</span>;
 }</pre>
+      </div>
     </div>
-  </div>
-  <div class="slide-num">13 / 14</div>
-</section>
+    <div class="slide-num">13 / 14</div>
+  </section>
 
-<!-- 14. REVISION -->
-<section class="slide">
-  <div class="slide-inner">
-    <div class="eyebrow"><span class="dash"></span>Revision</div>
-    <h2>اللي لازم يفضل في دماغك</h2>
-    <div class="rev-grid">
-      <div class="rev-item">كل <b>variable</b> لازم يكون ليه <span class="en">type</span> يحدد نوعه وحجمه في الذاكرة.</div>
-      <div class="rev-item"><span class="en">int</span> للأرقام الصحيحة، <span class="en">long long</span> للأرقام الكبيرة أوي.</div>
-      <div class="rev-item"><span class="en">char</span> لحرف واحد، <span class="en">string</span> لنص كامل.</div>
-      <div class="rev-item"><span class="en">float</span>/<span class="en">double</span> للكسور، <span class="en">bool</span> للـ <span class="en">true/false</span>.</div>
-      <div class="rev-item">اسم الـ <span class="en">variable</span> يبدأ بحرف، من غير مسافات أو رموز.</div>
-      <div class="rev-item"><span class="en">cin >></span> للأرقام، و<span class="en">getline</span> للنصوص اللي فيها مسافات.</div>
+  <!-- 14. REVISION -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="dash"></span>Revision</div>
+      <h2>اللي لازم يفضل في دماغك</h2>
+      <div class="rev-grid">
+        <div class="rev-item">كل <b>variable</b> لازم يكون ليه <span class="en">type</span> يحدد نوعه وحجمه في الذاكرة.
+        </div>
+        <div class="rev-item"><span class="en">int</span> للأرقام الصحيحة، <span class="en">long long</span> للأرقام
+          الكبيرة أوي.</div>
+        <div class="rev-item"><span class="en">char</span> لحرف واحد، <span class="en">string</span> لنص كامل.</div>
+        <div class="rev-item"><span class="en">float</span>/<span class="en">double</span> للكسور، <span
+            class="en">bool</span> للـ <span class="en">true/false</span>.</div>
+        <div class="rev-item">اسم الـ <span class="en">variable</span> يبدأ بحرف، من غير مسافات أو رموز.</div>
+        <div class="rev-item"><span class="en">cin >></span> بتقرا القيمة لحد أول مسافة، سواء رقم أو نص.</div>
+      </div>
     </div>
-  </div>
-  <div class="slide-num">14 / 14</div>
-</section>
+    <div class="slide-num">14 / 14</div>
+  </section>
 
-<script>
-  const fill = document.getElementById('progress-fill');
-  window.addEventListener('scroll', () => {
-    const h = document.documentElement;
-    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
-    fill.style.width = pct + '%';
-  });
-  const slides = Array.from(document.querySelectorAll('.slide'));
-  document.addEventListener('keydown', (e) => {
-    const y = window.scrollY;
-    const idx = slides.findIndex(s => Math.abs(s.offsetTop - y) < 50);
-    if(e.key === 'ArrowDown' || e.key === 'PageDown'){
-      const next = slides[Math.min(idx+1, slides.length-1)];
-      if(next) next.scrollIntoView({behavior:'smooth'});
-    }
-    if(e.key === 'ArrowUp' || e.key === 'PageUp'){
-      const prev = slides[Math.max(idx-1, 0)];
-      if(prev) prev.scrollIntoView({behavior:'smooth'});
-    }
-    if(e.key.toLowerCase() === 'f'){
-      if(document.fullscreenElement) document.exitFullscreen();
-      else document.documentElement.requestFullscreen().catch(()=>{});
-    }
-  });
-</script>
+  <script>
+    const fill = document.getElementById('progress-fill');
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+      fill.style.width = pct + '%';
+    });
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    document.addEventListener('keydown', (e) => {
+      const y = window.scrollY;
+      const idx = slides.findIndex(s => Math.abs(s.offsetTop - y) < 50);
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        const next = slides[Math.min(idx + 1, slides.length - 1)];
+        if (next) next.scrollIntoView({ behavior: 'smooth' });
+      }
+      if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        const prev = slides[Math.max(idx - 1, 0)];
+        if (prev) prev.scrollIntoView({ behavior: 'smooth' });
+      }
+      if (e.key.toLowerCase() === 'f') {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen().catch(() => { });
+      }
+    });
+  </script>
 </body>
+
 </html>

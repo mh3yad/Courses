@@ -1,0 +1,12 @@
+body{
+    background:rgb(191, 244, 244);
+}
+
+.textinput {
+    border: 3px rgb(35, 52, 1) solid;
+    padding:10px;
+}
+
+.user{
+    color:red;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logarithm – C++ Variables Quiz</title>
+<style>
+:root{--bg:#0B1F3A;--card:#12294a;--ac:#FF7A1A;--tx:#fff;--mu:#9fb3cf;--ok:#2ecc71;--no:#e74c3c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font-family:"Cairo","Segoe UI",Tahoma,sans-serif;display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:10px;padding:12px 18px}
+header b{font-size:20px;letter-spacing:1px}header b span{color:var(--ac)}
+.bar{height:5px;background:#1d3a63}.bar i{display:block;height:100%;width:0;background:var(--ac);transition:.3s}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+.s{width:100%;max-width:760px;background:var(--card);border-radius:20px;padding:26px;border-top:6px solid var(--ac)}
+.tag{color:var(--ac);font-weight:700;font-size:14px}
+h1{font-size:30px;margin:8px 0}h2{font-size:24px;margin:10px 0 18px;line-height:1.6}
+p{color:var(--mu);font-size:18px;line-height:1.8}
+.o{display:block;width:100%;text-align:start;margin:8px 0;padding:13px 16px;font:inherit;font-size:18px;color:var(--tx);background:#0e2342;border:2px solid #24456f;border-radius:12px;cursor:pointer}
+.o:hover{border-color:var(--ac)}.o.ok{background:var(--ok);border-color:var(--ok)}.o.no{background:var(--no);border-color:var(--no)}
+pre{direction:ltr;text-align:left;background:#07142a;padding:14px;border-radius:12px;font-size:18px;overflow-x:auto;color:#ffd7b3}
+.btn{background:var(--ac);color:#fff;border:0;padding:12px 24px;font:inherit;font-size:18px;border-radius:12px;cursor:pointer;margin-top:12px}
+footer{display:flex;justify-content:space-between;padding:12px 18px}
+footer .btn{margin:0;padding:10px 22px}footer .btn:disabled{opacity:.35}
+.big{font-size:64px;color:var(--ac);font-weight:800}
+.fb{margin-top:12px;padding:12px 16px;border-radius:12px;font-size:18px;line-height:1.7;background:#0e2342;border-right:5px solid var(--ac)}.fb.g{border-color:var(--ok)}.fb.r{border-color:var(--no)}
+.hero{position:relative;height:200px;border-radius:12px;background:linear-gradient(160deg,#1e6fd9,#6cc4ff 60%,#ffd9a0);overflow:hidden;margin:10px 0}.hero .logo{position:absolute;top:10px;right:12px;font-weight:800}.hero .b{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--ac);color:#fff;border:0;border-radius:8px;padding:8px 22px;font:inherit}.hero .bx{position:absolute;top:62%;left:50%;transform:translateX(-50%);width:50%;height:60px;background:#fff;border-radius:8px}
+.bl{font:inherit;color:#fff;background:#0e2342;border:2px dashed var(--ac);border-radius:6px;padding:0 6px;text-align:center;outline:none;width:auto}.bl.g{border:2px solid var(--ok);background:rgba(46,204,113,.28);color:#bff5d3}
+.sol{display:none}.sol.show{display:block}
+</style>
+</head>
+<body>
+<header>
+<svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true"><circle cx="19" cy="19" r="18" fill="#FF7A1A"/><text x="19" y="25" font-size="17" font-weight="800" text-anchor="middle" fill="#0B1F3A" font-family="Arial">log</text></svg>
+<b>LOG<span>ARITHM</span></b>
+</header>
+<div class="bar"><i id="pb"></i></div>
+<main><div class="s" id="sl"></div></main>
+<footer><button class="btn" id="nx">التالي ←</button><button class="btn" id="pv_">→ السابق</button></footer>
+<script>
+const E=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const Q=t=>{const p=t.split("\n");return `<h2 dir="rtl">${E(p[0])}</h2>`+(p[1]?`<pre>${E(p.slice(1).join("\n"))}</pre>`:"")};
+const mc=[
+["int بيخزن إيه؟",["أرقام صحيحة زي 5","نص","حرف واحد بس","أرقام فيها كسور"],0,"int للأرقام الصحيحة من غير كسور."],
+["float بيخزن إيه؟",["أرقام فيها كسور زي 3.14","نص","حرف واحد","true أو false"],0,"float للأرقام اللي فيها كسور عشرية."],
+["double بيتميز عن float بإيه؟",["دقة أكتر","بيخزن نصوص","بيخزن حروف","مفيش فرق خالص"],0,"double بيخزن كسور بدقة أعلى من float."],
+["string بيخزن إيه؟",["نص زي \"Ali\"","رقم صحيح","كسر","حرف واحد بس"],0,"string للنصوص، يعني مجموعة حروف."],
+["char بيخزن إيه؟",["حرف واحد","نص طويل","رقم كبير أوي","كسر"],0,"char بيخزن حرف واحد بس."],
+["إزاي نكتب char صح؟",["char c = 'A';","char c = \"A\";","char c = A;","char c = (A);"],0,"char بياخد علامة تنصيص مفردة ' '."],
+["إزاي نكتب string صح؟",["string s = \"Ali\";","string s = 'Ali';","string s = Ali;","string s = (Ali);"],0,"string بياخد علامة تنصيص مزدوجة \" \"."],
+["cin بتعمل إيه؟",["بتقرا قيمة من المستخدم","بتطبع على الشاشة","بتمسح المتغير","بتعرّف متغير جديد"],0,"cin بتقرا اللي المستخدم يكتبه. اللي بتطبع هي cout."],
+["أنهي سطر بيقرا age صح؟",["cin >> age;","cin << age;","cout >> age;","cin(age);"],0,"cin بتستخدم >> مع المتغير."],
+["إيه ناتج الكود ده؟\nint x = 7 / 2;\ncout << x;",["3","3.5","4","2"],0,"int مبيخزنش كسور، فبيشيل .5 والناتج 3."]];
+const tf=[
+["الكود ده هيخزن 3.5 زي ما هو:\nint x = 3.5;",false,"int مبيخزنش كسور. هيخزن 3 بس."],
+["string بيخزن نص زي \"Ali\".",true,"أيوه، string للنصوص."],
+["الكود ده صح:\nchar c = 'A';",true,"أيوه، char بياخد حرف واحد بين ' '."],
+["الكود ده بيقرا القيمة من المستخدم ويخزنها في age:\ncin >> age;",true,"أيوه، cin >> بتقرا وتخزن في المتغير."],
+["الكود ده بيقرا القيمة من المستخدم:\ncout >> name;",false,"cout بتطبع وبتستخدم <<. اللي بتقرا هي cin >>."]];
+const cc=[
+["كمّل تعريف المتغيرات (الاسم والسن):\n___ name;\n___ age;","string name;\nint age;","الاسم نص يبقى string، والسن رقم صحيح يبقى int.",["string","int"]],
+["اكتب الناقص في سطر قراءة الاسم:\ncout << \"Enter your name: \";\ncin ___ name;","cout << \"Enter your name: \";\ncin >> name;","cin بتستخدم >> عشان تقرا وتخزن.",[">>"]],
+["اكتب الناقص في سطر قراءة السن:\ncout << \"Enter your age: \";\ncin >> ___;","cout << \"Enter your age: \";\ncin >> age;","بنكتب اسم المتغير اللي عايزين نخزن فيه.",["age"]],
+["اكتب الناقص في سطور الطباعة:\ncout << \"Name: \" << ___ << endl;\ncout << \"Age: \" << ___ << endl;","cout << \"Name: \" << name << endl;\ncout << \"Age: \" << age << endl;","بنطبع قيمة المتغير بكتابة اسمه من غير علامات تنصيص.",["name","age"]],
+["كمّل البرنامج كله:\n#include <iostream>\nusing namespace std;\n\nint main() {\n    string name;\n    int age;\n    cin >> ___;\n    cin >> ___;\n    cout << name << \" \" << ___;\n    return 0;\n}","#include <iostream>\nusing namespace std;\n\nint main() {\n    string name;\n    int age;\n    cin >> name;\n    cin >> age;\n    cout << name << \" \" << age;\n    return 0;\n}","نقرا name وage بـ cin، وبعدين نطبعهم بـ cout.",["name","age","age"]]];
+const rnd=a=>a.map((_,j)=>j).sort(()=>Math.random()-.5);
+const L=['a','b','c','d'];
+const S=[()=>`<div class="tag">C++ Variables</div><h1>اختبار Types و cin 💻</h1><p>10 اختيارات + 5 صح وغلط + 5 تحديات كود<br>المواضيع: int ، float ، double ، string ، char ، cin</p><button class="btn" onclick="go(1)">يلا نبدأ</button>`];
+mc.forEach((q,n)=>{const k=rnd(q[1]);S.push(()=>`<div class="tag">اختيار من متعدد ${n+1}/${mc.length}</div>${Q(q[0])}`+k.map((j,x)=>{const o=E(q[1][j]),ar=/[\u0600-\u06FF]/.test(o);return `<button class="o" dir="${ar?'rtl':'ltr'}" onclick="pick(this,${j},${q[2]})">${L[x]}) ${o}</button>`}).join(""))});
+tf.forEach((q,n)=>S.push(()=>`<div class="tag">صح ولا غلط ${n+1}/${tf.length}</div>${Q(q[0])}<button class="o" onclick="pick(this,1,${q[1]?1:0})">✅ صح</button><button class="o" onclick="pick(this,0,${q[1]?1:0})">❌ غلط</button>`));
+const tot=mc.length+tf.length;
+S.push(()=>`<div class="tag">النتيجة</div><div class="big">${sc} / ${tot}</div><h2>${sc/tot>=.8?"جامد جداً! 🔥":sc/tot>=.5?"كويس، كمّل 👍":"ولا يهمك، راجع وجرّب تاني 💪"}</h2><p>(تحديات الكود مش محسوبة في الدرجة)</p><button class="btn" onclick="go(1)">تحديات الكود 🚀</button>`);
+cc.forEach((q,n)=>S.push(()=>{const p=q[0].split("\n"),an=q[3];let k=0;const code=E(p.slice(1).join("\n")).replace(/___/g,()=>{const a=an[k++];return `<input class="bl" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" size="${a.length+2}" data-a="${E(a)}" oninput="chk(this)">`});return `<div class="tag">تحدي كود ${n+1}/${cc.length}</div><h2 dir="rtl">${E(p[0])}</h2><div id="cd"><pre>${code}</pre></div><div class="fb g done" style="display:none">🎉 برافو! كل الفراغات صح. ${E(q[2])}</div><button class="btn" onclick="this.nextElementSibling.classList.add('show');this.style.display='none'">أظهر الحل</button><div class="sol"><pre>${E(q[1])}</pre></div>`}));
+S.push(()=>`<div class="tag">خلصنا 🎉</div><h2>برافو! عملت برنامج بيقرا الاسم والسن ويطبعهم</h2><button class="btn" onclick="sc=0;done={};go(-i)">ابدأ من الأول</button>`);
+function chk(el){const nz=x=>x.replace(/\s+/g,'');el.classList.toggle('g',nz(el.value)===nz(el.dataset.a));const all=[...document.querySelectorAll('.bl')];document.querySelector('.done').style.display=all.every(x=>x.classList.contains('g'))?'block':'none'}
+let i=0,sc=0,done={};
+function pick(b,j,c){if(done[i])return;done[i]=1;const p=b.parentNode,bs=[...p.querySelectorAll('.o')],ok=j==c;if(ok){sc++;b.classList.add('ok')}else{b.classList.add('no');const t=bs.find(x=>x.getAttribute('onclick').startsWith(`pick(this,${c},`));t&&t.classList.add('ok')}
+const ex=i<=mc.length?mc[i-1][3]:tf[i-mc.length-1][2];const d=document.createElement('div');d.className='fb '+(ok?'g':'r');d.textContent=(ok?'✅ صح! ':'❌ غلط. ')+ex;p.appendChild(d)}
+function go(d){i=Math.max(0,Math.min(S.length-1,i+d));r()}
+function r(){sl.innerHTML=S[i]();pb.style.width=(i/(S.length-1)*100)+'%';pv_.disabled=i==0;nx.disabled=i==S.length-1}
+nx.onclick=()=>go(1);pv_.onclick=()=>go(-1);
+addEventListener('keydown',e=>{if(e.target.tagName=='INPUT')return;if(e.key=='ArrowLeft')go(1);if(e.key=='ArrowRight')go(-1)});
+r();
+</script>
+</body>
+</html>

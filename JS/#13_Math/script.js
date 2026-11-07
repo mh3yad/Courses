@@ -6,7 +6,7 @@ function check(answer) {
         result.classList.add("win");
         result.classList.remove("lose");
     } else {
-        result.textContent = "WRONG!";
+        result.textContent = "WRONG! Try Again";
         result.classList.add("lose");
         result.classList.remove("win");
     }

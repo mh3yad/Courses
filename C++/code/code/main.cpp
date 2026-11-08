@@ -6,25 +6,58 @@ using namespace std;
 
 int main()
 {
-    /*int age;
-    cout << "enter your age: ";
-    cin >> age;
+/*
+    int salary = 6000;
+    int price = 6000;
+    cout << (salary > price)  << endl;
 
-    string name;
-    cout << "enter your name: ";
-    cin >> name;
 
-    cout << "your age is " << age << endl;
-    cout << "your name is " << name << endl;
 
-    age++;
-    cout << "your age is: " << age;*/
-    cout << fixed << showpoint;
-    cout << setprecision(15);
-    double PI = 3.14566545645445456;
-    cout << PI;
-  //  long long salary = 2000000000;
-    //char grade = 'D';
+
+
+
+
+
+
+
+
+
+
+    cout << (salary < price) << endl;
+    cout << (salary == price) << endl;
+    cout << (salary != price) << endl;
+    cout << (salary >= price) << endl;
+    cout << (salary <= price) << endl;*/
+
+
+    string username = "obaida";
+    string password = "123";
+    string usernameinput;
+    string passwordinput;
+    cin >> usernameinput;
+    cin >> passwordinput;
+
+    bool usernameresult = (username == usernameinput );
+    bool passwordresult = (password == passwordinput);
+
+    cout << ( usernameresult && passwordresult) << endl ;
+
+
+
+
+
+
+
+
+
+
+
+
+    bool cache = false;
+    bool visa = false;
+
+    cout << (cache || visa);
+
 
 
 

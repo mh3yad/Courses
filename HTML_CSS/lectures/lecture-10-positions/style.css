@@ -1,7 +1,5 @@
-/* Part 1: relative + absolute */
-.card {
+/* .card {
     position: relative;
-    /* الأب: نقطة البداية للـ badge */
     width: 250px;
     padding: 20px;
     margin: 40px;
@@ -17,7 +15,6 @@
     padding: 4px 10px;
 }
 
-/* Part 2: z-index */
 .stack {
     position: relative;
     width: 200px;
@@ -52,4 +49,29 @@
     left: 60px;
     background: green;
     z-index: 2;
+} */
+
+
+.container {
+    width: 100%;
+    background: rgb(5, 5, 5);
+    color:white;
+}
+
+.navbar {
+    width: 100%;
+    height: 100px;
+    background: rgb(172, 228, 228);
+    position:sticky;
+    top:0px;
+    
+}
+
+.shawkat{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    position:fixed;
+    bottom:10px;
+    right:10px;
 }

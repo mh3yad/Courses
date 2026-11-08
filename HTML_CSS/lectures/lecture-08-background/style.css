@@ -1,13 +1,11 @@
 div {
     background-color: rgb(201, 199, 199);
-    /* background-image:url("images/wego.png"); */
-    background-repeat: no-repeat;
-    /* background-position:right; */
-    background-size:cover;
-
-
-    background-image:linear-gradient(to right, rgb(0, 132, 255), rgb(4, 241, 123));
+    background-image:url("images/pattern.png"); 
+    /* background-repeat: no-repeat; */
+   
+    /* background-size:contain; */
+    /* background-image:linear-gradient(to right, rgb(0, 132, 255), rgb(4, 241, 123)); */
     width:500px;
-    height:300px;
+    height:800px;
    
 }

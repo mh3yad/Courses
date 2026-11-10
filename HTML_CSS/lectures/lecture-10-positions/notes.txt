@@ -1,4 +1,5 @@
-explain static with relative 
-absolute with fixed
-sticky
+sticky with navbar (youtube,cyberdefender,aibedaya)
+fixed with shawkat (aibedaya)
+explain absolute with relative in card discount example  (https://www.ahmedelsallab.com/)
+
 use linkedin homepage to explain sticky vs fixed

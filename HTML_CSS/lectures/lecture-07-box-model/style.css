@@ -1,3 +1,17 @@
-h1{
-    background:red;
+.main{
+    border-top:5px solid rgb(232, 148, 2);
+    border-bottom:10px dashed red;
+    border-right:20px dotted blue;
+    border-left:20px solid yellow;
+}
+
+.pd{
+    width:fit-content;
+    border:2px solid;
+    /* padding-top:15px;
+    padding-left:20px;
+    padding-bottom:20px;
+    padding-right:20px;  */
+    /* padding: 0px 30px;  */
+    padding: 30px 10px 10px 5px;
 }

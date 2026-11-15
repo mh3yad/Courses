@@ -1,61 +1,56 @@
-.nav {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
+.btn1 {
+    background: rgb(45, 165, 230);
+    color: white;
 }
 
-.nav a {
+.btn2 {
     background: gray;
-}
-
-@media(max-width:480px) {
-    .nav {
-        flex-direction: column;
-    }
-}
-
-
-#explore {
-    background: rgb(119, 176, 237);
     color: white;
-    border-radius: 4px;
-    padding: 10px;
-    width: 100%;
-    margin: 15px 2px;
 }
 
-#request {
-    background: rgb(80, 81, 81);
-    color: white;
-    border-radius: 4px;
-    padding: 10px;
-    width: 100%;
-    margin: 15px 2px;
+.btns {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-@media(min-width:640px) {
+@media (min-width:768px) {
     .btns {
-        display: flex;
+        flex-direction: row;
+    }
+}
+
+@media (min-width:900px) {
+    .btn1 {
+        background: red;
+    }
+
+    .btn2 {
+        background: green;
     }
 }
 
 
-.videos {
-    background: rgb(232, 132, 132);
-    display: grid;
-    grid-template-columns: repeat(1, 1fr)
-}
 
-.videos div {
-    border: 2px solid black;
-    padding: 10px;
-    margin: 5px;
-}
 
-img {
-    width: 100%;
-    height: auto;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media(min-width:572px) {
     .videos {

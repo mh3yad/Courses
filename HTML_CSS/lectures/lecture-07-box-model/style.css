@@ -1,46 +1,11 @@
-.container{
-    display:flex;
+h2#title{
+    color:red;
 }
 
-.video {
-    width: 100px;
-    height: 100px;
-    /* margin:10px 20px 30px 40px; */
-    margin-top:10px;
-    margin-right:20px;
-    margin-bottom:30px;
-    margin-left:40px;
+p.note{
+    color:green;
 }
 
-.video1{
-    background:green;
-}
-
-.video2 {
-    background: rgb(118, 239, 6);
-}
-.video3 {
-    background: rgb(220, 244, 10);
-}
-.video4 {
-    background: rgb(197, 57, 2);
-}
-.video5 {
-    background: rgb(5, 132, 237);
-}
-.video6 {
-    background: rgb(4, 60, 228);
-}
-
-
-.google{
-    width:900px;
-    margin:auto;
-}
-
-.center{
-    width:100px;
-    height:100px;
-    background:red;
-    margin:auto;
+div.card{
+    background-color:red;
 }

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logharitm - C++ Conditions Revision</title>
+<style>
+:root{--bg:#0f1a2e;--card:#172640;--ac:#5ac8e0;--tx:#fff;--mu:#aebcd2;--ok:#4cbf86}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#1f3253,var(--bg) 70%);color:var(--tx);font-family:Cairo,"Segoe UI",Tahoma,sans-serif;min-height:100vh}
+header{padding:16px 22px;display:flex;align-items:center;gap:12px;font-weight:900;font-size:21px}header span{color:var(--ac)}
+main{max-width:850px;margin:25px auto;padding:16px}.card{background:var(--card);border-radius:20px;padding:25px;border-top:6px solid var(--ac);box-shadow:0 12px 35px #0003}
+.tag{color:var(--ac);font-weight:bold}h1{font-size:30px;margin:8px 0}h2{font-size:24px;line-height:1.5}p,li{color:var(--mu);font-size:18px;line-height:1.85}
+pre{direction:ltr;text-align:left;white-space:pre-wrap;background:#101c32;color:#c6e5ef;padding:16px;border-radius:12px;font-size:17px;line-height:1.7;overflow:auto}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:11px 20px;font-weight:800;background:linear-gradient(135deg,#34aed2,#2271b5);color:white;margin:5px}
+button:disabled{opacity:.3;cursor:default}.nav{display:flex;justify-content:space-between;margin-top:18px}.dots{height:6px;background:#2a3f63;margin:15px 0;border-radius:8px;overflow:hidden}.dots i{display:block;background:var(--ac);height:100%;width:0;transition:.25s}
+.example{border-right:4px solid var(--ac);padding:8px 14px;margin:15px 0;background:#1b2f58;border-radius:8px}
+.answer{display:none;background:#102f35;border:1px solid var(--ok);border-radius:10px;padding:12px;color:#d7ffeb;margin-top:10px}.answer.show{display:block}
+@media(max-width:560px){h1{font-size:24px}.card{padding:18px}pre{font-size:15px}}
+</style></head>
+<body>
+<header>LOG<span>ARITHM</span> <small style="color:#aebcd2;font-size:14px">| C++ Revision</small></header>
+<main><div class="card" id="app"></div><div class="dots"><i id="progress"></i></div><div class="nav"><button id="prev">→ السابق</button><button id="next">التالي ←</button></div></main>
+<script>
+const slides=[
+()=>`<div class="tag">C++ · REVISION 01</div><h1>مراجعة If Conditions 🎯</h1><p>أهلاً يا بطل! في المراجعة دي هنراجع إزاي نخلي البرنامج ياخد قرارات باستخدام if statements.</p><p>هنغطي:</p><ul><li>if و else</li><li>else if</li><li>nested if</li><li>separate if statements</li><li>تطبيقات على درجات الطلاب وشرط النجاح score >= 50</li></ul><p><b>طريقة الاستخدام:</b> استخدم التالي والسابق، وجرب تجاوب على الأسئلة قبل ما تكشف الإجابة.</p>`,
+()=>`<div class="tag">01 · IF STATEMENT</div><h1>يعني إيه if؟</h1><p>كلمة if معناها «لو». البرنامج بينفّذ الكود اللي جواها بس لو الشرط طلع true.</p><pre>int score = 75;\n\nif (score >= 50) {\n    cout << "Pass";\n}</pre><div class="example"><p>بما إن 75 أكبر من أو يساوي 50، الشرط true، فالبرنامج هيطبع Pass.</p></div><button onclick="toggle('a1')">اكشف الفكرة 💡</button><div class="answer" id="a1">لو الشرط false، البرنامج بيتخطى جسم if ويكمل بعد القوس المقفول.</div>`,
+()=>`<div class="tag">02 · IF / ELSE</div><h1>if مع else</h1><p>بنستخدم else لما يكون عندنا اختيارين: لو الشرط اتحقق نفّذ حاجة، غير كده نفّذ حاجة تانية.</p><pre>int score = 40;\n\nif (score >= 50) {\n    cout << "Pass";\n} else {\n    cout << "Fail";\n}</pre><p>هنا score = 40، فالشرط false، وبالتالي هيطبع Fail.</p><button onclick="toggle('a2')">سؤال سريع: هل else ليها condition؟</button><div class="answer" id="a2">لأ. else ملهاش شرط؛ هي بتتنفذ لما شرط if يكون false.</div>`,
+()=>`<div class="tag">03 · ELSE IF</div><h1>سلسلة else if</h1><p>بنستخدم else if لما يكون عندنا أكتر من احتمال، وكل احتمال ليه شرط.</p><pre>int score = 85;\n\nif (score >= 90) {\n    cout << "Excellent";\n} else if (score >= 75) {\n    cout << "Very Good";\n} else if (score >= 50) {\n    cout << "Pass";\n} else {\n    cout << "Fail";\n}</pre><p>البرنامج بيختبر الشروط بالترتيب، وأول شرط true ينفّذ جسمه وبعدها يخرج من السلسلة.</p><button onclick="toggle('a3')">ليه بنرتب الشروط من الأكبر للأصغر؟</button><div class="answer" id="a3">علشان الدرجة 95 مثلًا تحقق كمان score >= 75 وscore >= 50. لو بدأنا بالأصغر هتدخل في Pass قبل ما توصل للتقدير الأعلى.</div>`,
+()=>`<div class="tag">04 · NESTED IF</div><h1>Nested if</h1><p>يعني if جوه if تانية. بنستخدمها لما قرار تاني يعتمد على تحقق القرار الأول.</p><pre>int score = 80;\nbool hasProject = true;\n\nif (score >= 50) {\n    if (hasProject == true) {\n        cout << "Passed";\n    } else {\n        cout << "Project required";\n    }\n} else {\n    cout << "Failed";\n}</pre><p>الأول بنتأكد إن الطالب جاب 50 أو أكتر، وبعدها بس بنراجع هل سلّم المشروع.</p><button onclick="toggle('a4')">إيه اللي يحصل لو score = 40؟</button><div class="answer" id="a4">هيطبع Failed، ومش هيدخل أصلًا على الـ nested if اللي بتراجع المشروع.</div>`,
+()=>`<div class="tag">05 · SEPARATE IF</div><h1>Separate if statements</h1><p>ممكن تكتب أكتر من if منفصلين. كل if بتفحص شرطها بشكل مستقل، وممكن أكتر من واحدة تتنفّذ.</p><pre>int score = 85;\n\nif (score >= 50) {\n    cout << "Passed\\n";\n}\n\nif (score >= 80) {\n    cout << "Excellent\\n";\n}</pre><p>هنا الشرطين true، فهتظهر Passed وExcellent.</p><button onclick="toggle('a5')">إيه الفرق عن else if؟</button><div class="answer" id="a5">في separate if كل شرط بيتفحص لوحده. في else if أول شرط true بس هو اللي بيتنفذ داخل السلسلة.</div>`,
+()=>`<div class="tag">06 · COMPARE</div><h1>فرق مهم لازم تحفظه</h1><div class="example"><h2>else if</h2><p>اختيار واحد من مجموعة احتمالات. أول شرط true بيوقف باقي السلسلة.</p><pre>if (score >= 90) { ... }\nelse if (score >= 50) { ... }\nelse { ... }</pre></div><div class="example"><h2>Separate if</h2><p>كل شرط مستقل، وممكن أكتر من block يتنفّذ.</p><pre>if (score >= 50) { ... }\nif (score >= 90) { ... }</pre></div>`,
+()=>`<div class="tag">07 · COMMON MISTAKES</div><h1>خلي بالك من الأخطاء دي ⚠️</h1><ul><li>استخدم == للمقارنة بالمساواة، مش = اللي بتعمل assignment.</li><li>اكتب الأقواس { } صح علشان تحدد جسم الشرط.</li><li>في درجات الطلاب، استخدم >= 50 علشان درجة 50 نفسها تعتبر نجاح.</li><li>رتّب شروط else if من الحالة الأكثر تحديدًا للأقل.</li><li>متكتبش semicolon بعد if مباشرة: if (score >= 50); دي غلطة منطقية شائعة.</li></ul><pre>// Correct\nif (score >= 50) {\n    cout << "Pass";\n}</pre>`,
+()=>`<div class="tag">08 · PREDICT THE OUTPUT</div><h1>تحدي قبل الاختبار 🧠</h1><p>حاول تتوقع الناتج قبل ما تكشف الإجابة.</p><pre>int score = 50;\n\nif (score > 50) {\n    cout << "A";\n} else if (score >= 50) {\n    cout << "B";\n} else {\n    cout << "C";\n}</pre><button onclick="toggle('a8')">اعرف الـ Output</button><div class="answer" id="a8">الناتج B؛ لأن 50 > 50 خطأ، لكن 50 >= 50 صحيح.</div>`
+];
+let index=0;
+function render(){document.getElementById('app').innerHTML=slides[index]();document.getElementById('progress').style.width=((index+1)/slides.length*100)+'%';document.getElementById('prev').disabled=index===0;document.getElementById('next').textContent=index===slides.length-1?'خلصت المراجعة ✓':'التالي ←';}
+function toggle(id){document.getElementById(id).classList.toggle('show')}
+document.getElementById('prev').onclick=()=>{if(index>0){index--;render()}};
+document.getElementById('next').onclick=()=>{if(index<slides.length-1){index++;render()}else{index=0;render()}};
+render();
+</script></body></html>

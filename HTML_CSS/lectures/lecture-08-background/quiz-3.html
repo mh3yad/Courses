@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LOGARITHM – CSS Background Quiz</title>
+<style>
+:root{--bg:#0f1a2e;--card:#172640;--ac:#5ac8e0;--tx:#fff;--mu:#aebcd2;--ok:#4cbf86;--no:#e5687a}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(1200px 600px at 20% -10%,#1f3253,var(--bg) 70%) fixed,var(--bg);color:var(--tx);font-family:"Cairo","Segoe UI",Tahoma,sans-serif;display:flex;flex-direction:column;min-height:100vh}
+header{display:flex;align-items:center;gap:10px;padding:12px 18px}
+header b{font-size:20px;letter-spacing:1px}header b span{color:var(--ac)}
+.logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,#5ac8e0,#4a80d8);display:grid;place-items:center;color:#0f1a2e;font-weight:1000;font-size:22px}
+.bar{height:5px;background:#2a3f63}.bar i{display:block;height:100%;width:0;background:var(--ac);transition:.3s}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:16px}
+.s{width:100%;max-width:780px;background:var(--card);border-radius:20px;padding:24px;border-top:6px solid var(--ac)}
+.tag{color:var(--ac);font-weight:700;font-size:14px}
+h1{font-size:30px;margin:8px 0}h2{font-size:25px;margin:8px 0 12px;line-height:1.6}
+p{color:var(--mu);font-size:18px;line-height:1.8;margin:6px 0}p b{color:#fff}
+.btn{background:linear-gradient(135deg,#34aed2,#2271b5);color:#fff;border:0;padding:12px 24px;font:inherit;font-size:18px;font-weight:700;border-radius:14px;cursor:pointer;margin-top:10px;box-shadow:0 6px 16px rgba(34,113,181,.42);transition:.12s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.btn:disabled{opacity:.35;cursor:default}
+.nm{width:100%;max-width:360px;font:inherit;font-size:20px;padding:12px 16px;border-radius:14px;border:2px solid var(--ac);background:#1c3358;color:#fff;margin:12px 0 4px;text-align:center;outline:none;display:block}
+.nm::placeholder{color:#8fa2c2}
+.q{width:100%;max-width:820px}
+.qtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:6px 16px;font-weight:800;font-size:16px}
+.timer{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#9486f2,#6858d8);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;border:4px solid #fff3;box-shadow:0 4px 14px rgba(104,88,216,.45)}
+.timer.low{background:linear-gradient(135deg,#f2748a,#d4405f);animation:pulse .5s infinite alternate}
+@keyframes pulse{to{transform:scale(1.1)}}
+.tbar{height:10px;background:#2a3f63;border-radius:6px;overflow:hidden;margin-bottom:12px}.tbar i{display:block;height:100%;width:100%;background:var(--ac);transition:width .1s}
+.qcard{background:#f3f6fb;color:#1f2a44;border-radius:16px;padding:18px 20px;margin-bottom:12px;box-shadow:0 4px 0 rgba(0,0,0,.16)}
+.qcard h2{margin:0 0 6px;font-size:23px;color:#1f2a44}
+pre{direction:ltr;text-align:left;background:#15233d;padding:14px;border-radius:12px;font-size:17px;line-height:1.7;overflow-x:auto;color:#c6e5ef;margin:10px 0 0;white-space:pre}
+.ans{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.t{border:1px solid rgba(255,255,255,.2);border-radius:16px;min-height:84px;padding:12px 14px;font:inherit;font-size:18px;font-weight:800;color:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;box-shadow:0 8px 18px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.3);transition:.12s;text-align:start}
+.t:hover:not(:disabled){transform:translateY(-3px);filter:brightness(1.08)}
+.t span.sh{font-size:19px;flex:none;width:40px;height:40px;line-height:40px;text-align:center;border-radius:50%;background:#ffffff38}
+.t span.tx{flex:1;text-align:center;line-height:1.5}
+.t0{background:linear-gradient(135deg,#f2748a,#d4405f)}
+.t1{background:linear-gradient(135deg,#5b9bf2,#336fd2)}
+.t2{background:linear-gradient(135deg,#f3a93c,#dd6f1f)}
+.t3{background:linear-gradient(135deg,#4cc995,#278f68)}
+.t.dim{opacity:.3;filter:saturate(.5)}.t.right{box-shadow:0 0 0 3px #fff inset,0 0 26px #ffffff45}.t:disabled{cursor:default}
+.ans.two{grid-template-columns:1fr 1fr}.ans.two .t{min-height:110px;font-size:24px}
+.fb{margin-top:12px;border-radius:14px;padding:14px 16px;font-size:18px;line-height:1.7;background:#1d2f4e;border-right:6px solid var(--ok)}
+.fb.r{border-color:var(--no)}.fb b{font-size:22px}.fb .pts{float:left;color:#fde68a;font-weight:900;font-size:22px}
+footer{display:flex;justify-content:space-between;padding:12px 18px}
+.big{font-size:60px;color:var(--ac);font-weight:800}
+.who{display:inline-flex;align-items:center;gap:6px;margin:8px auto;padding:8px 18px;border-radius:999px;background:linear-gradient(135deg,#ffd86624,#ff8cc820);border:1.5px solid #ffd86688;box-shadow:0 0 16px #ffc85a55}
+@media(max-width:560px){.ans{grid-template-columns:1fr}.t{min-height:64px}.ans.two{grid-template-columns:1fr 1fr}.s{padding:18px}.qtop{gap:5px}.pill{padding:6px 9px;font-size:13px}.timer{width:52px;height:52px;font-size:24px}}
+</style>
+</head>
+<body>
+<header><div class="logo">L</div><b>LOG<span>ARITHM</span></b><span id="who" class="who" style="display:none"></span></header>
+<div class="bar" id="rbar" style="display:none"><i id="pb"></i></div>
+<main id="app"></main>
+<footer id="foot" style="display:none"><button class="btn" id="nx">التالي ←</button><button class="btn" id="restart">إعادة الاختبار ↻</button></footer>
+<script>
+const TL=30;
+/* mc = اختيار من متعدد · tf = صح/غلط · cc = أكمل الكود */
+const Q=[
+/* ---------- 10 Multiple Choice ---------- */
+{t:"mc",q:"أنهي سطر صحيح لوضع صورة كخلفية للعنصر؟",code:"div {\n    /* ??? */\n}",o:['background-image: url("bg.jpg");','background-image: "bg.jpg";','background: image(bg.jpg);','background-img: url(bg.jpg);'],a:0,why:"الخاصية الصحيحة هي background-image، وقيمتها لازم تكون بالدالة url() وبداخلها مسار الصورة."},
+{t:"mc",q:"إيه اللي هيحصل للصورة في الكود ده؟",code:'div {\n    background-image: url("dot.png");\n    background-repeat: repeat-x;\n}',o:["بتتكرر أفقيًا فقط","بتتكرر رأسيًا فقط","بتظهر مرة واحدة بدون تكرار","بتتكرر أفقيًا ورأسيًا"],a:0,why:"repeat-x معناها تكرار الصورة على المحور الأفقي (x) فقط."},
+{t:"mc",q:"إيه اللي هيحصل للصورة في الكود ده؟",code:'div {\n    background-image: url("line.png");\n    background-repeat: repeat-y;\n}',o:["بتتكرر أفقيًا فقط","بتتكرر رأسيًا فقط","بتظهر مرة واحدة بدون تكرار","بتتكرر أفقيًا ورأسيًا"],a:1,why:"repeat-y معناها تكرار الصورة على المحور الرأسي (y) فقط."},
+{t:"mc",q:"كام مرة هتظهر الصورة داخل العنصر؟",code:'div {\n    background-image: url("logo.png");\n    background-repeat: no-repeat;\n}',o:["مرة واحدة","بتتكرر أفقيًا","بتتكرر رأسيًا","بتتكرر في الاتجاهين"],a:0,why:"no-repeat بتمنع التكرار تمامًا، فالصورة بتظهر مرة واحدة بس."},
+{t:"mc",q:"فين هتظهر الصورة داخل العنصر؟",code:'div {\n    background-image: url("logo.png");\n    background-repeat: no-repeat;\n    background-position: left center;\n}',o:["أعلى اليسار","منتصف الحافة اليسرى","منتصف الحافة اليمنى","أسفل اليسار"],a:1,why:"left للمحور الأفقي (يسار)، وcenter للمحور الرأسي (منتصف)، فالصورة بتبقى على اليسار في المنتصف."},
+{t:"mc",q:"فين هتظهر الصورة داخل العنصر؟",code:'div {\n    background-image: url("logo.png");\n    background-repeat: no-repeat;\n    background-position: top center;\n}',o:["أعلى العنصر في المنتصف","أسفل العنصر في المنتصف","أعلى اليمين","في منتصف العنصر تمامًا"],a:0,why:"top معناها الأعلى، وcenter بتوسّط الصورة أفقيًا، فتظهر في أعلى المنتصف."},
+{t:"mc",q:"إيه معنى background-attachment: scroll (القيمة الافتراضية)؟",code:"body {\n    background-attachment: scroll;\n}",o:["الخلفية بتفضل ثابتة على الشاشة","الخلفية بتتحرك مع العنصر أثناء التمرير","الخلفية بتتكرر أثناء التمرير","الخلفية بتتكبّر أثناء التمرير"],a:1,why:"scroll معناها إن الخلفية بتتحرك مع العنصر لما تعمل scroll. أما fixed فبتثبّتها بالنسبة للشاشة."},
+{t:"mc",q:"إيه تأثير القيمة contain في الكود ده؟",code:'div {\n    background-image: url("photo.jpg");\n    background-size: contain;\n}',o:["الصورة بتظهر كاملة بدون قص وممكن يفضل فراغ","الصورة بتملا العنصر كله وممكن تتقص","الصورة بتتحول لحجمها الأصلي","الصورة بتتثبت على الشاشة"],a:0,why:"contain بتصغّر أو تكبّر الصورة لحد ما تظهر كلها داخل العنصر، فممكن يفضل فراغ على جانب."},
+{t:"mc",q:"إزاي هيظهر التدرج اللوني في الكود ده؟",code:"div {\n    background: linear-gradient(to bottom, red, blue);\n}",o:["أحمر من فوق وبيتحول لأزرق تحت","أحمر من تحت وبيتحول لأزرق فوق","أحمر من اليسار وبيتحول لأزرق عند اليمين","أحمر من اليمين وبيتحول لأزرق عند اليسار"],a:0,why:"to bottom معناها إن التدرج بيتحرك ناحية الأسفل، فاللون الأول red في الأعلى والتاني blue في الأسفل."},
+{t:"mc",q:"إزاي هيظهر التدرج اللوني في الكود ده؟",code:"div {\n    background: linear-gradient(to left, red, blue);\n}",o:["أحمر من اليسار وبيتحول لأزرق عند اليمين","أحمر من اليمين وبيتحول لأزرق عند اليسار","أحمر من فوق وبيتحول لأزرق تحت","أحمر من تحت وبيتحول لأزرق فوق"],a:1,why:"to left معناها إن التدرج بيتحرك ناحية اليسار، فاللون red بيبدأ من اليمين وblue بينتهي عند اليسار."},
+
+/* ---------- 5 True / False ---------- */
+{t:"tf",q:"لو حطيت background-image ومكتبتش background-repeat، الصورة بتتكرر تلقائيًا في الاتجاهين الأفقي والرأسي.",a:true,why:"القيمة الافتراضية لـ background-repeat هي repeat، فالصورة بتتكرر أفقيًا ورأسيًا لحد ما تملا العنصر."},
+{t:"tf",q:"background-size: contain بتقص جزء من الصورة عشان تغطي العنصر بالكامل.",a:false,why:"ده شغل cover. أما contain فبتظهر الصورة كلها بدون قص، وممكن يفضل فراغ في العنصر."},
+{t:"tf",q:"background-attachment: fixed بتخلي الخلفية تتحرك مع الصفحة لما تعمل scroll.",a:false,why:"fixed بتثبّت الخلفية بالنسبة للشاشة (viewport) فمبتتحركش مع التمرير. اللي بتتحرك مع العنصر هي scroll."},
+{t:"tf",q:"في linear-gradient(to top, red, blue) اللون الأحمر بيبدأ من أسفل العنصر واللون الأزرق بينتهي في أعلاه.",a:true,why:"to top معناها إن التدرج بيتحرك ناحية الأعلى، فالبداية red من الأسفل والنهاية blue في الأعلى."},
+{t:"tf",q:"background-position: right bottom و background-position: bottom right بيدّوا نفس النتيجة.",a:true,why:"لما بتستخدم كلمات مفتاحية (top, bottom, left, right) الترتيب مش مهم، والاتنين معناهم الركن السفلي الأيمن."},
+
+/* ---------- 5 Code Complete ---------- */
+{t:"cc",q:"أكمل الكود: عايز الصورة تتكرر رأسيًا فقط.",code:'div {\n    background-image: url("bar.png");\n    background-repeat: ___;\n}',o:["repeat-y","repeat-x","no-repeat","vertical"],a:0,why:"repeat-y هي القيمة اللي بتكرر الصورة على المحور الرأسي فقط."},
+{t:"cc",q:"أكمل الكود: عايز الصورة تظهر في الركن العلوي الأيسر.",code:'div {\n    background-image: url("logo.png");\n    background-repeat: no-repeat;\n    background-position: ___;\n}',o:["top left","bottom right","center center","left bottom"],a:0,why:"top للأعلى وleft لليسار، فالصورة بتظهر في الركن العلوي الأيسر."},
+{t:"cc",q:"أكمل الكود: عايز الصورة تظهر كاملة بدون أي قص داخل العنصر.",code:'div {\n    background-image: url("photo.jpg");\n    background-repeat: no-repeat;\n    background-size: ___;\n}',o:["cover","contain","fixed","scroll"],a:1,why:"contain بتظهر الصورة كلها بدون قص. أما cover فممكن تقص جزء منها."},
+{t:"cc",q:"أكمل الكود: عايز اللون الأحمر في أعلى العنصر واللون الأزرق في أسفله.",code:"div {\n    background: linear-gradient(___, red, blue);\n}",o:["to top","to bottom","to left","to right"],a:1,why:"to bottom بتخلي التدرج يتحرك من أعلى لأسفل، فالأحمر (البداية) فوق والأزرق (النهاية) تحت."},
+{t:"cc",q:"أكمل الكود: عايز الخلفية تفضل ثابتة وإنت بتعمل scroll للصفحة.",code:'body {\n    background-image: url("city.jpg");\n    background-attachment: ___;\n}',o:["scroll","fixed","cover","no-repeat"],a:1,why:"fixed بتثبّت الخلفية بالنسبة للشاشة فمبتتحركش مع التمرير."}
+];
+const LABEL={mc:"اختيار من متعدد",tf:"صح ولا غلط",cc:"أكمل الكود"};
+let qi=0,score=0,right=0,answered=false,timer=null,left=TL,name="";
+const app=document.getElementById("app");
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function isCode(s){return /^[\x00-\x7F]+$/.test(s);}
+function welcome(){
+ document.getElementById("rbar").style.display="none";document.getElementById("foot").style.display="none";
+ app.innerHTML=`<section class="s"><div class="tag">LOGARITHM · CSS FUNDAMENTALS</div><h1> CSS Background Quiz</h1><p>اختبر نفسك في <b>background-image, repeat, position, attachment, size</b> و <b>linear-gradient</b>.</p><p>📌 ${Q.length} سؤال (10 اختيار من متعدد · 5 صح/غلط · 5 أكمل الكود) · ⏱️ 30 ثانية لكل سؤال · ⭐ 10 نقاط لكل إجابة صح</p><p>اكتب اسمك وابدأ الاختبار. بالتوفيق! 💪</p><input id="nm" class="nm" placeholder="اكتب اسمك هنا" maxlength="30"><button class="btn" id="start">ابدأ الاختبار 🚀</button></section>`;
+ document.getElementById("start").onclick=()=>{name=document.getElementById("nm").value.trim();if(!name){document.getElementById("nm").focus();return;}document.getElementById("who").textContent="✨ "+name+" ✨";document.getElementById("who").style.display="inline-flex";start();};
+}
+function start(){qi=0;score=0;right=0;document.getElementById("rbar").style.display="block";document.getElementById("foot").style.display="flex";show();}
+function show(){
+ clearInterval(timer);answered=false;left=TL;const q=Q[qi];
+ document.getElementById("pb").style.width=(qi/Q.length*100)+"%";
+ let heading=`<h2>${esc(q.q)}</h2>${q.code?`<pre>${esc(q.code)}</pre>`:""}`;
+ let answers=q.t==="tf"?`<div class="ans two"><button class="t t1" data-v="true"><span class="sh">✔</span><span class="tx">صح</span></button><button class="t t0" data-v="false"><span class="sh">✘</span><span class="tx">غلط</span></button></div>`:
+ `<div class="ans">${q.o.map((v,i)=>`<button class="t t${i}" data-v="${i}"><span class="sh">${["A","B","C","D"][i]}</span><span class="tx"${isCode(v)?' style="direction:ltr"':''}>${esc(v)}</span></button>`).join("")}</div>`;
+ app.innerHTML=`<section class="q"><div class="qtop"><span class="pill">${qi+1} / ${Q.length} · ${LABEL[q.t]}</span><div class="timer" id="tm"><span id="tn">${left}</span></div><span class="pill">⭐ ${score}</span></div><div class="tbar"><i id="tb"></i></div><div class="qcard">${heading}</div>${answers}<div id="feedback"></div></section>`;
+ document.querySelectorAll(".t").forEach(b=>b.onclick=()=>answer(q.t==="tf"?(b.dataset.v==="true")===q.a:Number(b.dataset.v)===q.a,b));
+ timer=setInterval(tick,100);
+}
+function tick(){if(answered)return;left-=.1;document.getElementById("tn").textContent=Math.max(0,Math.ceil(left));document.getElementById("tb").style.width=Math.max(0,left/TL*100)+"%";if(left<=5)document.getElementById("tm").classList.add("low");if(left<=0)answer(false,null,true);}
+function answer(ok,btn,timeout=false){
+ if(answered)return;answered=true;clearInterval(timer);const q=Q[qi];if(ok){score+=10;right++;}
+ document.querySelectorAll(".t").forEach(b=>{b.disabled=true;if(q.t==="tf"?(b.dataset.v==="true")===q.a:Number(b.dataset.v)===q.a)b.classList.add("right");else if(b===btn)b.classList.add("dim");});
+ const correct=q.t==="tf"?(q.a?"صح":"غلط"):q.o[q.a];
+ const cs=isCode(correct)&&q.t!=="tf"?`<span style="direction:ltr;unicode-bidi:isolate;display:inline-block">${esc(correct)}</span>`:esc(correct);
+ document.getElementById("feedback").innerHTML=`<div class="fb ${ok?"":"r"}"><b>${timeout?"⏰ الوقت خلص":ok?"إجابة صحيحة! 🎉":"مش الإجابة الصح"}</b><span class="pts">${ok?"+10":"0"} pts</span><br>${esc(q.why)}<br><small>الإجابة الصحيحة: ${cs}</small></div>`;
+ document.getElementById("nx").textContent=qi===Q.length-1?"عرض النتيجة 🏁":"السؤال التالي ←";
+ document.getElementById("nx").onclick=()=>{if(qi<Q.length-1){qi++;show();}else end();};
+}
+function end(){
+ clearInterval(timer);document.getElementById("pb").style.width="100%";document.getElementById("foot").style.display="none";
+ const msg=right>=Q.length*0.85?"ممتاز! شغل عالي 🔥":right>=Q.length*0.5?"كويس جدًا، كمل تدريب 👍":"راجع الدرس وجرب تاني 💪";
+ app.innerHTML=`<section class="s" style="text-align:center"><div class="tag">النتيجة النهائية</div><div class="who">${esc(name)}</div><div class="big">${score}</div><p>نقطة من ${Q.length*10}</p><h2>${right} / ${Q.length} إجابات صحيحة</h2><h2>${msg}</h2><p>📸 صوّر النتيجة وشاركها مع المدرس.</p><button class="btn" id="again">العب تاني 🔁</button></section>`;
+ document.getElementById("again").onclick=welcome;
+}
+document.getElementById("restart").onclick=welcome;
+welcome();
+</script>
+</body>
+</html>

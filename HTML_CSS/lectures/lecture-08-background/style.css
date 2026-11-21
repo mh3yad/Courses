@@ -1,11 +1,12 @@
-div {
-    background-color: rgb(201, 199, 199);
-    background-image:url("images/pattern.png"); 
-    /* background-repeat: no-repeat; */
-   
-    /* background-size:contain; */
-    /* background-image:linear-gradient(to right, rgb(0, 132, 255), rgb(4, 241, 123)); */
-    width:500px;
-    height:800px;
-   
+.container {
+    width:600px;
+    height:180px;
+    background-color:rgb(241, 241, 241);
+    /* background-image: url("../images/wego.png");
+    background-repeat:no-repeat;
+    background-attachment:scroll; 
+    background-size:100%; 
+    */
+    background-image:linear-gradient(to left,rgb(80, 214, 231), purple,rgb(105, 243, 105))
+
 }

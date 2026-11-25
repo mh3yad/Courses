@@ -1,0 +1,45 @@
+.nav-logo {
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
+}
+
+.nav-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.nav {
+    background: rgb(65, 88, 92);
+}
+
+.footer-items{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+
+}
+
+.footer{
+    background:rgb(42, 134, 150);
+}
+
+.footer-links{
+    display:flex;
+    flex-direction:column;
+}
+
+.footer-copyright{
+    text-align:center;
+}
+
+.container{
+    width:80%;
+    margin:auto;
+}
+
+.footer-links a{
+    color:rgb(194, 197, 25);
+    text-decoration:none;
+}

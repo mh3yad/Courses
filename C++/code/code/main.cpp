@@ -1,37 +1,29 @@
 #include<iostream>
-
 using namespace std;
-
-
 
 int main()
 {
+    //input
+/*
+    int N;
+    cin >> N;
+    int nuts[N];
 
-
-
-
-
-    int personAge = 17;
-    string personArea = "bahij";
-
-
-    if(personAge >= 18)
+    for(int i=0;i < N;i++)
     {
-        cout << "work" << endl;
-    }
-    else
-    {
-        cout << "not work" << endl;
+        cin >> nuts[i];
     }
 
-    if(personArea == "borg")
+    for(int i=0; i < N ; i++)
     {
-        cout << "work" << endl;
+        cout << nuts[i] << endl;
     }
-    else
-    {
-        cout << "not work" << endl;
-    }
+*/
 
+    int arr[3] = {50,45,30};
+    cout << arr[1];
+    //get max
+
+    //output
     return 0;
 }

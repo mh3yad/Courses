@@ -1,0 +1,56 @@
+.nav-logo {
+    height: 100px;
+    width: 100px;
+    border-radius:10px;
+}
+
+.nav-items {
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    padding:10px;
+}
+
+.nav{
+    background:rgb(65, 88, 92);
+}
+
+.nav-links a{
+    color:white;
+    background:rgb(166, 240, 132);
+    padding:10px;
+    margin:0px 10px;
+    border-radius:10px;
+    text-decoration:none;
+}
+
+
+.footer{
+    background:rgb(146, 175, 244);
+    min-height:300px;
+}
+
+.footer-elements{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+}
+
+.container{
+    width: 80%;
+    margin: auto;
+}
+
+.footer-links{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.footer-copyright{
+    text-align:center;
+}
+
+.footer-links a{
+    color:white;
+    text-decoration:none;
+}

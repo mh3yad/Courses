@@ -39,8 +39,9 @@
 
 
 .footer-links{
-    display:flex;
-    justify-content:space-between;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
     color:white;
     padding:10px
 }
@@ -66,4 +67,89 @@
 .footer-btn{
     text-decoration:none;
     color:white;
+}
+
+.hero{
+    
+    color:white;
+    background: linear-gradient(to left,orange,rgb(224, 204, 16));
+    text-align:center;
+    
+}
+
+.hero-content{
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.features{
+    background:linear-gradient(to left, white, gray);
+}
+
+.features-content{
+    min-height:500px;
+    text-align:center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    flex-direction:column;
+}
+
+.features-data{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:50px;
+}
+
+.feature{
+    background:rgb(231, 231, 2);
+    border-radius:10px;
+    padding:20px;
+    
+}
+
+.feature h3{
+    color:rgb(126, 82, 2);
+}
+
+.categories-parent{
+    min-height:700px;
+    padding:20px 0px;
+}
+
+.main-categories{
+    background:rgb(208, 207, 207);
+}
+
+.categories-header{
+    margin:20px 0px;
+}
+
+.categories-header p{
+    color:rgb(93, 93, 93);
+}
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.category-image{
+    width:100%;
+    height:200px;
+    border-radius:15px;
+}
+
+.category{
+    background:white;
+    width:350px;
+    border-radius: 15px;
+    text-align:center;
+    padding:15px;
 }

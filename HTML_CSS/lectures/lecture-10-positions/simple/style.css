@@ -1,0 +1,22 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.navbar {
+    background: red;
+    position: sticky;
+    top: 0px;
+
+}
+
+.shawkat {
+    width: 200px;
+    height: 200px;
+    background: rgb(0, 0, 0);
+    color: white;
+    border-radius: 40px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}

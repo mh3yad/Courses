@@ -1,0 +1,20 @@
+.div1{
+    width:200px;
+    height:200px;
+    background:red;
+}
+
+/*tablet*/
+@media(min-width:576px){
+    .div1{
+        background:orange;
+    }
+}
+
+/*laptop*/
+
+@media(min-width:991px){
+    .div1{
+        background: black;
+    }
+}

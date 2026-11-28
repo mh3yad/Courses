@@ -1,0 +1,23 @@
+@media(min-width:567px)
+{
+    .footer-items { 
+            grid-template-columns: repeat(2, 1fr);
+    }
+        .why-elements {
+    
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+}
+
+@media(min-width:991px) {
+    .footer-items {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .why-elements {
+
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+

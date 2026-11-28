@@ -1,0 +1,56 @@
+.parent{
+    width: 300px;
+    height: 100px;
+    background: rgb(161, 6, 233);
+}
+
+.container{
+    width:300px;
+    height:600px;
+    background:red;
+    position:relative;
+}
+
+.div1{
+    width: 100px;
+    height: 100px;
+    background: rgb(138, 221, 5);
+}
+
+.div2 {
+    width: 100px;
+    height: 100px;
+    background: rgb(2, 137, 226);
+    position:absolute;
+    top:15px;
+    left:150px;
+}
+
+.div3 {
+    width: 100px;
+    height: 100px;
+    background: rgb(224, 147, 4);
+}
+.div4 {
+    width: 100px;
+    height: 100px;
+    background: rgb(1, 32, 32);
+    position:relative;
+    left:200px;
+}
+.div5 {
+    width: 100px;
+    height: 100px;
+    background: rgb(31, 1, 78);
+}
+
+/*
+
+position relative
+مكانه الأساسي محجوز
+بيتحرك بالنسبة لمكانة الأساسي
+
+position absolute
+المكان الأساسي اتاخد
+بيتحرك بالنسبة للصفحة كلها
+*/

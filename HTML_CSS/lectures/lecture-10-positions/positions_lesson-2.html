@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الدرس: Overflow, Position, Z-index في CSS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b27;
+      --card: #1c2333;
+      --text: #e6edf3;
+      --text-muted: #9aa7b8;
+      --text-dim: #6e7a8a;
+      --accent-blue: #2f81f7;
+      --accent-teal: #39c5cf;
+      --accent-green: #3fb950;
+      --accent-orange: #d29922;
+      --accent-red: #f85149;
+      --accent-purple: #bc8cff;
+      --code-bg: #0b0f16;
+      --ln: #4b5263;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      overflow: hidden;
+      direction: rtl;
+    }
+
+    .deck {
+      position: fixed;
+      inset: 0;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      min-height: 100vh;
+      padding: clamp(50px, 6.5vh, 90px) clamp(20px, 3vw, 64px) clamp(76px, 10vh, 128px);
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    h1 {
+      font-size: clamp(46px, 6vw, 98px);
+      line-height: 1.28;
+      font-weight: 900;
+    }
+
+    h2 {
+      font-size: clamp(32px, 3.7vw, 60px);
+      line-height: 1.32;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .slide-tag {
+      color: var(--accent-teal);
+      letter-spacing: 1px;
+      font-size: clamp(24px, 1.8vw, 32px);
+      margin-bottom: 16px;
+      border: 1px solid rgba(57, 197, 207, .35);
+      padding: 6px 22px;
+      border-radius: 999px;
+      background: rgba(57, 197, 207, .08);
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: clamp(20px, 1.7vw, 30px);
+      width: 100%;
+      line-height: 1.8;
+    }
+
+    .mt-16 {
+      margin-top: 20px;
+    }
+
+    .mt-24 {
+      margin-top: 28px;
+    }
+
+    .highlight-blue {
+      color: var(--accent-blue);
+    }
+
+    .highlight-teal {
+      color: var(--accent-teal);
+    }
+
+    .highlight-green {
+      color: var(--accent-green);
+    }
+
+    .highlight-orange {
+      color: var(--accent-orange);
+    }
+
+    .highlight-red {
+      color: var(--accent-red);
+    }
+
+    .highlight-purple {
+      color: var(--accent-purple);
+    }
+
+    .rainbow-text {
+      background: linear-gradient(90deg, #2f81f7, #39c5cf, #3fb950, #d29922, #f85149, #bc8cff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .rainbow-line {
+      height: 4px;
+      width: 180px;
+      border-radius: 2px;
+      margin: 20px auto 0;
+      background: linear-gradient(90deg, #2f81f7, #39c5cf, #3fb950, #d29922, #f85149, #bc8cff);
+    }
+
+    .glow-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: .28;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-blue {
+      background: var(--accent-blue);
+      width: 420px;
+      height: 420px;
+    }
+
+    .glow-teal {
+      background: var(--accent-teal);
+      width: 420px;
+      height: 420px;
+    }
+
+    .glow-purple {
+      background: var(--accent-purple);
+      width: 420px;
+      height: 420px;
+    }
+
+    .glow-orange {
+      background: var(--accent-orange);
+      width: 420px;
+      height: 420px;
+    }
+
+    .slide>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .code-window {
+      direction: ltr;
+      text-align: left;
+      background: var(--code-bg);
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      width: 100%;
+      margin: 0;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .5);
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+    }
+
+    .code-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #161b22;
+      padding: 10px 16px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .code-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .code-dot.red {
+      background: #ff5f57;
+    }
+
+    .code-dot.yellow {
+      background: #febc2e;
+    }
+
+    .code-dot.green {
+      background: #28c840;
+    }
+
+    .code-filename {
+      color: var(--text-dim);
+      font-size: 16px;
+      margin-left: 10px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+    }
+
+    .code-body {
+      padding: 14px 18px;
+      font-size: clamp(15px, 1.25vw, 20px);
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .ln {
+      color: var(--ln);
+      user-select: none;
+      margin-right: 12px;
+    }
+
+    .tag {
+      color: #e06c75;
+    }
+
+    .attr {
+      color: #d19a66;
+    }
+
+    .str {
+      color: #98c379;
+    }
+
+    .kw {
+      color: #c678dd;
+    }
+
+    .fn {
+      color: #61afef;
+    }
+
+    .prop {
+      color: #e5c07b;
+    }
+
+    .punc {
+      color: #56b6c2;
+    }
+
+    .comment {
+      color: #5c6370;
+      font-style: italic;
+    }
+
+    .num {
+      color: #d19a66;
+    }
+
+    .topics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 22px;
+      width: 100%;
+    }
+
+    .topic-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--card);
+      border: 1px solid #2b3446;
+      border-radius: 14px;
+      padding: 14px 24px;
+      font-size: clamp(19px, 1.6vw, 27px);
+    }
+
+    .topic-num {
+      min-width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 19px;
+      color: #0d1117;
+      background: var(--accent-teal);
+      flex-shrink: 0;
+    }
+
+    .branding {
+      position: fixed;
+      top: 20px;
+      right: 26px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    .branding-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .slide-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 50;
+      flex-wrap: wrap;
+      max-width: 80%;
+      justify-content: center;
+    }
+
+    .nav-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #30363d;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .nav-dot.active {
+      background: var(--accent-teal);
+      transform: scale(1.35);
+    }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal));
+      z-index: 60;
+      transition: width .3s;
+    }
+
+    .slide-counter {
+      position: fixed;
+      bottom: 24px;
+      right: 26px;
+      color: var(--text-dim);
+      font-size: 17px;
+      z-index: 50;
+    }
+
+    .nav-hints {
+      position: fixed;
+      bottom: 24px;
+      left: 26px;
+      color: var(--text-dim);
+      font-size: 16px;
+      z-index: 50;
+    }
+
+    kbd {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 3px 9px;
+      font-family: inherit;
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--accent-teal);
+      opacity: .15;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(110vh);
+      }
+
+      to {
+        transform: translateY(-10vh);
+      }
+    }
+
+    .anim-1 {
+      animation: fadeInUp .5s .05s both;
+    }
+
+    .anim-2 {
+      animation: fadeInUp .5s .18s both;
+    }
+
+    .anim-3 {
+      animation: fadeInUp .5s .3s both;
+    }
+
+    .anim-4 {
+      animation: fadeInUp .5s .45s both;
+    }
+
+    .anim-5 {
+      animation: fadeInUp .5s .6s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .example-row {
+      display: flex;
+      gap: 20px;
+      margin-top: 18px;
+      align-items: stretch;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .code-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1 1 380px;
+      max-width: 640px;
+    }
+
+    .demo-box {
+      background: var(--card);
+      border: 1px solid #2b3446;
+      border-radius: 12px;
+      padding: 14px 16px;
+      flex: 1 1 300px;
+      max-width: 520px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .demo-label {
+      font-family: 'Cairo', sans-serif;
+      color: var(--text-dim);
+      font-size: 15px;
+      margin-bottom: 9px;
+      letter-spacing: .5px;
+    }
+
+    .demo-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 150px;
+      background: #0b0f16;
+      border-radius: 10px;
+      border: 1px dashed #30363d;
+      position: relative;
+      overflow: hidden;
+      padding: 14px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .demo-swatch {
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 13px;
+      font-family: 'Cairo', sans-serif;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+      text-align: center;
+      padding: 4px;
+    }
+
+    .exercise-list {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-top: 18px;
+      width: 100%;
+      text-align: right;
+    }
+
+    .exercise-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid #2b3446;
+      border-radius: 14px;
+      padding: 12px 20px;
+      font-size: clamp(16px, 1.35vw, 22px);
+      line-height: 1.65;
+    }
+
+    .exercise-dot {
+      min-width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--accent-teal);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .overflow-frame {
+      width: 220px;
+      height: 110px;
+      overflow-y: auto;
+      border-radius: 10px;
+      border: 1px solid #30363d;
+      background: #0b0f16;
+      padding: 10px 12px;
+      color: #fff;
+      font-size: 13px;
+      text-align: right;
+      direction: rtl;
+      line-height: 1.7;
+      margin: 0 auto;
+      scrollbar-width: auto;
+    }
+
+    .overflow-frame::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .overflow-frame::-webkit-scrollbar-track {
+      background: #161b27;
+      border-radius: 6px;
+    }
+
+    .overflow-frame::-webkit-scrollbar-thumb {
+      background: var(--accent-orange);
+      border-radius: 6px;
+    }
+
+    .pos-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+      margin-top: 16px;
+      font-size: clamp(14px, 1.15vw, 18px);
+      text-align: right;
+    }
+
+    .pos-table th {
+      color: var(--text-dim);
+      font-weight: 700;
+      padding: 0 14px 4px;
+      font-size: 14px;
+    }
+
+    .pos-table td {
+      background: var(--card);
+      border: 1px solid #2b3446;
+      padding: 10px 14px;
+    }
+
+    .pos-table tr td:first-child {
+      border-radius: 0 12px 12px 0;
+    }
+
+    .pos-table tr td:last-child {
+      border-radius: 12px 0 0 12px;
+    }
+
+    @media (max-width:800px) {
+      .slide {
+        padding: 56px 20px 84px;
+      }
+
+      .pos-table {
+        font-size: 13px;
+      }
+
+      .pos-table td {
+        padding: 8px 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="particles" id="particles"></div>
+  <div class="branding">
+    <div class="branding-icon">◆</div> CSS Basics
+  </div>
+  <div class="slide-nav" id="slideNav"></div>
+  <div class="progress-bar" id="progress"></div>
+  <div class="slide-counter" id="counter"></div>
+  <div class="nav-hints"><span><kbd>←</kbd> <kbd>→</kbd> للتنقل &nbsp; <kbd>F</kbd> ملء الشاشة</span></div>
+
+  <div class="deck">
+
+    <!-- 0: Title -->
+    <div class="slide active" data-slide="0">
+      <div class="glow-blob glow-blue" style="top:-120px;left:-120px;"></div>
+      <div class="glow-blob glow-purple" style="bottom:-140px;right:-100px;"></div>
+      <p class="slide-tag anim-1">درس CSS متقدم</p>
+      <h1 class="anim-2">التحكم في <span class="rainbow-text">Layout</span><br>مع <span class="highlight-teal">7
+          Positions</span></h1>
+      <div class="rainbow-line anim-3"></div>
+      <p class="subtitle anim-4 mt-24">Overflow و Position و Z-index — بالتفصيل مع تمارين عملية 📐</p>
+      <script type="application/json"
+        class="slide-notes">{"title":"Title","script":"النهاردة هنتعلم إزاي نتحكم في مكان العناصر: overflow, position, z-index.","notes":[]}</script>
+    </div>
+
+    <!-- 1: Topics -->
+    <div class="slide" data-slide="1">
+      <p class="slide-tag anim-1">خريطة الدرس</p>
+      <h2 class="anim-2">إيه اللي هنغطيه <span class="highlight-blue">النهاردة؟</span></h2>
+      <div class="topics-list anim-3">
+        <div class="topic-item"><span class="topic-num">1</span> <span class="highlight-orange">overflow</span> — لما
+          المحتوى يبقى أكبر من الصندوق</div>
+        <div class="topic-item"><span class="topic-num">2</span> <span class="highlight-blue">position</span> — relative
+          / absolute / fixed / sticky</div>
+        <div class="topic-item"><span class="topic-num">3</span> <span class="highlight-purple">z-index</span> — مين
+          بيظهر فوق مين</div>
+      </div>
+      <script type="application/json"
+        class="slide-notes">{"title":"Topics","script":"خريطة سريعة لموضوعات الدرس الثلاثة.","notes":[]}</script>
+    </div>
+
+    <!-- 3: Overflow -->
+    <div class="slide" data-slide="3">
+      <div class="glow-blob glow-orange" style="bottom:-120px;left:5%;"></div>
+      <p class="slide-tag anim-1">لما المحتوى يزيد</p>
+      <h2 class="anim-2"><span class="highlight-orange">overflow</span></h2>
+      <p class="subtitle anim-3" style="font-size:19px;">إيه اللي بيحصل لو المحتوى (زي كلمة طويلة) أكبر من مساحة الـ
+        div؟</p>
+      <div class="example-row anim-4">
+        <div class="code-stack">
+          <div class="code-window">
+            <div class="code-titlebar">
+              <div class="code-dot red"></div>
+              <div class="code-dot yellow"></div>
+              <div class="code-dot green"></div><span class="code-filename">style.css</span>
+            </div>
+            <div class="code-body"><span class="ln">1</span><span class="tag">.box</span> <span class="punc">{</span>
+              <span class="ln">2</span> <span class="prop">overflow</span><span class="punc">:</span> <span
+                class="kw">auto</span><span class="punc">;</span> <span class="comment">/* visible|hidden|scroll|auto
+                */</span>
+              <span class="ln">3</span> <span class="prop">overflow-x</span><span class="punc">:</span> <span
+                class="kw">hidden</span><span class="punc">;</span>
+              <span class="ln">4</span> <span class="prop">overflow-y</span><span class="punc">:</span> <span
+                class="kw">auto</span><span class="punc">;</span>
+              <span class="ln">5</span><span class="punc">}</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">overflow-y: auto — مرّر بالماوس 👇</div>
+          <div class="overflow-frame">سطر واحد طويل جدًا ممكن يطلع برة الصندوق لو overflow: visible،
+            <br>لكن مع auto بيظهر scrollbar بس لما المحتوى فعلاً زايد عن حجم الصندوق، وتقدر تعمل scroll تشوف الباقي هنا
+            تحت.
+          </div>
+        </div>
+      </div>
+      <table class="pos-table anim-5">
+        <tr>
+          <th>القيمة</th>
+          <th>المعنى</th>
+        </tr>
+        <tr>
+          <td>visible (افتراضي)</td>
+          <td>المحتوى بيطلع برة حدود الصندوق عادي</td>
+        </tr>
+        <tr>
+          <td>hidden</td>
+          <td>أي جزء زايد بيتقطع ومش بيبان خالص</td>
+        </tr>
+        <tr>
+          <td>scroll</td>
+          <td>scrollbar بيظهر دايمًا حتى لو المحتوى مش زايد</td>
+        </tr>
+        <tr>
+          <td>auto</td>
+          <td>scrollbar بيظهر بس لو المحتوى فعلاً زايد</td>
+        </tr>
+      </table>
+      <script type="application/json"
+        class="slide-notes">{"title":"Overflow","script":"جرّب كلمة طويلة جوه div صغير، وقارن visible/hidden/scroll/auto، وبعدين overflow-x و overflow-y.","notes":[]}</script>
+    </div>
+
+    <!-- 3b: Overflow scroll -->
+    <div class="slide" data-slide="3b">
+      <p class="slide-tag anim-1">overflow: scroll</p>
+      <h2 class="anim-2">الفرق بين <span class="highlight-orange">scroll</span> و <span
+          class="highlight-teal">auto</span></h2>
+      <p class="subtitle anim-3" style="font-size:18px;">scroll بيظهر الـ scrollbar <b>دايمًا</b> حتى لو المحتوى مش
+        زايد، أما auto بيظهر بس لما المحتوى فعلاً زايد</p>
+      <div class="example-row anim-4">
+        <div class="demo-box">
+          <div class="demo-label">overflow-y: scroll (محتوى قصير)</div>
+          <div class="overflow-frame" style="height:90px;overflow-y:scroll;">سطر 1 من النص<br>سطر 2 من النص<br>سطر 3 من
+            النص<br>سطر 4 من النص<br>سطر 5 من النص<br>سطر 6 من النص</div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">overflow-y: auto (نفس المحتوى)</div>
+          <div class="overflow-frame" style="height:90px;overflow-y:auto;">سطرين بس من النص، ومفيش scrollbar خالص لأن
+            المحتوى أصلاً مش زايد عن الصندوق.</div>
+        </div>
+      </div>
+      <div class="code-window anim-5 mt-16" style="max-width:520px;">
+        <div class="code-titlebar">
+          <div class="code-dot red"></div>
+          <div class="code-dot yellow"></div>
+          <div class="code-dot green"></div><span class="code-filename">style.css</span>
+        </div>
+        <div class="code-body"><span class="ln">1</span><span class="tag">.box</span> <span class="punc">{</span> <span
+            class="prop">overflow-y</span><span class="punc">:</span> <span class="kw">scroll</span><span
+            class="punc">;</span> <span class="punc">}</span> <span class="comment">/* scrollbar ثابت */</span>
+          <span class="ln">2</span><span class="tag">.box2</span> <span class="punc">{</span> <span
+            class="prop">overflow-y</span><span class="punc">:</span> <span class="kw">auto</span><span
+            class="punc">;</span> <span class="punc">}</span> <span class="comment">/* حسب الحاجة */</span>
+        </div>
+      </div>
+      <script type="application/json"
+        class="slide-notes">{"title":"Overflow scroll vs auto","script":"scroll يفرض الـ scrollbar دايمًا، auto بس لما المحتوى يزيد.","notes":[]}</script>
+    </div>
+
+    <!-- 3c: Overflow hidden -->
+    <div class="slide" data-slide="3c">
+      <p class="slide-tag anim-1">overflow: hidden</p>
+      <h2 class="anim-2"><span class="highlight-red">hidden</span> مقابل <span class="highlight-blue">visible</span>
+      </h2>
+      <p class="subtitle anim-3" style="font-size:18px;">hidden بيقطع أي جزء زايد عن حدود الصندوق نهائيًا (مفيش طريقة
+        توصله بالـ scroll)</p>
+      <div class="example-row anim-4">
+        <div class="demo-box">
+          <div class="demo-label">overflow: visible (الافتراضي)</div>
+          <div class="demo-stage" style="min-height:100px;">
+            <div
+              style="width:120px;height:70px;background:var(--accent-blue);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;padding:6px;overflow:visible;">
+              نص طويل جدًا بيطلع برة حدود المربع الأزرق وبيتراكب فوق اللي حواليه</div>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">overflow: hidden</div>
+          <div class="demo-stage" style="min-height:100px;">
+            <div
+              style="width:120px;height:70px;background:var(--accent-red);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;padding:6px;overflow:hidden;">
+              نص طويل جدًا بيتقطع عند حدود المربع الأحمر ومش بيبان الباقي خالص</div>
+          </div>
+        </div>
+      </div>
+      <p class="subtitle anim-5 mt-16" style="font-size:17px;">استخدام شائع لـ <span
+          class="highlight-red">hidden</span>: قص الحواف الزايدة من صورة أو أي محتوى زايد عن حدود الصندوق</p>
+      <script type="application/json"
+        class="slide-notes">{"title":"Overflow hidden","script":"hidden يقطع أي حاجة زايدة نهائيًا، من غير أي إمكانية scroll.","notes":[]}</script>
+    </div>
+
+    <!-- 4: Position -->
+    <div class="slide" data-slide="4">
+      <div class="glow-blob glow-blue" style="top:-100px;left:20%;"></div>
+      <p class="slide-tag anim-1">تحديد الأماكن</p>
+      <h2 class="anim-2"><span class="highlight-blue">position</span></h2>
+      <p class="subtitle anim-3" style="font-size:18px;">من غير <span class="highlight-red">position</span> غير static،
+        خصائص top/bottom/left/right مالهاش أي تأثير. قبل ما تحرك عنصر اسأل: مكانه الأصلي هيفضل ولا هيتحرر؟ وهيتحرك
+        بالنسبة لمين؟</p>
+      <table class="pos-table anim-4">
+        <tr>
+          <th>النوع</th>
+          <th>مكانه الأصلي</th>
+          <th>بيتحرك بالنسبة لمين</th>
+        </tr>
+        <tr>
+          <td class="highlight-teal">relative</td>
+          <td>محجوز (بيفضل ياخد مكانه)</td>
+          <td>بالنسبة لمكانه هو نفسه</td>
+        </tr>
+        <tr>
+          <td class="highlight-orange">absolute</td>
+          <td>بيتحرر تمامًا</td>
+          <td>أقرب parent عنده position (وإلا الشاشة)</td>
+        </tr>
+        <tr>
+          <td class="highlight-purple">fixed</td>
+          <td>بيتحرر تمامًا</td>
+          <td>الـ viewport (الشاشة) مباشرة</td>
+        </tr>
+        <tr>
+          <td class="highlight-green">sticky</td>
+          <td>relative لحد نقطة معينة</td>
+          <td>parent بتاعه، وبعدين يـ"يلزق" زي fixed</td>
+        </tr>
+      </table>
+      <div class="exercise-list anim-5">
+        <div class="exercise-item"><span class="exercise-dot"></span> absolute: عرضه fit-content، ولازم تحط للـ parent
+          <span class="highlight-teal">position: relative</span> عشان يتحرك بالنسبة له مش للشاشة كلها</div>
+        <div class="exercise-item"><span class="exercise-dot"></span> fixed: مفيد لعناصر زي أيقونة واتساب — تفضل ثابتة
+          حتى مع الـ scroll</div>
+        <div class="exercise-item"><span class="exercise-dot"></span> sticky: لازم تحدد top/bottom/left/right على الأقل،
+          وبيختفي مع نهاية الـ parent بتاعه</div>
+      </div>
+      <script type="application/json"
+        class="slide-notes">{"title":"Position","script":"الفرق الجوهري بين الأربعة: مكان العنصر الأصلي وبالنسبة لمين بيتحرك.","notes":["تمرين: نص فوق صورة بـ top:50%;left:50%","تمرين: parent height:2000px وأيقونة fixed"]}</script>
+    </div>
+
+    <!-- 4b: position relative -->
+    <div class="slide" data-slide="4b">
+      <p class="slide-tag anim-1">position: relative</p>
+      <h2 class="anim-2"><span class="highlight-teal">relative</span></h2>
+      <p class="subtitle anim-3" style="font-size:18px;">بيتحرك بالنسبة لمكانه هو نفسه، و<b>مكانه الأصلي بيفضل محجوز</b>
+        (فراغ باين مكانه القديم)</p>
+      <div class="example-row anim-4">
+        <div class="code-window" style="max-width:420px;">
+          <div class="code-titlebar">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div><span class="code-filename">style.css</span>
+          </div>
+          <div class="code-body"><span class="ln">1</span><span class="tag">.two</span> <span class="punc">{</span>
+            <span class="ln">2</span> <span class="prop">position</span><span class="punc">:</span> <span
+              class="kw">relative</span><span class="punc">;</span>
+            <span class="ln">3</span> <span class="prop">top</span><span class="punc">:</span> <span
+              class="num">30px</span><span class="punc">;</span>
+            <span class="ln">4</span> <span class="prop">left</span><span class="punc">:</span> <span
+              class="num">20px</span><span class="punc">;</span>
+            <span class="ln">5</span><span class="punc">}</span>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">الناتج 👇 (لاحظ الفراغ مكان "two")</div>
+          <div class="demo-stage" style="gap:8px;">
+            <div class="demo-swatch" style="width:70px;height:70px;background:var(--accent-blue);">one</div>
+            <div class="demo-swatch"
+              style="width:70px;height:70px;background:var(--accent-teal);position:relative;top:30px;left:20px;">two
+            </div>
+            <div class="demo-swatch" style="width:70px;height:70px;background:var(--accent-purple);">three</div>
+          </div>
+        </div>
+      </div>
+      <script type="application/json"
+        class="slide-notes">{"title":"relative","script":"two اتحرك من مكانه لكن باقي العناصر لسه فاكرة إنه موجود في مكانه القديم.","notes":[]}</script>
+    </div>
+
+    <!-- 4c: position absolute -->
+    <div class="slide" data-slide="4c">
+      <p class="slide-tag anim-1">position: absolute</p>
+      <h2 class="anim-2"><span class="highlight-orange">absolute</span></h2>
+      <p class="subtitle anim-3" style="font-size:18px;">بيتحرك بالنسبة لأقرب parent عنده position، ولازم تحط للـ parent
+        <span class="highlight-teal">position: relative</span></p>
+      <div class="example-row anim-4">
+        <div class="code-window" style="max-width:420px;">
+          <div class="code-titlebar">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div><span class="code-filename">style.css</span>
+          </div>
+          <div class="code-body"><span class="ln">1</span><span class="tag">.parent</span> <span class="punc">{</span>
+            <span class="prop">position</span><span class="punc">:</span> <span class="kw">relative</span><span
+              class="punc">;</span> <span class="punc">}</span>
+            <span class="ln">2</span><span class="tag">.child</span> <span class="punc">{</span>
+            <span class="ln">3</span> <span class="prop">position</span><span class="punc">:</span> <span
+              class="kw">absolute</span><span class="punc">;</span>
+            <span class="ln">4</span> <span class="prop">bottom</span><span class="punc">:</span> <span
+              class="num">0</span><span class="punc">;</span> <span class="prop">right</span><span class="punc">:</span>
+            <span class="num">0</span><span class="punc">;</span>
+            <span class="ln">5</span><span class="punc">}</span>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">الناتج 👇</div>
+          <div class="demo-stage" style="position:relative;min-height:140px;">
+            <div
+              style="position:relative;width:200px;height:120px;background:#161b27;border:1px dashed #30363d;border-radius:8px;">
+              <div class="demo-swatch"
+                style="position:absolute;bottom:8px;right:8px;width:60px;height:50px;background:var(--accent-orange);">
+                child</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="subtitle anim-5 mt-16" style="font-size:16px;">عرض العنصر بقى fit-content (حجم محتواه بس)، ومكانه الأصلي
+        اتحرر تمامًا</p>
+      <script type="application/json"
+        class="slide-notes">{"title":"absolute","script":"child اتحط في أقرب نقطة أسفل يمين الـ parent المرتبط له.","notes":[]}</script>
+    </div>
+
+    <!-- 4d: position fixed -->
+    <div class="slide" data-slide="4d">
+      <p class="slide-tag anim-1">position: fixed</p>
+      <h2 class="anim-2"><span class="highlight-purple">fixed</span></h2>
+      <p class="subtitle anim-3" style="font-size:18px;">بيتحرك بالنسبة للـ viewport مباشرة — بيفضل مكانه حتى لو عملت
+        scroll في الصفحة</p>
+      <div class="example-row anim-4">
+        <div class="code-window" style="max-width:420px;">
+          <div class="code-titlebar">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div><span class="code-filename">style.css</span>
+          </div>
+          <div class="code-body"><span class="ln">1</span><span class="tag">.icon</span> <span class="punc">{</span>
+            <span class="ln">2</span> <span class="prop">position</span><span class="punc">:</span> <span
+              class="kw">fixed</span><span class="punc">;</span>
+            <span class="ln">3</span> <span class="prop">bottom</span><span class="punc">:</span> <span
+              class="num">20px</span><span class="punc">;</span> <span class="prop">right</span><span
+              class="punc">:</span> <span class="num">20px</span><span class="punc">;</span>
+            <span class="ln">4</span><span class="punc">}</span>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">مرّر بالماوس — الأيقونة ثابتة 👇</div>
+          <div
+            style="position:relative;transform:translateZ(0);height:150px;width:230px;background:#0b0f16;border-radius:10px;border:1px solid #30363d;overflow:hidden;">
+            <div style="overflow-y:auto;height:100%;padding:10px 12px;color:#fff;font-size:13px;line-height:2.2;">سطر
+              1<br>سطر 2<br>سطر 3<br>سطر 4<br>سطر 5<br>سطر 6<br>سطر 7<br>سطر 8<br>سطر 9<br>سطر 10</div>
+            <div
+              style="position:fixed;bottom:8px;left:8px;width:34px;height:34px;border-radius:50%;background:var(--accent-green);display:flex;align-items:center;justify-content:center;font-size:16px;">
+              💬</div>
+          </div>
+        </div>
+      </div>
+      <p class="subtitle anim-5 mt-16" style="font-size:15px;color:var(--text-dim);">(هنا استخدمنا صندوق صغير بيعمل
+        scroll لمحاكاة الصفحة — الأيقونة فاضلة في مكانها زي أيقونة واتساب الحقيقية)</p>
+      <script type="application/json"
+        class="slide-notes">{"title":"fixed","script":"مرّر جوه الصندوق وشوف الأيقونة فاضلة في نفس المكان بالظبط.","notes":[]}</script>
+    </div>
+
+    <!-- 4e: position sticky -->
+    <div class="slide" data-slide="4e">
+      <p class="slide-tag anim-1">position: sticky</p>
+      <h2 class="anim-2"><span class="highlight-green">sticky</span></h2>
+      <p class="subtitle anim-3" style="font-size:18px;">relative لحد نقطة scroll معينة، وبعدها بيـ"يلزق" زي fixed —
+        لازم تحدد top أو bottom على الأقل</p>
+      <div class="example-row anim-4">
+        <div class="code-window" style="max-width:420px;">
+          <div class="code-titlebar">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div><span class="code-filename">style.css</span>
+          </div>
+          <div class="code-body"><span class="ln">1</span><span class="tag">h1</span> <span class="punc">{</span>
+            <span class="ln">2</span> <span class="prop">position</span><span class="punc">:</span> <span
+              class="kw">sticky</span><span class="punc">;</span>
+            <span class="ln">3</span> <span class="prop">top</span><span class="punc">:</span> <span
+              class="num">8px</span><span class="punc">;</span>
+            <span class="ln">4</span><span class="punc">}</span>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">مرّر جوه الصندوق ده 👇</div>
+          <div
+            style="overflow-y:auto;height:150px;width:230px;background:#0b0f16;border-radius:10px;border:1px solid #30363d;">
+            <div
+              style="position:sticky;top:8px;margin:8px;background:var(--accent-green);color:#0d1117;font-size:13px;padding:6px 10px;border-radius:6px;font-weight:900;">
+              عنوان لاصق</div>
+            <div style="padding:6px 12px;color:#fff;font-size:13px;line-height:2.1;">Lorem ipsum سطر 1<br>Lorem ipsum
+              سطر 2<br>Lorem ipsum سطر 3<br>Lorem ipsum سطر 4<br>Lorem ipsum سطر 5<br>Lorem ipsum سطر 6<br>نهاية المحتوى
+              — العنوان هيختفي هنا</div>
+          </div>
+        </div>
+      </div>
+      <script type="application/json"
+        class="slide-notes">{"title":"sticky","script":"العنوان بيفضل لاصق تحت top:8px لحد ما محتوى الـ parent يخلص، وبعدين يختفي معاه.","notes":[]}</script>
+    </div>
+
+    <!-- 5: Z-index -->
+    <div class="slide" data-slide="5">
+      <div class="glow-blob glow-purple" style="bottom:-140px;right:-100px;"></div>
+      <p class="slide-tag anim-1">ترتيب الطبقات</p>
+      <h2 class="anim-2"><span class="highlight-purple">z-index</span></h2>
+      <p class="subtitle anim-3" style="font-size:19px;">لازم العنصر يكون positioned (غير static) عشان z-index يشتغل —
+        الرقم الأكبر بيظهر فوق</p>
+      <div class="example-row anim-4">
+        <div class="code-stack">
+          <div class="code-window">
+            <div class="code-titlebar">
+              <div class="code-dot red"></div>
+              <div class="code-dot yellow"></div>
+              <div class="code-dot green"></div><span class="code-filename">style.css</span>
+            </div>
+            <div class="code-body"><span class="ln">1</span><span class="tag">div</span> <span class="punc">{</span>
+              <span class="prop">position</span><span class="punc">:</span> <span class="kw">absolute</span><span
+                class="punc">;</span> <span class="prop">width</span><span class="punc">:</span><span
+                class="num">120px</span><span class="punc">;</span> <span class="prop">height</span><span
+                class="punc">:</span><span class="num">120px</span><span class="punc">;</span> <span
+                class="punc">}</span>
+              <span class="ln">2</span><span class="tag">.two</span> <span class="punc">{</span> <span
+                class="prop">top</span><span class="punc">:</span><span class="num">30px</span><span
+                class="punc">;</span> <span class="prop">left</span><span class="punc">:</span><span
+                class="num">30px</span><span class="punc">;</span> <span class="punc">}</span>
+              <span class="ln">3</span><span class="tag">.three</span> <span class="punc">{</span> <span
+                class="prop">top</span><span class="punc">:</span><span class="num">60px</span><span
+                class="punc">;</span> <span class="prop">left</span><span class="punc">:</span><span
+                class="num">60px</span><span class="punc">;</span> <span class="prop">z-index</span><span
+                class="punc">:</span><span class="num">50</span><span class="punc">;</span> <span class="punc">}</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">z-index: 50 على المربع الأخضر 👇</div>
+          <div class="demo-stage" style="min-height:180px;">
+            <div style="position:relative;width:150px;height:150px;">
+              <div
+                style="position:absolute;top:0;left:0;width:100px;height:100px;background:var(--accent-blue);border-radius:8px;">
+              </div>
+              <div
+                style="position:absolute;top:22px;left:22px;width:100px;height:100px;background:var(--accent-red);border-radius:8px;">
+              </div>
+              <div
+                style="position:absolute;top:44px;left:44px;width:100px;height:100px;background:var(--accent-green);border-radius:8px;z-index:50;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="subtitle anim-5 mt-16" style="font-size:18px;">و <span class="highlight-red">z-index: -1</span> بتخلي
+        العنصر يختفي ورا كل حاجة تانية</p>
+      <script type="application/json"
+        class="slide-notes">{"title":"Z-index","script":"3 مربعات absolute متزحلقة بـ 30px، والأخضر z-index:50 بيظهر فوق الكل.","notes":[]}</script>
+    </div>
+
+    <!-- 5b: z-index without position -->
+    <div class="slide" data-slide="5b">
+      <p class="slide-tag anim-1">فخ شائع ⚠️</p>
+      <h2 class="anim-2">z-index من غير <span class="highlight-red">position</span></h2>
+      <p class="subtitle anim-3" style="font-size:18px;">z-index <b>مبيشتغلش خالص</b> على عنصر static (بدون position) —
+        الترتيب هيفضل حسب ترتيب الظهور في الـ HTML بس</p>
+      <div class="example-row anim-4">
+        <div class="code-window" style="max-width:420px;">
+          <div class="code-titlebar">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div><span class="code-filename">style.css</span>
+          </div>
+          <div class="code-body"><span class="ln">1</span><span class="tag">.box</span> <span class="punc">{</span>
+            <span class="ln">2</span> <span class="comment">/* من غير position */</span>
+            <span class="ln">3</span> <span class="prop">z-index</span><span class="punc">:</span> <span
+              class="num">999</span><span class="punc">;</span> <span class="comment">/* بلا فايدة! */</span>
+            <span class="ln">4</span><span class="punc">}</span>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">z-index:999 على الأزرق، بس من غير position 👇</div>
+          <div class="demo-stage" style="min-height:150px;">
+            <div style="position:relative;width:140px;height:120px;">
+              <div
+                style="position:absolute;top:0;left:0;width:90px;height:90px;background:var(--accent-red);border-radius:8px;">
+              </div>
+              <div
+                style="position:static;width:90px;height:90px;background:var(--accent-blue);border-radius:8px;z-index:999;margin-top:-45px;margin-right:35px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="subtitle anim-5 mt-16" style="font-size:16px;">الأزرق فضل تحت الأحمر رغم z-index:999 — لازم position
+        (relative/absolute/fixed/sticky) الأول</p>
+      <script type="application/json"
+        class="slide-notes">{"title":"z-index without position","script":"القاعدة نفسها اللي في position: z-index مبيشتغلش على static.","notes":[]}</script>
+    </div>
+
+    <!-- 5c: negative z-index -->
+    <div class="slide" data-slide="5c">
+      <p class="slide-tag anim-1">z-index سالب</p>
+      <h2 class="anim-2">z-index: <span class="highlight-red">-1</span></h2>
+      <p class="subtitle anim-3" style="font-size:18px;">بيخلي العنصر يختفي ورا كل حاجة تانية — حتى ورا خلفية الصندوق
+        نفسه</p>
+      <div class="example-row anim-4">
+        <div class="code-window" style="max-width:420px;">
+          <div class="code-titlebar">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div><span class="code-filename">style.css</span>
+          </div>
+          <div class="code-body"><span class="ln">1</span><span class="tag">.hidden-box</span> <span
+              class="punc">{</span>
+            <span class="ln">2</span> <span class="prop">position</span><span class="punc">:</span> <span
+              class="kw">absolute</span><span class="punc">;</span>
+            <span class="ln">3</span> <span class="prop">z-index</span><span class="punc">:</span> <span
+              class="num">-1</span><span class="punc">;</span>
+            <span class="ln">4</span><span class="punc">}</span>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">قبل / بعد إضافة z-index:-1 👇</div>
+          <div class="demo-stage" style="min-height:130px;gap:20px;">
+            <div style="text-align:center;">
+              <div
+                style="position:relative;z-index:0;width:110px;height:80px;background:var(--card);border-radius:8px;">
+                <div
+                  style="position:absolute;top:15px;left:15px;width:80px;height:50px;background:var(--accent-purple);border-radius:6px;">
+                </div>
+              </div>
+              <div style="font-size:12px;color:var(--text-dim);margin-top:6px;">قبل: z-index:0</div>
+            </div>
+            <div style="text-align:center;">
+              <div
+                style="position:relative;z-index:0;width:110px;height:80px;background:var(--card);border-radius:8px;">
+                <div
+                  style="position:absolute;top:15px;left:15px;width:80px;height:50px;background:var(--accent-purple);border-radius:6px;z-index:-1;">
+                </div>
+              </div>
+              <div style="font-size:12px;color:var(--text-dim);margin-top:6px;">بعد: z-index:-1</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="subtitle anim-5 mt-16" style="font-size:16px;">في الصندوق التاني، البنفسجي مختفي بالكامل ورا خلفية أبوه
+        — طريقة شائعة لإخفاء عنصر بصريًا وهو لسه موجود فعليًا في الـ DOM</p>
+      <script type="application/json"
+        class="slide-notes">{"title":"z-index -1","script":"العنصر بيختفي ورا خلفية أبوه لأن z-index سالب.","notes":[]}</script>
+    </div>
+
+    <!-- 6: Homework intro -->
+    <div class="slide" data-slide="6">
+      <p class="slide-tag anim-1">تطبيق عملي</p>
+      <h2 class="anim-2">الواجب 📝</h2>
+      <div class="exercise-list anim-3">
+        <div class="exercise-item"><span class="exercise-dot"></span> اعمل <span class="highlight-green">Sticky
+            Navbar</span> يفضل ملتصق فوق الصفحة لما تعمل scroll</div>
+        <div class="exercise-item"><span class="exercise-dot"></span> اعمل أيقونة <span
+            class="highlight-teal">WhatsApp</span> بـ <span class="highlight-purple">fixed</span> تفضل ظاهرة في نفس
+          المكان مهما عملت scroll</div>
+      </div>
+      <p class="subtitle anim-4 mt-24" style="font-size:18px;">في السلايد الجاي: السؤال والشكل المتوقع، وبعده الحل كامل
+        (HTML + CSS + الناتج شغال)</p>
+      <script type="application/json"
+        class="slide-notes">{"title":"Homework","script":"مهمتين: sticky navbar و fixed whatsapp icon.","notes":[]}</script>
+    </div>
+
+    <!-- 6b: HW1 question -->
+    <div class="slide" data-slide="6b">
+      <p class="slide-tag anim-1">سؤال 1</p>
+      <h2 class="anim-2">Sticky <span class="highlight-green">Navbar</span></h2>
+      <div class="exercise-list anim-3">
+        <div class="exercise-item"><span class="exercise-dot"></span> اعمل navbar فيه شعار على الشمال و3 روابط على
+          اليمين</div>
+        <div class="exercise-item"><span class="exercise-dot"></span> لما تعمل scroll لتحت، الـ navbar لازم يفضل ملتصق
+          فوق الصفحة ومايختفيش</div>
+      </div>
+      <div class="demo-box anim-4 mt-16" style="margin:0 auto;">
+        <div class="demo-label">الشكل المتوقع (توضيحي بس، لسه مش شغال) 👇</div>
+        <div class="demo-stage" style="flex-direction:column;align-items:stretch;padding:0;min-height:130px;">
+          <div
+            style="display:flex;align-items:center;justify-content:space-between;background:var(--accent-green);color:#0d1117;font-weight:900;font-size:13px;padding:10px 14px;">
+            <span>Logo</span><span>Home &nbsp; About &nbsp; Contact</span>
+          </div>
+          <div style="flex:1;padding:14px;color:var(--text-dim);font-size:12px;">محتوى الصفحة... (يفضل الـ navbar فوق
+            حتى بعد الـ scroll)</div>
+        </div>
+      </div>
+      <script type="application/json"
+        class="slide-notes">{"title":"HW1 question","script":"المطلوب: navbar يفضل ملتصق فوق الصفحة عند الscroll.","notes":[]}</script>
+    </div>
+
+    <!-- 6c: HW1 solution -->
+    <div class="slide" data-slide="6c">
+      <p class="slide-tag anim-1">الحل 1</p>
+      <h2 class="anim-2">Sticky <span class="highlight-green">Navbar</span></h2>
+      <div class="example-row anim-3">
+        <div class="code-stack">
+          <div class="code-window">
+            <div class="code-titlebar">
+              <div class="code-dot red"></div>
+              <div class="code-dot yellow"></div>
+              <div class="code-dot green"></div><span class="code-filename">index.html</span>
+            </div>
+            <div class="code-body"><span class="ln">1</span><span class="punc">&lt;</span><span class="tag">nav</span>
+              <span class="attr">class</span><span class="punc">=</span><span class="str">"navbar"</span><span
+                class="punc">&gt;</span>
+              <span class="ln">2</span> <span class="punc">&lt;</span><span class="tag">span</span><span
+                class="punc">&gt;</span>Logo<span class="punc">&lt;/</span><span class="tag">span</span><span
+                class="punc">&gt;</span>
+              <span class="ln">3</span> <span class="punc">&lt;</span><span class="tag">span</span><span
+                class="punc">&gt;</span>Home | About | Contact<span class="punc">&lt;/</span><span
+                class="tag">span</span><span class="punc">&gt;</span>
+              <span class="ln">4</span><span class="punc">&lt;/</span><span class="tag">nav</span><span
+                class="punc">&gt;</span>
+            </div>
+          </div>
+          <div class="code-window">
+            <div class="code-titlebar">
+              <div class="code-dot red"></div>
+              <div class="code-dot yellow"></div>
+              <div class="code-dot green"></div><span class="code-filename">style.css</span>
+            </div>
+            <div class="code-body"><span class="ln">1</span><span class="tag">.navbar</span> <span class="punc">{</span>
+              <span class="ln">2</span> <span class="prop">position</span><span class="punc">:</span> <span
+                class="kw">sticky</span><span class="punc">;</span>
+              <span class="ln">3</span> <span class="prop">top</span><span class="punc">:</span> <span
+                class="num">0</span><span class="punc">;</span>
+              <span class="ln">4</span> <span class="prop">display</span><span class="punc">:</span> <span
+                class="kw">flex</span><span class="punc">;</span>
+              <span class="ln">5</span> <span class="prop">justify-content</span><span class="punc">:</span> <span
+                class="kw">space-between</span><span class="punc">;</span>
+              <span class="ln">6</span><span class="punc">}</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">مرّر جوه الصندوق — الناتج شغال 👇</div>
+          <div
+            style="overflow-y:auto;height:170px;width:100%;background:#0b0f16;border-radius:10px;border:1px solid #30363d;">
+            <div
+              style="position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;background:var(--accent-green);color:#0d1117;font-weight:900;font-size:12px;padding:8px 12px;">
+              <span>Logo</span><span>Home | About | Contact</span>
+            </div>
+            <div style="padding:8px 12px;color:#fff;font-size:12px;line-height:2.1;">محتوى 1<br>محتوى 2<br>محتوى
+              3<br>محتوى 4<br>محتوى 5<br>محتوى 6<br>محتوى 7<br>محتوى 8</div>
+          </div>
+        </div>
+      </div>
+      <script type="application/json"
+        class="slide-notes">{"title":"HW1 solution","script":"position:sticky;top:0 على الـ nav كفاية.","notes":[]}</script>
+    </div>
+
+    <!-- 6d: HW2 question -->
+    <div class="slide" data-slide="6d">
+      <p class="slide-tag anim-1">سؤال 2</p>
+      <h2 class="anim-2">Fixed <span class="highlight-teal">WhatsApp Icon</span></h2>
+      <div class="exercise-list anim-3">
+        <div class="exercise-item"><span class="exercise-dot"></span> اعمل أيقونة دائرية في آخر تحت يمين الصفحة</div>
+        <div class="exercise-item"><span class="exercise-dot"></span> لازم تفضل ظاهرة في نفس المكان بالظبط مهما عملت
+          scroll في الصفحة كلها</div>
+      </div>
+      <div class="demo-box anim-4 mt-16" style="margin:0 auto;">
+        <div class="demo-label">الشكل المتوقع (توضيحي بس، لسه مش شغال) 👇</div>
+        <div class="demo-stage" style="min-height:130px;position:relative;">
+          <div style="color:var(--text-dim);font-size:12px;">محتوى الصفحة...</div>
+          <div
+            style="position:absolute;bottom:10px;left:10px;width:38px;height:38px;border-radius:50%;background:var(--accent-teal);display:flex;align-items:center;justify-content:center;font-size:18px;">
+            💬</div>
+        </div>
+      </div>
+      <script type="application/json"
+        class="slide-notes">{"title":"HW2 question","script":"أيقونة fixed في الركن، ثابتة مهما حصل scroll.","notes":[]}</script>
+    </div>
+
+    <!-- 6e: HW2 solution -->
+    <div class="slide" data-slide="6e">
+      <p class="slide-tag anim-1">الحل 2</p>
+      <h2 class="anim-2">Fixed <span class="highlight-teal">WhatsApp Icon</span></h2>
+      <div class="example-row anim-3">
+        <div class="code-stack">
+          <div class="code-window">
+            <div class="code-titlebar">
+              <div class="code-dot red"></div>
+              <div class="code-dot yellow"></div>
+              <div class="code-dot green"></div><span class="code-filename">index.html</span>
+            </div>
+            <div class="code-body"><span class="ln">1</span><span class="punc">&lt;</span><span class="tag">a</span>
+              <span class="attr">href</span><span class="punc">=</span><span class="str">"https://wa.me/..."</span>
+              <span class="attr">class</span><span class="punc">=</span><span class="str">"wa-icon"</span><span
+                class="punc">&gt;</span>💬<span class="punc">&lt;/</span><span class="tag">a</span><span
+                class="punc">&gt;</span></div>
+          </div>
+          <div class="code-window">
+            <div class="code-titlebar">
+              <div class="code-dot red"></div>
+              <div class="code-dot yellow"></div>
+              <div class="code-dot green"></div><span class="code-filename">style.css</span>
+            </div>
+            <div class="code-body"><span class="ln">1</span><span class="tag">.wa-icon</span> <span
+                class="punc">{</span>
+              <span class="ln">2</span> <span class="prop">position</span><span class="punc">:</span> <span
+                class="kw">fixed</span><span class="punc">;</span>
+              <span class="ln">3</span> <span class="prop">bottom</span><span class="punc">:</span> <span
+                class="num">20px</span><span class="punc">;</span> <span class="prop">left</span><span
+                class="punc">:</span> <span class="num">20px</span><span class="punc">;</span>
+              <span class="ln">4</span> <span class="prop">border-radius</span><span class="punc">:</span> <span
+                class="num">50%</span><span class="punc">;</span>
+              <span class="ln">5</span> <span class="prop">z-index</span><span class="punc">:</span> <span
+                class="num">100</span><span class="punc">;</span>
+              <span class="ln">6</span><span class="punc">}</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-box">
+          <div class="demo-label">مرّر جوه الصندوق — الأيقونة ثابتة 👇</div>
+          <div
+            style="position:relative;transform:translateZ(0);height:170px;width:100%;background:#0b0f16;border-radius:10px;border:1px solid #30363d;overflow:hidden;">
+            <div style="overflow-y:auto;height:100%;padding:10px 12px;color:#fff;font-size:12px;line-height:2.1;">محتوى
+              1<br>محتوى 2<br>محتوى 3<br>محتوى 4<br>محتوى 5<br>محتوى 6<br>محتوى 7<br>محتوى 8<br>محتوى 9<br>محتوى 10
+            </div>
+            <div
+              style="position:fixed;bottom:10px;left:10px;width:36px;height:36px;border-radius:50%;background:var(--accent-teal);display:flex;align-items:center;justify-content:center;font-size:17px;">
+              💬</div>
+          </div>
+        </div>
+      </div>
+      <script type="application/json"
+        class="slide-notes">{"title":"HW2 solution","script":"position:fixed + z-index كافيين، وهنا استخدمنا صندوق scroll لمحاكاة الصفحة.","notes":[]}</script>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      var nav = document.getElementById('slideNav');
+      var progress = document.getElementById('progress');
+      var counter = document.getElementById('counter');
+      var current = 0;
+
+      slides.forEach(function (s, i) {
+        var d = document.createElement('div');
+        d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', function () { go(i); });
+        nav.appendChild(d);
+      });
+
+      function logNotes(i) {
+        try {
+          var noteEl = slides[i].querySelector('.slide-notes');
+          if (noteEl) {
+            var n = JSON.parse(noteEl.textContent);
+            console.log('%c📋 Slide ' + (i + 1) + ': ' + n.title + '\n' + '━'.repeat(40) + '\n' + n.script + (n.notes && n.notes.length ? ('\n\n  • ' + n.notes.join('\n  • ')) : '') + '\n' + '━'.repeat(40), 'color:#39c5cf;font-weight:bold;');
+          }
+        } catch (e) { }
+      }
+
+      function go(i) {
+        if (i < 0 || i >= slides.length) return;
+        slides[current].classList.remove('active');
+        current = i;
+        slides[current].classList.add('active');
+        var dots = nav.children;
+        for (var k = 0; k < dots.length; k++) dots[k].classList.toggle('active', k === current);
+        progress.style.width = ((current + 1) / slides.length * 100) + '%';
+        counter.textContent = (current + 1) + ' / ' + slides.length;
+        logNotes(current);
+      }
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') go(current - 1);
+        if (e.key === 'ArrowLeft') go(current + 1);
+        if (e.key === ' ') { e.preventDefault(); go(current + 1); }
+        if (e.key.toLowerCase() === 'f') {
+          if (document.fullscreenElement) document.exitFullscreen();
+          else document.documentElement.requestFullscreen().catch(function () { });
+        }
+      });
+
+      var pWrap = document.getElementById('particles');
+      for (var p = 0; p < 18; p++) {
+        var el = document.createElement('div');
+        el.className = 'particle';
+        var size = 2 + Math.random() * 4;
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        el.style.left = Math.random() * 100 + '%';
+        el.style.animationDuration = (8 + Math.random() * 14) + 's';
+        el.style.animationDelay = (Math.random() * 10) + 's';
+        pWrap.appendChild(el);
+      }
+
+      progress.style.width = (1 / slides.length * 100) + '%';
+      counter.textContent = '1 / ' + slides.length;
+      logNotes(0);
+    })();
+  </script>
+</body>
+
+</html>

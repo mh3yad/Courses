@@ -1,22 +1,44 @@
-* {
-    padding: 0px;
-    margin: 0px;
+body{
+    background:gray;
 }
-
-.navbar {
-    background: red;
-    position: sticky;
-    top: 0px;
-
-}
-
-.shawkat {
+.card {
     width: 200px;
     height: 200px;
-    background: rgb(0, 0, 0);
-    color: white;
-    border-radius: 40px;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
+    background: url("./img.jpg");
+    background-size:cover;
+    position:relative;
+}
+
+.badge{
+    color:orange;
+    position:absolute;
+    top:5px;
+    right:10px;
+}
+
+.div1{
+    width:100px;
+    height:100px;
+    background:blue;
+    position:absolute;
+    z-index:200;
+
+}
+.div2 {
+    width: 100px;
+    height: 100px;
+    background: rgb(24, 243, 4);
+    position: absolute;
+    top:20px;
+    left:20px;
+    z-index:300;
+}
+.div3 {
+    width: 100px;
+    height: 100px;
+    background: rgb(228, 55, 3);
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    z-index:100;
 }
